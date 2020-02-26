@@ -227,10 +227,10 @@ void SceneSkybox::Init()
 	meshList[GEO_CAR_STAT] = MeshBuilder::GenerateQuad("car_stat", Color(1, 0, 0), 1.f, 1.f);
 	meshList[GEO_CAR_STAT_UPGRADE] = MeshBuilder::GenerateQuad("car_stat_upgrade", Color(0, 1, 0), 1.f, 1.f);
 	
-	car_Stats[0] = CarStats(2.f, 5.f, 6.f, 1.f, 2.f, 1.f);
-	car_Stats[1] = CarStats(5.f, 7.f, 2.f, 1.f, 1.f, 3.f);
-	car_Stats[2] = CarStats(4.f, 6.f, 3.f, 1.f, 2.f, 1.f);
-	car_Stats[3] = CarStats(3.f, 5.f, 8.f, 1.f, 2.f, 1.f);
+	car_Stats[0] = CarStats(3.f, 1.f, 3.f, 1.f, 1.f, 1.f); //guangtheng car
+	car_Stats[1] = CarStats(3.f, 3.f, 1.f, 1.f, 1.f, 1.f); //ryan car
+	car_Stats[2] = CarStats(2.f, 2.f, 2.f, 1.f, 1.f, 1.f); //junchen car
+	car_Stats[3] = CarStats(1.f, 3.f, 3.f, 1.f, 1.f, 1.f); //jianfeng car
 
 	
 	BounceTime = 0;
@@ -435,13 +435,18 @@ void SceneSkybox::Init()
 		}
 	}
 
-	
+	if (playerdetails.IsInit())
+	{
+		playerdetails.GetData();		
+		EquippedCar_Scroll = playerdetails.car_number.cartype;
+		car_Stats[EquippedCar_Scroll] = playerdetails.car_number.SelectedCar;
+	}
 
-	currency = 5000;
-	playerdetails = PlayerDetails(EquippedCar, currency);
-	
+	else
+	{
+	playerdetails = PlayerDetails(CarSelection(car_Stats[2],2), 5000);
 	EquippedCar_Scroll = 2;
-	EquippedCar = CarSelection(car_Stats[2], 2);
+	}
 
 	car_Stats[2].lock = false;
 
@@ -449,7 +454,6 @@ void SceneSkybox::Init()
 	camera.Init(Aplayer.translate + Vector3(0, 8, 15), Vector3(Aplayer.translate) + Vector3(0, 5, 0), Vector3(0, 1, 0));
 	firstpersoncamera.Init(Vector3(Aplayer.translate.x, Aplayer.translate.y + 2, Aplayer.translate.z), Vector3(0, Aplayer.translate.y + 2, 0), Vector3(0, 1, 0));
 	hologramcamera.Init(Aplayer.translate + Vector3(0, 5, 0), Vector3(ShopUI.UI.translate) + Vector3(0, 5, 0), Vector3(0, 1, 0));
-	currency = 5000;
 	CameraSwitch = 0;
 }
 
@@ -611,7 +615,7 @@ void SceneSkybox::Update(double dt)
 			activate_slot_machine = 1;
 			slot_stop_lasttime = GetTickCount() * 0.001f;
 			stop_machine = 0;
-			currency -= 10;
+			playerdetails.currency -= 10;
 		}
 	}
 	if (activate_slot_machine == 1) {
@@ -642,15 +646,15 @@ void SceneSkybox::Update(double dt)
 				int num = slot_images[3] % 5;
 				switch (num) {
 				case 0:
-					currency += 100;
+					playerdetails.currency += 100;
 				case 1:
-					currency += 20;
+					playerdetails.currency += 20;
 				case 2:
-					currency += 30;
+					playerdetails.currency += 30;
 				case 3:
-					currency += 40;
+					playerdetails.currency += 40;
 				case 4:
-					currency += 50;
+					playerdetails.currency += 50;
 				}
 			}
 			activate_slot_machine = 0;
@@ -704,7 +708,7 @@ void SceneSkybox::Update(double dt)
 		fps = (int)framespersecond;
 		framespersecond = 0;
 	}
-	playerdetails.Update(EquippedCar, currency);
+	playerdetails.Update();
 }
 
 void SceneSkybox::Render()
@@ -877,7 +881,7 @@ void SceneSkybox::Render()
 	RenderTextOnScreen(meshList[GEO_TEXT], NPCtext, Color(0, 0, 0), 2, 0, 27);
 	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(fps) + " frames/second", Color(0, 1, 0), 2, 0, 0); //frames
 	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(fps) + " frames/second", Color(0, 1, 0), 2, 0, 0); //frames
-	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(currency), Color(0, 1, 0), 2, 25, 0); //Currency 
+	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(playerdetails.currency), Color(0, 1, 0), 2, 25, 0); //Currency 
 	RenderMeshOnScreen(getCarmeshList(EquippedCar_Scroll), 360, 15, 10, 10, 0, 90);
 	RenderMeshOnScreen(meshList[GEO_COIN], 300, 20, 10, 10, 0, 0);
 }
@@ -1087,19 +1091,19 @@ void SceneSkybox::UpdateHologram(HologramUI& UI, CarStats& car_Stats, TRS* Objec
 
 		if (Application::IsKeyPressed(VK_RETURN) && BounceTime <= GetTickCount())
 		{
-			if (currency >= car_Stats.cost)
+			if (playerdetails.currency >= car_Stats.cost)
 			{
 				if (ObjectDisplay != &Shop && car_Stats.lock)
 				{
 					car_Stats.lock = false;
-					currency -= car_Stats.cost;
+					playerdetails.currency -= car_Stats.cost;
 					BuyText = "Bought";
 				}
 				else
 				{
 					if (car_Stats.lock)
 					{
-						currency -= car_Stats.cost;
+						playerdetails.currency -= car_Stats.cost;
 						car_Stats.lock = false;
 					}
 					else if (car_Stats.current_upgrade < 5 && ObjectDisplay == &Shop && !car_Stats.lock)
@@ -1108,7 +1112,7 @@ void SceneSkybox::UpdateHologram(HologramUI& UI, CarStats& car_Stats, TRS* Objec
 						{
 							car_Stats.StatLevel[i] += car_Stats.StatLevel[i + 3];
 						}
-						currency -= car_Stats.cost_upgrade;
+						playerdetails.currency -= car_Stats.cost_upgrade;
 						BuyText = "Car:Bought, CarUpgrade:250";
 						++car_Stats.current_upgrade;
 						if (car_Stats.current_upgrade == 4) BuyText = "Car:Bought, CarUpgrade:0";
@@ -1144,7 +1148,7 @@ void SceneSkybox::UpdateEquippedCar()
 	else if (!car_Stats[1].lock && EquippedCar_Scroll != 1) EquippedCar_Scroll = 1;
 	else if (!car_Stats[2].lock && EquippedCar_Scroll != 2) EquippedCar_Scroll = 2;
 	else if (!car_Stats[3].lock && EquippedCar_Scroll != 3) EquippedCar_Scroll = 3;
-	EquippedCar.EquipCar(car_Stats[EquippedCar_Scroll], EquippedCar_Scroll);
+	playerdetails.car_number.EquipCar(car_Stats[EquippedCar_Scroll], EquippedCar_Scroll);
 }
 
 void SceneSkybox::RenderCar(int carnumber)

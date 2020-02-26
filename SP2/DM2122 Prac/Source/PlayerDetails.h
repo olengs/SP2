@@ -11,7 +11,9 @@ public:
 	int currency;
 	CarSelection car_number;
 	void Update(CarSelection updatedcar, int updatedcurrency);
+	void Update();
 	void GetData();
+	bool IsInit();
 	PlayerDetails(CarSelection car, int currency);
 	PlayerDetails();
 

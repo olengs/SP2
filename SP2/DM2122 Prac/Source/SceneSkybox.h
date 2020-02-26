@@ -149,7 +149,6 @@ private:
 	TRS Shop;
 	HologramUI ShopUI;
 	CarStats car_Stats[4];
-	CarSelection EquippedCar;
 	Mesh* getCarmeshList(int carNumber);
 
 	int ShopUI_Scroll;
@@ -198,7 +197,6 @@ private:
 
 	std::string BuyText;	
 	HologramUI CarHologram[4];
-	int currency;
 
 	
 

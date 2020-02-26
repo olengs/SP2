@@ -9,5 +9,5 @@ struct CarStats
 	int cost, cost_upgrade, current_upgrade;
 
 	CarStats();
-	CarStats(float speed, float turbo, float fuel, float speedupgrade, float turboupgrade, float fuelupgrade);
+	CarStats(float acceleration, float turbo, float fuel, float accelerationupgrade, float turboupgrade, float fuelupgrade);
 };
