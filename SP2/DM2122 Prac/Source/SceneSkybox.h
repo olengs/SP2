@@ -128,15 +128,19 @@ private:
 	//characters
 	TRS Aplayer;
 	cornercoord Cplayer;
+	//NPC
 	TRS ANPC;
 	cornercoord CNPC;
+	std::string NPCSpeech[4];
+	int carnum;
+	int textnum;
+	float textLasttime;
+	std::string NPCtext;
 
 	TRS Aplayerleftarm;
 	TRS Aplayerleftleg;
 	TRS Aplayerrightarm;
 	TRS Aplayerrightleg;
-
-	std::string NPCSpeach;
 
 	//player movement
 	const float playerMovementSpeed = 10.f;

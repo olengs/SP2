@@ -57,9 +57,20 @@ void CItemList::addItem(Vector3 translate)
 
 void CItemList::removeItem(CNode* current)
 {
-	current->getprev()->setnext(current->getnext());
-	current->getnext()->setprev(current->getprev());
-	delete current;
+	if (current == head) {
+		
+		head = current->getnext();
+		delete current;
+	}
+	else if (current == tail) {
+		tail = current->getprev();
+		delete current;
+	}
+	else {
+		current->getprev()->setnext(current->getnext());
+		current->getnext()->setprev(current->getprev());
+		delete current;
+	}
 }
 
 TRS& CItemList::getTRS(CNode* current)
