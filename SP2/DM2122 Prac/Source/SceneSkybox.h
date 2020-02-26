@@ -13,6 +13,7 @@
 #include "CarStats.h"
 #include "HologramUI.h"
 #include "HologramCamera.h"
+#include "CarSelection.h"
 
 class SceneSkybox : public Scene
 {
@@ -50,10 +51,8 @@ class SceneSkybox : public Scene
 		GEO_DOOR,
 		GEO_DOORSCREEN,
 		GEO_HOLO,
-		GEO_HOLO1,
-		GEO_HOLO2,
-		GEO_HOLO3,
 		GEO_TEST_DICE,
+		GEO_COIN,
 		NUM_GEOMETRY,
 	};
 
@@ -133,11 +132,12 @@ private:
 	//shop
 	TRS Shop;
 	HologramUI ShopUI;
-	CarStats car_Details;
 	CarStats car_Stats[4];
-	int ShopUI_Scroll;
+	CarSelection EquippedCar;
+	Mesh* getCarmeshList(int carNumber);
 
-	std::string UIText[3];
+	int ShopUI_Scroll;
+	int EquippedCar_Scroll;
 	//UIText[0] - Movement text
 	//UIText[1] - Camera movement text
 	//UIText[2] - Camera Toggle (between 1st and 3rd)
@@ -186,17 +186,26 @@ private:
 	TRS Atest_dice;
 	cornercoord CTest_dice;
 
+	
+	bool DistanceCheck(Vector3 Object1, Vector3 Object2);
+	
+	//RenderFunctions
 	void RenderMesh(Mesh* mesh, bool enableLight);
 	void RenderSkybox();
 	void RenderText(Mesh* mesh, std::string text, Color color);
-	void RenderTextOnScreen(Mesh* mesh,std::string text, Color color,float size,float x, float y);
-	void RenderObj(Mesh* mesh, TRS& trs, bool end , bool enableLight);
-	bool DistanceCheck(Vector3 Object1, Vector3 Object2);
+	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
+	void RenderObj(Mesh* mesh, TRS& trs, bool end, bool enableLight);
 	void RenderStats(HologramUI UI, CarStats& car_Stats);
-	void RenderShopStats(CarStats& car_Stats);	
+	void RenderShopStats(CarStats& car_Stats);
 	void RenderSlotImage(Mesh* mesh, TRS& trs, int image);
-	void UpdateHologram(HologramUI& UI, CarStats& car_Stats, TRS * ObjectDisplay, float targetY);
 	void RenderCar(int carnumber);
+	void RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey, float rotateX, float rotateY);
+	void RenderShopText();
+
+	//Update Functions
+	void UpdateHologram(HologramUI& UI, CarStats& car_Stats, TRS* ObjectDisplay, float targetY);
+	void UpdateEquippedCar();
+
 	//player movement
 	void PlayerMoveUp(double dt);
 	void PlayerMoveDown(double dt);
