@@ -10,7 +10,6 @@
 #include <stdio.h>   
 #include <stdlib.h>  
 #include <time.h>
-#include <vector>
 
 #define ROT_LIMIT 45.f;
 #define SCALE_LIMIT 5.f;
@@ -271,32 +270,31 @@ void DriveScene::Init()
 	meshList[GEO_SPIKE]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_SPIKE]->material.kShininess = 1.f;
 	Loadcoord("OBJ//spike.obj", CSpike);
+	TRS Spike;
+	Spike.translate.Set(-172, -4, 178);
+	Spike.Scale.Set(3, 1, 3);
+	spikelist.addItem(Spike);
+	Spike.translate.Set(-76, -4, 114);
+	spikelist.addItem(Spike);
+	Spike.translate.Set(-76, -4, -46);
+	spikelist.addItem(Spike);
+	Spike.translate.Set(-12, -4, -46);
+	spikelist.addItem(Spike);
+	Spike.translate.Set(52, -4, -46);
+	spikelist.addItem(Spike);
+	Spike.translate.Set(116, -4, -142);
+	spikelist.addItem(Spike);
+	Spike.translate.Set(148, -4, -110);
+	spikelist.addItem(Spike);
+	Spike.translate.Set(116, -4, 114);
+	spikelist.addItem(Spike);
+	Spike.translate.Set(212, -4, 50);
+	spikelist.addItem(Spike);
+	Spike.translate.Set(212, -4, 18);
+	spikelist.addItem(Spike);
+	Spike.translate.Set(-236, -4, -174);
+	spikelist.addItem(Spike);
 
-	spikelist.addItem(Vector3(-220, -4.5, -110));
-	spikelist.addItem(Vector3(-220, -4.5, -120));
-
-	spikelist.addItem(Vector3(30, -4.5, -200));
-	spikelist.addItem(Vector3(30, -4.5, -210));
-
-	spikelist.addItem(Vector3(180, -4.5, 130));
-	spikelist.addItem(Vector3(190, -4.5, 130));
-	spikelist.addItem(Vector3(200, -4.5, 130));
-	spikelist.addItem(Vector3(210, -4.5, 130));
-	spikelist.addItem(Vector3(200, -4.5, -130));
-	spikelist.addItem(Vector3(210, -4.5, -130));
-	spikelist.addItem(Vector3(180, -4.5, -80));
-	spikelist.addItem(Vector3(180, -4.5, -70));
-
-	spikelist.addItem(Vector3(50, -4.5, -130));
-	spikelist.addItem(Vector3(40, -4.5, -130));
-	spikelist.addItem(Vector3(30, -4.5, -130));
-	spikelist.addItem(Vector3(20, -4.5, -130));
-	spikelist.addItem(Vector3(10, -4.5, -130));
-
-	spikelist.addItem(Vector3(30, -4.5, -30));
-	spikelist.addItem(Vector3(20, -4.5, -30));
-	spikelist.addItem(Vector3(10, -4.5, -30));
-	
 	Generatecoinposition();
 	meshList[GEO_COIN] = MeshBuilder::GenerateOBJ("coin", "OBJ//coin.obj");
 	meshList[GEO_COIN]->textureID = LoadTGA("Image//coin.tga");
@@ -305,67 +303,111 @@ void DriveScene::Init()
 	meshList[GEO_COIN]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_COIN]->material.kShininess = 1.f;
 	Loadcoord("OBJ//coin.obj", CCoin);
+	TRS coin;
+	coin.Scale.Set(3, 3, 3);
+	coin.RotateX.degree = 90.f;
 	for (int i = 0; i < 10; i++)
 	{
 		if (coinarray[i] == 0)
-		coinlist.addItem(Vector3(-240, 2, 150));
-
+		{
+			coin.translate.Set(-108, 5, 178);
+			coinlist.addItem(coin);
+		}
 		if (coinarray[i] == 1)
-		coinlist.addItem(Vector3(30, 2, 240));
-
+		{
+			coin.translate.Set(-236, 5, 82);
+			coinlist.addItem(coin);
+		}
 		if (coinarray[i] == 2)
-		coinlist.addItem(Vector3(90, 2, 200));
-
+		{
+			coin.translate.Set(-236, 5, -238);
+			coinlist.addItem(coin);
+		}
 		if (coinarray[i] == 3)
-		coinlist.addItem(Vector3(190, 2, 110));
-
+		{
+			coin.translate.Set(-172, 5, -174);
+			coinlist.addItem(coin);
+		}
 		if (coinarray[i] == 4)
-		coinlist.addItem(Vector3(150, 2, 90));
-
+		{
+			coin.translate.Set(-172, 5, 50);
+			coinlist.addItem(coin);
+		}
 		if (coinarray[i] == 5)
-		coinlist.addItem(Vector3(240, 2, 110));
-
+		{
+			coin.translate.Set(-76, 5, -14);
+			coinlist.addItem(coin);
+		}
 		if (coinarray[i] == 6)
-		coinlist.addItem(Vector3(240, 2, -150));
-
+		{
+			coin.translate.Set(-76, 5, -110);
+			coinlist.addItem(coin);
+		}
 		if (coinarray[i] == 7)
-		coinlist.addItem(Vector3(130, 2, -190));
-
+		{
+			coin.translate.Set(-12, 5, -110);
+			coinlist.addItem(coin);
+		}
 		if (coinarray[i] == 8)
-		coinlist.addItem(Vector3(70, 2, -170));
-
+		{
+			coin.translate.Set(-12, 5, -14);
+			coinlist.addItem(coin);
+		}
 		if (coinarray[i] == 9)
-		coinlist.addItem(Vector3(-20, 2, -180));
-
+		{
+			coin.translate.Set(52, 5, 50);
+			coinlist.addItem(coin);
+		}
 		if (coinarray[i] == 10)
-		coinlist.addItem(Vector3(-140, 2, -180));
-
+		{
+			coin.translate.Set(-12, 5, 114);
+			coinlist.addItem(coin);
+		}
 		if (coinarray[i] == 11)
-		coinlist.addItem(Vector3(-140, 2, -30));
-
+		{
+			coin.translate.Set(20, 5, 210);
+			coinlist.addItem(coin);
+		}
 		if (coinarray[i] == 12)
-		coinlist.addItem(Vector3(-190, 2, -210));
-
+		{
+			coin.translate.Set(84, 5, 242);
+			coinlist.addItem(coin);
+		}
 		if (coinarray[i] == 13)
-		coinlist.addItem(Vector3(-40, 2, -70));
-
+		{
+			coin.translate.Set(116, 5, 146);
+			coinlist.addItem(coin);
+		}
 		if (coinarray[i] == 14)
-		coinlist.addItem(Vector3(30, 2, -110));
-
+		{
+			coin.translate.Set(240, 5, 146);
+			coinlist.addItem(coin);
+		}
 		if (coinarray[i] == 15)
-		coinlist.addItem(Vector3(200, 2, -80));
-
+		{
+			coin.translate.Set(148, 5, -174);
+			coinlist.addItem(coin);
+		}
 		if (coinarray[i] == 16)
-		coinlist.addItem(Vector3(110, 2, -20));
-
+		{
+			coin.translate.Set(240, 5, -142);
+			coinlist.addItem(coin);
+		}
 		if (coinarray[i] == 17)
-		coinlist.addItem(Vector3(60, 2, 20));
-
+		{
+			coin.translate.Set(116, 5, -110);
+			coinlist.addItem(coin);
+		}
 		if (coinarray[i] == 18)
-		coinlist.addItem(Vector3(-140, 2, 150));
-
+		{
+			coin.translate.Set(116, 5, -46);
+			coinlist.addItem(coin);
+		}
 		if (coinarray[i] == 19)
-		coinlist.addItem(Vector3(-30, 2, 80));
+		{
+			coin.translate.Set(52, 5, -174);
+			coinlist.addItem(coin);
+		}
 	}
 
 	meshList[GEO_BOX] = MeshBuilder::GenerateOBJ("box", "OBJ//box.obj");
@@ -376,573 +418,178 @@ void DriveScene::Init()
 	meshList[GEO_BOX]->material.kShininess = 1.f;
 	Loadcoord("OBJ//box.obj", CBox);
 
-	boxlist.addItem(Vector3(-220, 5, 220));
-	boxlist.addItem(Vector3(-220, 5, 210));
-	boxlist.addItem(Vector3(-210, 5, 220));
-	boxlist.addItem(Vector3(-210, 5, 210));
-	boxlist.addItem(Vector3(-200, 5, 220));
-	boxlist.addItem(Vector3(-200, 5, 210));
-	boxlist.addItem(Vector3(-190, 5, 220));
-	boxlist.addItem(Vector3(-190, 5, 210));
-	boxlist.addItem(Vector3(-180, 5, 220));
-	boxlist.addItem(Vector3(-180, 5, 210));
+	TRS Box;
+	Box.translate.Set(-204, 5, 210);
+	Box.Scale.Set(3, 1, 3);
+	boxlist.addItem(Box);
+	Box.translate.Set(-204, 5, 178);
+	boxlist.addItem(Box);
 
-	boxlist.addItem(Vector3(-150, 5, 220));
-	boxlist.addItem(Vector3(-150, 5, 210));
-	boxlist.addItem(Vector3(-140, 5, 220));
-	boxlist.addItem(Vector3(-140, 5, 210));
-	boxlist.addItem(Vector3(-130, 5, 210));
+	Box.translate.Set(-140, 5, 145);
+	boxlist.addItem(Box);
+	Box.translate.Set(-140, 5, 177);
+	boxlist.addItem(Box);
+	Box.translate.Set(-140, 5, 210);
+	boxlist.addItem(Box);
+	Box.translate.Set(-108, 5, 210);
+	boxlist.addItem(Box);
+	Box.translate.Set(-76, 5, 210);
+	boxlist.addItem(Box);
+	Box.translate.Set(-44, 5, 210);
+	boxlist.addItem(Box);
+	Box.translate.Set(-12, 5, 210);
+	boxlist.addItem(Box);
 
-	boxlist.addItem(Vector3(-130, 5, 220));
-	boxlist.addItem(Vector3(-120, 5, 220));
-	boxlist.addItem(Vector3(-110, 5, 220));
-	boxlist.addItem(Vector3(-100, 5, 220));
-	boxlist.addItem(Vector3(-90, 5, 220));
-	boxlist.addItem(Vector3(-80, 5, 220));
-	boxlist.addItem(Vector3(-70, 5, 220));
-	boxlist.addItem(Vector3(-60, 5, 220));
-	boxlist.addItem(Vector3(-50, 5, 220));
-	boxlist.addItem(Vector3(-40, 5, 220));
-	boxlist.addItem(Vector3(-30, 5, 220));
-	boxlist.addItem(Vector3(-20, 5, 220));
-	boxlist.addItem(Vector3(-10, 5, 220));
-	boxlist.addItem(Vector3(0, 5, 220));
-	boxlist.addItem(Vector3(10, 5, 220));
-	boxlist.addItem(Vector3(20, 5, 220));
-	boxlist.addItem(Vector3(30, 5, 220));
-	boxlist.addItem(Vector3(40, 5, 220));
-	boxlist.addItem(Vector3(50, 5, 220));
+	Box.translate.Set(84, 5, 210);
+	boxlist.addItem(Box);
+	Box.translate.Set(116, 5, 210);
+	boxlist.addItem(Box);
+	Box.translate.Set(148, 5, 210);
+	boxlist.addItem(Box);
+	Box.translate.Set(212, 5, 210);
+	boxlist.addItem(Box);
 
-	boxlist.addItem(Vector3(90, 5, 220));
-	boxlist.addItem(Vector3(100, 5, 220));
-	boxlist.addItem(Vector3(110, 5, 220));
-	boxlist.addItem(Vector3(120, 5, 220));
-	boxlist.addItem(Vector3(130, 5, 220));
-	boxlist.addItem(Vector3(140, 5, 220));
-	boxlist.addItem(Vector3(150, 5, 220));
-	boxlist.addItem(Vector3(160, 5, 220));
-	boxlist.addItem(Vector3(170, 5, 220));
-	boxlist.addItem(Vector3(180, 5, 220));
-	boxlist.addItem(Vector3(190, 5, 220));
-	boxlist.addItem(Vector3(200, 5, 220));
-	boxlist.addItem(Vector3(210, 5, 220));
-	boxlist.addItem(Vector3(220, 5, 220));
+	Box.translate.Set(212, 5, 178);
+	boxlist.addItem(Box);
+	Box.translate.Set(212, 5, 146);
+	boxlist.addItem(Box);
+	Box.translate.Set(212, 5, 114);
+	boxlist.addItem(Box);
+	Box.translate.Set(212, 5, 82);
+	boxlist.addItem(Box);
+	Box.translate.Set(212, 5, -14);
+	boxlist.addItem(Box);
+	Box.translate.Set(212, 5, -110);
+	boxlist.addItem(Box);
+	Box.translate.Set(212, 5, -142);
+	boxlist.addItem(Box);
+	Box.translate.Set(212, 5, -174);
+	boxlist.addItem(Box);
+	Box.translate.Set(212, 5, -206);
+	boxlist.addItem(Box);
 
-	boxlist.addItem(Vector3(220, 5, 210));
-	boxlist.addItem(Vector3(220, 5, 200));
-	boxlist.addItem(Vector3(220, 5, 190));
-	boxlist.addItem(Vector3(220, 5, 180));
-	boxlist.addItem(Vector3(220, 5, 170));
-	boxlist.addItem(Vector3(220, 5, 160));
-	boxlist.addItem(Vector3(220, 5, 150));
-	boxlist.addItem(Vector3(220, 5, 140));
-	boxlist.addItem(Vector3(220, 5, 130));
-	boxlist.addItem(Vector3(220, 5, 120));
-	boxlist.addItem(Vector3(220, 5, 110));
-	boxlist.addItem(Vector3(220, 5, 100));
-	boxlist.addItem(Vector3(220, 5, 90));
-	boxlist.addItem(Vector3(220, 5, 80));
-	boxlist.addItem(Vector3(220, 5, 70));
-	boxlist.addItem(Vector3(220, 5, 60));
-	boxlist.addItem(Vector3(220, 5, 50));
-	boxlist.addItem(Vector3(220, 5, 40));
-	boxlist.addItem(Vector3(220, 5, 30));
-	boxlist.addItem(Vector3(220, 5, 20));
-	boxlist.addItem(Vector3(220, 5, 10));
-	boxlist.addItem(Vector3(220, 5, 0));
-	boxlist.addItem(Vector3(220, 5, -10));
-	boxlist.addItem(Vector3(220, 5, -20));
-	boxlist.addItem(Vector3(220, 5, -30));
-	boxlist.addItem(Vector3(220, 5, -40));
-	boxlist.addItem(Vector3(220, 5, -50));
-	boxlist.addItem(Vector3(220, 5, -60));
-	boxlist.addItem(Vector3(220, 5, -70));
-	boxlist.addItem(Vector3(220, 5, -80));
-	boxlist.addItem(Vector3(220, 5, -90));
-	boxlist.addItem(Vector3(220, 5, -100));
-	boxlist.addItem(Vector3(220, 5, -110));
-	boxlist.addItem(Vector3(220, 5, -120));
-	boxlist.addItem(Vector3(220, 5, -130));
-	boxlist.addItem(Vector3(220, 5, -140));
-	boxlist.addItem(Vector3(220, 5, -150));
-	boxlist.addItem(Vector3(220, 5, -160));
-	boxlist.addItem(Vector3(220, 5, -170));
-	boxlist.addItem(Vector3(220, 5, -180));
-	boxlist.addItem(Vector3(220, 5, -190));
-	boxlist.addItem(Vector3(220, 5, -200));
-	boxlist.addItem(Vector3(220, 5, -210));
-	boxlist.addItem(Vector3(220, 5, -220));
+	Box.translate.Set(148, 5, -206);
+	boxlist.addItem(Box);
+	Box.translate.Set(116, 5, -206);
+	boxlist.addItem(Box);
+	Box.translate.Set(84, 5, -206);
+	boxlist.addItem(Box);
+	Box.translate.Set(52, 5, -206);
+	boxlist.addItem(Box);
+	Box.translate.Set(20, 5, -206);
+	boxlist.addItem(Box);
+	Box.translate.Set(-76, 5, -206);
+	boxlist.addItem(Box);
+	Box.translate.Set(-108, 5, -206);
+	boxlist.addItem(Box);
+	Box.translate.Set(-140, 5, -206);
+	boxlist.addItem(Box);
+	Box.translate.Set(-204, 5, -206);
+	boxlist.addItem(Box);
 
-	boxlist.addItem(Vector3(180, 5, -220));
-	boxlist.addItem(Vector3(170, 5, -220));
-	boxlist.addItem(Vector3(160, 5, -220));
-	boxlist.addItem(Vector3(150, 5, -220));
-	boxlist.addItem(Vector3(140, 5, -220));
-	boxlist.addItem(Vector3(130, 5, -220));
-	boxlist.addItem(Vector3(120, 5, -220));
-	boxlist.addItem(Vector3(110, 5, -220));
-	boxlist.addItem(Vector3(100, 5, -220));
-	boxlist.addItem(Vector3(90, 5, -220));
-	boxlist.addItem(Vector3(80, 5, -220));
-	boxlist.addItem(Vector3(70, 5, -220));
-	boxlist.addItem(Vector3(60, 5, -220));
-	boxlist.addItem(Vector3(50, 5, -220));
-	boxlist.addItem(Vector3(40, 5, -220));
-	boxlist.addItem(Vector3(30, 5, -220));
-	boxlist.addItem(Vector3(20, 5, -220));
-	boxlist.addItem(Vector3(10, 5, -220));
-	boxlist.addItem(Vector3(0, 5, -220));
-	boxlist.addItem(Vector3(-10, 5, -220));
-	boxlist.addItem(Vector3(-20, 5, -220));
-	boxlist.addItem(Vector3(-30, 5, -220));
-	boxlist.addItem(Vector3(-40, 5, -220));
-	boxlist.addItem(Vector3(-50, 5, -220));
-	boxlist.addItem(Vector3(-60, 5, -220));
-	boxlist.addItem(Vector3(-70, 5, -220));
-	boxlist.addItem(Vector3(-80, 5, -220));
+	Box.translate.Set(-204, 5, -174);
+	boxlist.addItem(Box);
+	Box.translate.Set(-204, 5, -142);
+	boxlist.addItem(Box);
+	Box.translate.Set(-204, 5, -78);
+	boxlist.addItem(Box);
+	Box.translate.Set(-204, 5, -46);
+	boxlist.addItem(Box);
+	Box.translate.Set(-204, 5, 18);
+	boxlist.addItem(Box);
+	Box.translate.Set(-204, 5, 50);
+	boxlist.addItem(Box);
+	Box.translate.Set(-204, 5, 82);
+	boxlist.addItem(Box);
 
-	boxlist.addItem(Vector3(-120, 5, -220));
-	boxlist.addItem(Vector3(-130, 5, -220));
-	boxlist.addItem(Vector3(-140, 5, -220));
-	boxlist.addItem(Vector3(-150, 5, -220));
+	Box.translate.Set(-172, 5, 18);
+	boxlist.addItem(Box);
+	Box.translate.Set(-172, 5, 82);
+	boxlist.addItem(Box);
+	Box.translate.Set(-140, 5, 82);
+	boxlist.addItem(Box);
+	Box.translate.Set(-44, 5, 82);
+	boxlist.addItem(Box);
+	Box.translate.Set(-12, 5, 82);
+	boxlist.addItem(Box);
+	Box.translate.Set(20, 5, 82);
+	boxlist.addItem(Box);
+	Box.translate.Set(52, 5, 82);
+	boxlist.addItem(Box);
+	Box.translate.Set(116, 5, 82);
+	boxlist.addItem(Box);
+	Box.translate.Set(148, 5, 82);
+	boxlist.addItem(Box);
 
-	boxlist.addItem(Vector3(-150, 5, 200));
-	boxlist.addItem(Vector3(-140, 5, 200));
-	boxlist.addItem(Vector3(-130, 5, 200));
-	boxlist.addItem(Vector3(-150, 5, 190));
-	boxlist.addItem(Vector3(-140, 5, 190));
-	boxlist.addItem(Vector3(-130, 5, 190));
-	boxlist.addItem(Vector3(-150, 5, 180));
-	boxlist.addItem(Vector3(-140, 5, 180));
-	boxlist.addItem(Vector3(-130, 5, 180));
-	boxlist.addItem(Vector3(-150, 5, 170));
-	boxlist.addItem(Vector3(-140, 5, 170));
-	boxlist.addItem(Vector3(-130, 5, 170));
+	Box.translate.Set(148, 5, -142);
+	boxlist.addItem(Box);
+	Box.translate.Set(148, 5, -78);
+	boxlist.addItem(Box);
+	Box.translate.Set(148, 5, -46);
+	boxlist.addItem(Box);
+	Box.translate.Set(148, 5, 18);
+	boxlist.addItem(Box);
+	Box.translate.Set(148, 5, 50);
+	boxlist.addItem(Box);
+	Box.translate.Set(148, 5, 114);
+	boxlist.addItem(Box);
 
-	boxlist.addItem(Vector3(-90, 5, 170));
-	boxlist.addItem(Vector3(-80, 5, 170));
-	boxlist.addItem(Vector3(-70, 5, 170));
-	boxlist.addItem(Vector3(-60, 5, 170));
-	boxlist.addItem(Vector3(-50, 5, 170));
-	boxlist.addItem(Vector3(-40, 5, 170));
-	boxlist.addItem(Vector3(-30, 5, 170));
-	boxlist.addItem(Vector3(-20, 5, 170));
-	boxlist.addItem(Vector3(-10, 5, 170));
-	boxlist.addItem(Vector3(0, 5, 170));
-	boxlist.addItem(Vector3(-90, 5, 160));
-	boxlist.addItem(Vector3(-80, 5, 160));
-	boxlist.addItem(Vector3(-70, 5, 160));
-	boxlist.addItem(Vector3(-60, 5, 160));
-	boxlist.addItem(Vector3(-50, 5, 160));
-	boxlist.addItem(Vector3(-40, 5, 160));
-	boxlist.addItem(Vector3(-30, 5, 160));
-	boxlist.addItem(Vector3(-20, 5, 160));
-	boxlist.addItem(Vector3(-10, 5, 160));
-	boxlist.addItem(Vector3(0, 5, 160));
-	boxlist.addItem(Vector3(-90, 5, 150));
-	boxlist.addItem(Vector3(-80, 5, 150));
-	boxlist.addItem(Vector3(-70, 5, 150));
-	boxlist.addItem(Vector3(-60, 5, 150));
-	boxlist.addItem(Vector3(-50, 5, 150));
-	boxlist.addItem(Vector3(-40, 5, 150));
-	boxlist.addItem(Vector3(-30, 5, 150));
-	boxlist.addItem(Vector3(-20, 5, 150));
-	boxlist.addItem(Vector3(-10, 5, 150));
-	boxlist.addItem(Vector3(0, 5, 150));
-	boxlist.addItem(Vector3(-90, 5, 140));
-	boxlist.addItem(Vector3(-80, 5, 140));
-	boxlist.addItem(Vector3(-70, 5, 140));
-	boxlist.addItem(Vector3(-60, 5, 140));
-	boxlist.addItem(Vector3(-50, 5, 140));
-	boxlist.addItem(Vector3(-40, 5, 140));
-	boxlist.addItem(Vector3(-30, 5, 140));
-	boxlist.addItem(Vector3(-20, 5, 140));
-	boxlist.addItem(Vector3(-10, 5, 140));
-	boxlist.addItem(Vector3(0, 5, 140));
-	boxlist.addItem(Vector3(-90, 5, 130));
-	boxlist.addItem(Vector3(-80, 5, 130));
-	boxlist.addItem(Vector3(-70, 5, 130));
-	boxlist.addItem(Vector3(-60, 5, 130));
-	boxlist.addItem(Vector3(-50, 5, 130));
-	boxlist.addItem(Vector3(-40, 5, 130));
-	boxlist.addItem(Vector3(-30, 5, 130));
-	boxlist.addItem(Vector3(-20, 5, 130));
-	boxlist.addItem(Vector3(-10, 5, 130));
-	boxlist.addItem(Vector3(0, 5, 130));
+	Box.translate.Set(116, 5, -78);
+	boxlist.addItem(Box);
+	Box.translate.Set(84, 5, -78);
+	boxlist.addItem(Box);
+	Box.translate.Set(52, 5, -78);
+	boxlist.addItem(Box);
+	Box.translate.Set(-12, 5, -78);
+	boxlist.addItem(Box);
+	Box.translate.Set(-44, 5, -78);
+	boxlist.addItem(Box);
+	Box.translate.Set(-76, 5, -78);
+	boxlist.addItem(Box);
 
-	boxlist.addItem(Vector3(50, 5, 170));
-	boxlist.addItem(Vector3(60, 5, 170));
-	boxlist.addItem(Vector3(70, 5, 170));
-	boxlist.addItem(Vector3(80, 5, 170));
-	boxlist.addItem(Vector3(90, 5, 170));
-	boxlist.addItem(Vector3(100, 5, 170));
-	boxlist.addItem(Vector3(110, 5, 170));
-	boxlist.addItem(Vector3(120, 5, 170));
-	boxlist.addItem(Vector3(130, 5, 170));
+	Box.translate.Set(-44, 5, -110);
+	boxlist.addItem(Box);
+	Box.translate.Set(-44, 5, -46);
+	boxlist.addItem(Box);
+	Box.translate.Set(-44, 5, -14);
+	boxlist.addItem(Box);
 
-	boxlist.addItem(Vector3(130, 5, 160));
-	boxlist.addItem(Vector3(130, 5, 150));
-	boxlist.addItem(Vector3(130, 5, 140));
-	boxlist.addItem(Vector3(130, 5, 130));
-	boxlist.addItem(Vector3(130, 5, 120));
-	boxlist.addItem(Vector3(130, 5, 110));
-	boxlist.addItem(Vector3(130, 5, 100));
-	boxlist.addItem(Vector3(130, 5, 90));
-	boxlist.addItem(Vector3(130, 5, 80));
+	Box.translate.Set(84, 5, -110);
+	boxlist.addItem(Box);
+	Box.translate.Set(84, 5, -142);
+	boxlist.addItem(Box);
+	Box.translate.Set(84, 5, -46);
+	boxlist.addItem(Box);
+	Box.translate.Set(84, 5, -14);
+	boxlist.addItem(Box);
 
-	boxlist.addItem(Vector3(170, 5, 160));
-	boxlist.addItem(Vector3(170, 5, 150));
-	boxlist.addItem(Vector3(170, 5, 140));
-	boxlist.addItem(Vector3(170, 5, 130));
-	boxlist.addItem(Vector3(170, 5, 120));
-	boxlist.addItem(Vector3(170, 5, 110));
-	boxlist.addItem(Vector3(170, 5, 100));
-	boxlist.addItem(Vector3(170, 5, 90));
-	boxlist.addItem(Vector3(170, 5, 80));
+	Box.translate.Set(-44, 5, 114);
+	boxlist.addItem(Box);
+	Box.translate.Set(-44, 5, 146);
+	boxlist.addItem(Box);
 
-	boxlist.addItem(Vector3(130, 5, 20));
-	boxlist.addItem(Vector3(130, 5, 10));
-	boxlist.addItem(Vector3(130, 5, 0));
-	boxlist.addItem(Vector3(130, 5, -10));
-	boxlist.addItem(Vector3(130, 5, -20));
-	boxlist.addItem(Vector3(130, 5, -30));
-	boxlist.addItem(Vector3(130, 5, -40));
-	boxlist.addItem(Vector3(130, 5, -50));
-	boxlist.addItem(Vector3(130, 5, -60));
+	Box.translate.Set(20, 5, 50);
+	boxlist.addItem(Box);
+	Box.translate.Set(20, 5, 18);
+	boxlist.addItem(Box);
 
-	boxlist.addItem(Vector3(170, 5, -20));
-	boxlist.addItem(Vector3(170, 5, -30));
-	boxlist.addItem(Vector3(170, 5, -40));
-	boxlist.addItem(Vector3(170, 5, -50));
-	boxlist.addItem(Vector3(170, 5, -60));
-	boxlist.addItem(Vector3(180, 5, -20));
-	boxlist.addItem(Vector3(180, 5, -30));
-	boxlist.addItem(Vector3(180, 5, -40));
-	boxlist.addItem(Vector3(180, 5, -50));
-	boxlist.addItem(Vector3(180, 5, -60));
-	boxlist.addItem(Vector3(190, 5, -20));
-	boxlist.addItem(Vector3(190, 5, -30));
-	boxlist.addItem(Vector3(190, 5, -40));
-	boxlist.addItem(Vector3(190, 5, -50));
-	boxlist.addItem(Vector3(190, 5, -60));
+	Box.translate.Set(20, 5, 146);
+	boxlist.addItem(Box);
+	Box.translate.Set(84, 5, 146);
+	boxlist.addItem(Box);
 
-	boxlist.addItem(Vector3(170, 5, -90));
-	boxlist.addItem(Vector3(170, 5, -100));
-	boxlist.addItem(Vector3(170, 5, -110));
-	boxlist.addItem(Vector3(170, 5, -120));
-	boxlist.addItem(Vector3(170, 5, -130));
-	boxlist.addItem(Vector3(180, 5, -90));
-	boxlist.addItem(Vector3(180, 5, -100));
-	boxlist.addItem(Vector3(180, 5, -110));
-	boxlist.addItem(Vector3(180, 5, -120));
-	boxlist.addItem(Vector3(180, 5, -130));
-	boxlist.addItem(Vector3(190, 5, -90));
-	boxlist.addItem(Vector3(190, 5, -100));
-	boxlist.addItem(Vector3(190, 5, -110));
-	boxlist.addItem(Vector3(190, 5, -120));
-	boxlist.addItem(Vector3(190, 5, -130));
+	Box.translate.Set(-108, 5, -142);
+	boxlist.addItem(Box);
+	Box.translate.Set(-140, 5, -142);
+	boxlist.addItem(Box);
+	Box.translate.Set(-140, 5, -110);
+	boxlist.addItem(Box);
 
-	boxlist.addItem(Vector3(150, 5, -170));
-	boxlist.addItem(Vector3(150, 5, -180));
-	boxlist.addItem(Vector3(150, 5, -190));
-	boxlist.addItem(Vector3(160, 5, -170));
-	boxlist.addItem(Vector3(160, 5, -180));
-	boxlist.addItem(Vector3(160, 5, -190));
-	boxlist.addItem(Vector3(170, 5, -170));
-	boxlist.addItem(Vector3(170, 5, -180));
-	boxlist.addItem(Vector3(170, 5, -190));
+	Box.translate.Set(20, 5, -174);
+	boxlist.addItem(Box);
 
-	boxlist.addItem(Vector3(90, 5, -170));
-	boxlist.addItem(Vector3(90, 5, -180));
-	boxlist.addItem(Vector3(90, 5, -190));
-	boxlist.addItem(Vector3(100, 5, -170));
-	boxlist.addItem(Vector3(100, 5, -180));
-	boxlist.addItem(Vector3(100, 5, -190));
-	boxlist.addItem(Vector3(110, 5, -170));
-	boxlist.addItem(Vector3(110, 5, -180));
-	boxlist.addItem(Vector3(110, 5, -190));
-
-	boxlist.addItem(Vector3(20, 5, -170));
-	boxlist.addItem(Vector3(20, 5, -180));
-	boxlist.addItem(Vector3(20, 5, -190));
-	boxlist.addItem(Vector3(30, 5, -170));
-	boxlist.addItem(Vector3(30, 5, -180));
-	boxlist.addItem(Vector3(30, 5, -190));
-	boxlist.addItem(Vector3(40, 5, -170));
-	boxlist.addItem(Vector3(40, 5, -180));
-	boxlist.addItem(Vector3(40, 5, -190));
-
-	boxlist.addItem(Vector3(60, 5, -120));
-	boxlist.addItem(Vector3(60, 5, -130));
-	boxlist.addItem(Vector3(70, 5, -120));
-	boxlist.addItem(Vector3(70, 5, -130));
-
-	boxlist.addItem(Vector3(40, 5, 100));
-	boxlist.addItem(Vector3(50, 5, 100));
-	boxlist.addItem(Vector3(60, 5, 100));
-	boxlist.addItem(Vector3(70, 5, 100));
-	boxlist.addItem(Vector3(80, 5, 100));
-	boxlist.addItem(Vector3(40, 5, 90));
-	boxlist.addItem(Vector3(50, 5, 90));
-	boxlist.addItem(Vector3(60, 5, 90));
-	boxlist.addItem(Vector3(70, 5, 90));
-	boxlist.addItem(Vector3(80, 5, 90));
-	boxlist.addItem(Vector3(40, 5, 80));
-	boxlist.addItem(Vector3(50, 5, 80));
-	boxlist.addItem(Vector3(60, 5, 80));
-	boxlist.addItem(Vector3(70, 5, 80));
-	boxlist.addItem(Vector3(80, 5, 80));
-	boxlist.addItem(Vector3(40, 5, 70));
-	boxlist.addItem(Vector3(50, 5, 70));
-	boxlist.addItem(Vector3(60, 5, 70));
-	boxlist.addItem(Vector3(70, 5, 70));
-	boxlist.addItem(Vector3(80, 5, 70));
-
-	boxlist.addItem(Vector3(-220, 5, 180));
-	boxlist.addItem(Vector3(-220, 5, 170));
-	boxlist.addItem(Vector3(-220, 5, 160));
-	boxlist.addItem(Vector3(-220, 5, 150));
-	boxlist.addItem(Vector3(-220, 5, 140));
-	boxlist.addItem(Vector3(-220, 5, 130));
-
-	boxlist.addItem(Vector3(-210, 5, 170));
-	boxlist.addItem(Vector3(-210, 5, 160));
-	boxlist.addItem(Vector3(-210, 5, 150));
-	boxlist.addItem(Vector3(-210, 5, 140));
-	boxlist.addItem(Vector3(-210, 5, 130));
-	boxlist.addItem(Vector3(-200, 5, 170));
-	boxlist.addItem(Vector3(-200, 5, 160));
-	boxlist.addItem(Vector3(-200, 5, 150));
-	boxlist.addItem(Vector3(-200, 5, 140));
-	boxlist.addItem(Vector3(-200, 5, 130));
-	boxlist.addItem(Vector3(-190, 5, 170));
-	boxlist.addItem(Vector3(-190, 5, 160));
-	boxlist.addItem(Vector3(-190, 5, 150));
-	boxlist.addItem(Vector3(-190, 5, 140));
-	boxlist.addItem(Vector3(-190, 5, 130));
-
-	boxlist.addItem(Vector3(-220, 5, 100));
-	boxlist.addItem(Vector3(-210, 5, 100));
-	boxlist.addItem(Vector3(-200, 5, 100));
-	boxlist.addItem(Vector3(-190, 5, 100));
-	boxlist.addItem(Vector3(-180, 5, 100));
-	boxlist.addItem(Vector3(-170, 5, 100));
-
-	boxlist.addItem(Vector3(-170, 5, 90));
-	boxlist.addItem(Vector3(-170, 5, 80));
-	boxlist.addItem(Vector3(-170, 5, 70));
-	boxlist.addItem(Vector3(-170, 5, 60));
-	boxlist.addItem(Vector3(-170, 5, 50));
-	boxlist.addItem(Vector3(-170, 5, 40));
-	boxlist.addItem(Vector3(-170, 5, 30));
-
-	boxlist.addItem(Vector3(-170, 5, 30));
-	boxlist.addItem(Vector3(-160, 5, 30));
-	boxlist.addItem(Vector3(-150, 5, 30));
-	boxlist.addItem(Vector3(-140, 5, 30));
-	boxlist.addItem(Vector3(-130, 5, 30));
-	boxlist.addItem(Vector3(-120, 5, 30));
-	boxlist.addItem(Vector3(-110, 5, 30));
-	boxlist.addItem(Vector3(-100, 5, 30));
-	boxlist.addItem(Vector3(-90, 5, 30));
-	boxlist.addItem(Vector3(-80, 5, 30));
-	boxlist.addItem(Vector3(-70, 5, 30));
-	boxlist.addItem(Vector3(-60, 5, 30));
-	boxlist.addItem(Vector3(-50, 5, 30));
-	boxlist.addItem(Vector3(-40, 5, 30));
-	boxlist.addItem(Vector3(-30, 5, 30));
-	boxlist.addItem(Vector3(-20, 5, 30));
-	boxlist.addItem(Vector3(-10, 5, 30));
-	boxlist.addItem(Vector3(0, 5, 30));
-
-	boxlist.addItem(Vector3(-130, 5, 100));
-	boxlist.addItem(Vector3(-120, 5, 100));
-	boxlist.addItem(Vector3(-130, 5, 90));
-	boxlist.addItem(Vector3(-120, 5, 90));
-	boxlist.addItem(Vector3(-130, 5, 80));
-	boxlist.addItem(Vector3(-120, 5, 80));
-	boxlist.addItem(Vector3(-130, 5, 70));
-	boxlist.addItem(Vector3(-120, 5, 70));
-	boxlist.addItem(Vector3(-130, 5, 60));
-	boxlist.addItem(Vector3(-120, 5, 60));
-
-	boxlist.addItem(Vector3(-220, 5, 70));
-	boxlist.addItem(Vector3(-220, 5, 60));
-	boxlist.addItem(Vector3(-220, 5, 50));
-	boxlist.addItem(Vector3(-220, 5, 40));
-	boxlist.addItem(Vector3(-220, 5, 30));
-	boxlist.addItem(Vector3(-220, 5, 20));
-	boxlist.addItem(Vector3(-220, 5, 10));
-	boxlist.addItem(Vector3(-220, 5, 0));
-	boxlist.addItem(Vector3(-220, 5, -10));
-
-	boxlist.addItem(Vector3(-210, 5, -10));
-	boxlist.addItem(Vector3(-200, 5, -10));
-	boxlist.addItem(Vector3(-190, 5, -10));
-	boxlist.addItem(Vector3(-180, 5, -10));
-	boxlist.addItem(Vector3(-170, 5, -10));
-	boxlist.addItem(Vector3(-160, 5, -10));
-	boxlist.addItem(Vector3(-150, 5, -10));
-	boxlist.addItem(Vector3(-140, 5, -10));
-	boxlist.addItem(Vector3(-130, 5, -10));
-	boxlist.addItem(Vector3(-120, 5, -10));
-	boxlist.addItem(Vector3(-110, 5, -10));
-	boxlist.addItem(Vector3(-100, 5, -10));
-	//~
-	boxlist.addItem(Vector3(-60, 5, -10));
-	boxlist.addItem(Vector3(-50, 5, -10));
-	boxlist.addItem(Vector3(-40, 5, -10));
-	boxlist.addItem(Vector3(-30, 5, -10));
-	boxlist.addItem(Vector3(-20, 5, -10));
-	boxlist.addItem(Vector3(-10, 5, -10));
-	boxlist.addItem(Vector3(0, 5, -10));
-	boxlist.addItem(Vector3(-60, 5, -20));
-	boxlist.addItem(Vector3(-50, 5, -20));
-	boxlist.addItem(Vector3(-40, 5, -20));
-	boxlist.addItem(Vector3(-30, 5, -20));
-	boxlist.addItem(Vector3(-20, 5, -20));
-	boxlist.addItem(Vector3(-10, 5, -20));
-	boxlist.addItem(Vector3(0, 5, -20));
-	boxlist.addItem(Vector3(-60, 5, -30));
-	boxlist.addItem(Vector3(-50, 5, -30));
-	boxlist.addItem(Vector3(-40, 5, -30));
-	boxlist.addItem(Vector3(-30, 5, -30));
-	boxlist.addItem(Vector3(-20, 5, -30));
-	boxlist.addItem(Vector3(-10, 5, -30));
-	boxlist.addItem(Vector3(0, 5, -30));
-	boxlist.addItem(Vector3(-60, 5, -40));
-	boxlist.addItem(Vector3(-50, 5, -40));
-	boxlist.addItem(Vector3(-40, 5, -40));
-	boxlist.addItem(Vector3(-30, 5, -40));
-	boxlist.addItem(Vector3(-20, 5, -40));
-	boxlist.addItem(Vector3(-10, 5, -40));
-	boxlist.addItem(Vector3(0, 5, -40));
-	boxlist.addItem(Vector3(-60, 5, -50));
-	boxlist.addItem(Vector3(-50, 5, -50));
-	boxlist.addItem(Vector3(-40, 5, -50));
-	boxlist.addItem(Vector3(-30, 5, -50));
-	boxlist.addItem(Vector3(-20, 5, -50));
-	boxlist.addItem(Vector3(-10, 5, -50));
-	boxlist.addItem(Vector3(0, 5, -50));
-	// 2nd ~
-	boxlist.addItem(Vector3(40, 5, -10));
-	boxlist.addItem(Vector3(50, 5, -10));
-	boxlist.addItem(Vector3(60, 5, -10));
-	boxlist.addItem(Vector3(70, 5, -10));
-	boxlist.addItem(Vector3(80, 5, -10));
-	boxlist.addItem(Vector3(40, 5, -20));
-	boxlist.addItem(Vector3(50, 5, -20));
-	boxlist.addItem(Vector3(60, 5, -20));
-	boxlist.addItem(Vector3(70, 5, -20));
-	boxlist.addItem(Vector3(80, 5, -20));
-	boxlist.addItem(Vector3(40, 5, -30));
-	boxlist.addItem(Vector3(50, 5, -30));
-	boxlist.addItem(Vector3(60, 5, -30));
-	boxlist.addItem(Vector3(70, 5, -30));
-	boxlist.addItem(Vector3(80, 5, -30));
-	boxlist.addItem(Vector3(40, 5, -40));
-	boxlist.addItem(Vector3(50, 5, -40));
-	boxlist.addItem(Vector3(60, 5, -40));
-	boxlist.addItem(Vector3(70, 5, -40));
-	boxlist.addItem(Vector3(80, 5, -40));
-
-	boxlist.addItem(Vector3(-60, 5, -90));
-	boxlist.addItem(Vector3(-50, 5, -90));
-	boxlist.addItem(Vector3(-40, 5, -90));
-	boxlist.addItem(Vector3(-30, 5, -90));
-	boxlist.addItem(Vector3(-20, 5, -90));
-	boxlist.addItem(Vector3(-10, 5, -90));
-	boxlist.addItem(Vector3(0, 5, -90));
-	boxlist.addItem(Vector3(-60, 5, -100));
-	boxlist.addItem(Vector3(-50, 5, -100));
-	boxlist.addItem(Vector3(-40, 5, -100));
-	boxlist.addItem(Vector3(-30, 5, -100));
-	boxlist.addItem(Vector3(-20, 5, -100));
-	boxlist.addItem(Vector3(-10, 5, -100));
-	boxlist.addItem(Vector3(0, 5, -100));
-	boxlist.addItem(Vector3(-60, 5, -110));
-	boxlist.addItem(Vector3(-50, 5, -110));
-	boxlist.addItem(Vector3(-40, 5, -110));
-	boxlist.addItem(Vector3(-30, 5, -110));
-	boxlist.addItem(Vector3(-20, 5, -110));
-	boxlist.addItem(Vector3(-10, 5, -110));
-	boxlist.addItem(Vector3(0, 5, -110));
-	boxlist.addItem(Vector3(-60, 5, -120));
-	boxlist.addItem(Vector3(-50, 5, -120));
-	boxlist.addItem(Vector3(-40, 5, -120));
-	boxlist.addItem(Vector3(-30, 5, -120));
-	boxlist.addItem(Vector3(-20, 5, -120));
-	boxlist.addItem(Vector3(-10, 5, -120));
-	boxlist.addItem(Vector3(0, 5, -120));
-	boxlist.addItem(Vector3(-60, 5, -130));
-	boxlist.addItem(Vector3(-50, 5, -130));
-	boxlist.addItem(Vector3(-40, 5, -130));
-	boxlist.addItem(Vector3(-30, 5, -130));
-	boxlist.addItem(Vector3(-20, 5, -130));
-	boxlist.addItem(Vector3(-10, 5, -130));
-	boxlist.addItem(Vector3(0, 5, -130));
-	boxlist.addItem(Vector3(-60, 5, -140));
-	boxlist.addItem(Vector3(-50, 5, -140));
-	boxlist.addItem(Vector3(-40, 5, -140));
-	boxlist.addItem(Vector3(-30, 5, -140));
-	boxlist.addItem(Vector3(-20, 5, -140));
-	boxlist.addItem(Vector3(-10, 5, -140));
-	boxlist.addItem(Vector3(0, 5, -140));
-
-	boxlist.addItem(Vector3(-150, 5, -60));
-	boxlist.addItem(Vector3(-140, 5, -60));
-	boxlist.addItem(Vector3(-130, 5, -60));
-	boxlist.addItem(Vector3(-150, 5, -70));
-	boxlist.addItem(Vector3(-140, 5, -70));
-	boxlist.addItem(Vector3(-130, 5, -70));
-	boxlist.addItem(Vector3(-150, 5, -80));
-	boxlist.addItem(Vector3(-140, 5, -80));
-	boxlist.addItem(Vector3(-130, 5, -80));
-
-	boxlist.addItem(Vector3(-180, 5, -110));
-	boxlist.addItem(Vector3(-170, 5, -110));
-	boxlist.addItem(Vector3(-160, 5, -110));
-	boxlist.addItem(Vector3(-180, 5, -120));
-	boxlist.addItem(Vector3(-170, 5, -120));
-	boxlist.addItem(Vector3(-160, 5, -120));
-	boxlist.addItem(Vector3(-180, 5, -130));
-	boxlist.addItem(Vector3(-170, 5, -130));
-	boxlist.addItem(Vector3(-160, 5, -130));
-
-	boxlist.addItem(Vector3(-100, 5, -160));
-	boxlist.addItem(Vector3(-90, 5, -160));
-	boxlist.addItem(Vector3(-80, 5, -160));
-	boxlist.addItem(Vector3(-100, 5, -170));
-	boxlist.addItem(Vector3(-90, 5, -170));
-	boxlist.addItem(Vector3(-80, 5, -170));
-	boxlist.addItem(Vector3(-100, 5, -180));
-	boxlist.addItem(Vector3(-90, 5, -180));
-	boxlist.addItem(Vector3(-80, 5, -180));
-
-	boxlist.addItem(Vector3(-220, 5, -40));
-	boxlist.addItem(Vector3(-220, 5, -50));
-	boxlist.addItem(Vector3(-220, 5, -60));
-	boxlist.addItem(Vector3(-220, 5, -70));
-	boxlist.addItem(Vector3(-220, 5, -80));
-	boxlist.addItem(Vector3(-220, 5, -90));
-	boxlist.addItem(Vector3(-220, 5, -100));
-	boxlist.addItem(Vector3(-220, 5, -130));
-	boxlist.addItem(Vector3(-220, 5, -140));
-	boxlist.addItem(Vector3(-220, 5, -150));
-	boxlist.addItem(Vector3(-210, 5, -160));
-	boxlist.addItem(Vector3(-200, 5, -170));
-	boxlist.addItem(Vector3(-240, 5, -170));
-	boxlist.addItem(Vector3(-240, 5, -180));
-	boxlist.addItem(Vector3(-190, 5, -180));
-	boxlist.addItem(Vector3(-230, 5, -190));
-	boxlist.addItem(Vector3(-230, 5, -200));
-	boxlist.addItem(Vector3(-220, 5, -210));
-	boxlist.addItem(Vector3(-220, 5, -220));
-	boxlist.addItem(Vector3(-210, 5, -230));
-	boxlist.addItem(Vector3(-200, 5, -240));
-	boxlist.addItem(Vector3(-180, 5, -190));
-	boxlist.addItem(Vector3(-170, 5, -200));
-	boxlist.addItem(Vector3(-160, 5, -210));
+	Box.translate.Set(-108, 5, -14);
+	boxlist.addItem(Box);
 
 	meshList[GEO_BOOSTPAD] = MeshBuilder::GenerateOBJ("boost", "OBJ//boostpad.obj");
 	meshList[GEO_BOOSTPAD]->textureID = LoadTGA("Image//boostpad.tga");
@@ -951,38 +598,24 @@ void DriveScene::Init()
 	meshList[GEO_BOOSTPAD]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_BOOSTPAD]->material.kShininess = 1.f;
 	Loadcoord("OBJ//boostpad.obj", CBoostpad);
-
-	boostpadlist.addItem(Vector3(140, -4.5, 130));
-	boostpadlist.addItem(Vector3(150, -4.5, 130));
-	boostpadlist.addItem(Vector3(160, -4.5, 130));
-
-	boostpadlist.addItem(Vector3(-30, -4.5, 230));
-	boostpadlist.addItem(Vector3(-30, -4.5, 240));
-	boostpadlist.addItem(Vector3(-30, -4.5, 250));
-
-	boostpadlist.addItem(Vector3(-70, -4.5, 210));
-	boostpadlist.addItem(Vector3(-70, -4.5, 200));
-	boostpadlist.addItem(Vector3(-70, -4.5, 190));
-	boostpadlist.addItem(Vector3(-70, -4.5, 180));
-
-	boostpadlist.addItem(Vector3(-120, -4.5, 50));
-	boostpadlist.addItem(Vector3(-120, -4.5, 40));
-
-	boostpadlist.addItem(Vector3(-170, -4.5, 20));
-	boostpadlist.addItem(Vector3(-170, -4.5, 10));
-	boostpadlist.addItem(Vector3(-170, -4.5, 0));
-
-	boostpadlist.addItem(Vector3(-230, -4.5, 70));
-	boostpadlist.addItem(Vector3(-240, -4.5, 70));
-	boostpadlist.addItem(Vector3(-250, -4.5, 70));
-
-	boostpadlist.addItem(Vector3(-80, -4.5, -230));
-	boostpadlist.addItem(Vector3(-80, -4.5, -240));
-	boostpadlist.addItem(Vector3(-80, -4.5, -250));
-
-	boostpadlist.addItem(Vector3(230, -4.5, 0));
-	boostpadlist.addItem(Vector3(240, -4.5, 0));
-	boostpadlist.addItem(Vector3(250, -4.5, 0));
+	TRS Boostpad;
+	Boostpad.translate.Set(-44, -4, 178);
+	Boostpad.Scale.Set(3, 1, 3);
+	boostpadlist.addItem(Boostpad);
+	Boostpad.translate.Set(-76, -4, 242);
+	boostpadlist.addItem(Boostpad);
+	Boostpad.translate.Set(20, -4, 114);
+	boostpadlist.addItem(Boostpad);
+	Boostpad.translate.Set(180, -4, 114);
+	boostpadlist.addItem(Boostpad);
+	Boostpad.translate.Set(84, -4, -174);
+	boostpadlist.addItem(Boostpad);
+	Boostpad.translate.Set(84, -4, -238);
+	boostpadlist.addItem(Boostpad);
+	Boostpad.translate.Set(-108, -4, -174);
+	boostpadlist.addItem(Boostpad);
+	Boostpad.translate.Set(-204, -4, -14);
+	boostpadlist.addItem(Boostpad);
 
 	carVelocity = 0.f;
 	carTurningSpeed = 135.f;
@@ -991,6 +624,7 @@ void DriveScene::Init()
 
 	camera.Init(ACarBody.translate + Vector3(0, 5, 30), ACarBody.translate + Vector3(0, 5, 0), Vector3(0, 1, 0));
 	test.Init(ACarBody.translate + Vector3(0, 150, 1), ACarBody.translate, Vector3(0, 1, 0));
+	//test.Init(Vector3(0, 650, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
 }
 
 void DriveScene::Update(double dt)
@@ -1079,7 +713,6 @@ void DriveScene::Update(double dt)
 
 	test.CarUpdate(dt, ACarBody);
 	//firstpersoncamera.Update(dt, Aplayer);
-
 }
 
 void DriveScene::Render()
@@ -1148,8 +781,6 @@ void DriveScene::Render()
 	//RenderMesh(meshList[GEO_LIGHTSPHERE], false);
 	//modelStack.PopMatrix();
 
-	//RenderObj(meshList[GEO_DICE], Aplayer, true, false);
-
 	RenderObj(meshList[GEO_CARBODY], ACarBody, false, false);
 	for (int carnumwheel = 0; carnumwheel < 4; carnumwheel++)
 	{
@@ -1157,7 +788,7 @@ void DriveScene::Render()
 	}
 	modelStack.PopMatrix();
 
-	for (CNode* current = boxlist.gethead(); current != nullptr; current = current->getnext()) 
+	for (CNode* current = boxlist.gethead(); current != nullptr; current = current->getnext())
 	{
 		RenderObj(meshList[GEO_BOX], current->transformation, true, false);
 	}

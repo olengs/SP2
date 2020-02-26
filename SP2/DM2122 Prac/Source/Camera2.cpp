@@ -70,11 +70,6 @@ void Camera2::CarUpdate(double dt, TRS ACar)
 	float yaw = (float)(ROTATE_SPEED * dt);
 	rotation.SetToRotation(ACar.RotateY.degree, 0, 1, 0);
 	target = ACar.translate;
-	position = ACar.translate + Vector3(0, 250, 1);
+	position = ACar.translate + Vector3(0, 200, 1);
 	view = (target - position).Normalized();
-
-	if (Application::IsKeyPressed('R'))
-	{
-		Reset();
-	}
 }
