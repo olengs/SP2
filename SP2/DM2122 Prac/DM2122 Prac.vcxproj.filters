@@ -90,6 +90,12 @@
     <ClInclude Include="Source\HologramUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\PlayerDetails.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CarSelection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\shader.cpp">
@@ -153,6 +159,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\HologramUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PlayerDetails.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CarSelection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

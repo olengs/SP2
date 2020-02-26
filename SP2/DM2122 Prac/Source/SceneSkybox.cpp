@@ -212,18 +212,17 @@ void SceneSkybox::Init()
 	ShopUI.lengthY = 10.f;
 	ShopUI_Scroll = 0;
 
+	
+
 	meshList[GEO_CAR_STAT] = MeshBuilder::GenerateQuad("car_stat", Color(1, 0, 0), 1.f, 1.f);
 	meshList[GEO_CAR_STAT_UPGRADE] = MeshBuilder::GenerateQuad("car_stat_upgrade", Color(0, 1, 0), 1.f, 1.f);
 	
-	car_Details = CarStats(7.f, 3.f, 5.f, 4.f, 2.f, 1.f);
 	car_Stats[0] = CarStats(2.f, 5.f, 6.f, 1.f, 2.f, 1.f);
 	car_Stats[1] = CarStats(5.f, 7.f, 2.f, 1.f, 1.f, 3.f);
 	car_Stats[2] = CarStats(4.f, 6.f, 3.f, 1.f, 2.f, 1.f);
 	car_Stats[3] = CarStats(3.f, 5.f, 8.f, 1.f, 2.f, 1.f);
 
-	UIText[0] = "";
-	UIText[1] = "";
-	UIText[2] = "";
+	
 	BounceTime = 0;
 
 	meshList[GEO_PLATFORM] = MeshBuilder::GenerateOBJ("Platform", "OBJ//Platform.obj");
@@ -407,6 +406,9 @@ void SceneSkybox::Init()
 	meshList[GEO_HOLO] = MeshBuilder::GenerateQuad("holo0", Color(0, 0, 1.f), 5.f, 6.f);
 	meshList[GEO_HOLO]->textureID = LoadTGA("Image//carStatsUI.tga");
 
+	meshList[GEO_COIN] = MeshBuilder::GenerateOBJ("coin", "obj//coin.obj");
+	meshList[GEO_COIN]->textureID = LoadTGA("Image//coin.tga");
+
 	for (int i = 0; i < 4; ++i)
 	{
 		CarHologram[i].lengthX = 5.f;
@@ -422,6 +424,21 @@ void SceneSkybox::Init()
 			CarHologram[i].UI.translate = Vector3(7, 0, 0);
 		}
 	}
+
+	meshList[GEO_TEST_DICE] = MeshBuilder::GenerateOBJ("box test" ,"obj//box.obj");
+	meshList[GEO_TEST_DICE]->textureID = LoadTGA("Image//box.tga");
+	Atest_dice.translate.Set(0, 0, -20);
+	Atest_dice.Scale.Set(1, 1, 1);
+	Atest_dice.RotateY.degree = 45;
+	Loadcoord("obj//box.obj", CTest_dice);
+
+	currency = 5000;
+	playerdetails = PlayerDetails(EquippedCar, currency);
+	
+	EquippedCar_Scroll = 2;
+	EquippedCar = CarSelection(car_Stats[2], 2);
+
+	car_Stats[2].lock = false;
 
 	hologramcamera_leave = true;
 	camera.Init(Aplayer.translate + Vector3(0, 8, 15), Vector3(Aplayer.translate) + Vector3(0, 5, 0), Vector3(0, 1, 0));
@@ -471,33 +488,25 @@ void SceneSkybox::Update(double dt)
 
 	//UI Text (for movement) logic
 	if (Application::IsKeyPressed('W') && CameraSwitch != 2) {
-		UIText[0] = "W - Move Forward";
 		PlayerMoveUp(dt);
 	}
 	if (Application::IsKeyPressed('A') && CameraSwitch != 2) {
-		UIText[0] = "A - Move Left";
 		PlayerMoveLeft(dt);
 	}
 	if (Application::IsKeyPressed('S') && CameraSwitch != 2) {
-		UIText[0] = "S - Move Backwards";
 		PlayerMoveDown(dt);
 	}
 	if (Application::IsKeyPressed('D') && CameraSwitch != 2) {
-		UIText[0] = "D - Move Right";
 		PlayerMoveRight(dt);
 	}
 	if (Application::IsKeyPressed(VK_LEFT) && CameraSwitch != 2) {
-		UIText[0] = "Q - Rotate Left";
 		Aplayer.RotateY.degree += (float)(playerTurningSpeed * dt);
 	}
 	if (Application::IsKeyPressed(VK_RIGHT) && CameraSwitch != 2) {
-		UIText[0] = "E - Rotate Right";
 		Aplayer.RotateY.degree -= (float)(playerTurningSpeed * dt);
 	}
 	//uncomment cameratoggle when 3rd and 1st person camera are working
-	else {
-		UIText[0] = "W A S D - Movement, Q E - Rotation";
-	}
+	
 	//NPC
 	if ((ANPC.translate - Aplayer.translate).Length() > 3) {
 		for (int i = 0; i < 4; ++i) {
@@ -512,20 +521,7 @@ void SceneSkybox::Update(double dt)
 		ANPC.RotateY.degree *= -1;
 	}
 	//UI Text (for camera) logic
-	if (Application::IsKeyPressed(VK_UP)) {
-		UIText[1] = "^ - Pan up";
-	}
-	else if (Application::IsKeyPressed(VK_DOWN)) {
-		UIText[1] = "v - Pan down";
-	}
-	else if (Application::IsKeyPressed(VK_LEFT)) {
-		UIText[1] = "< - Pan left";
-	}
-	else if (Application::IsKeyPressed(VK_RIGHT)) {
-		UIText[1] = "> - Pan right";
-	}
-	else UIText[1] = "^ v < > -  Camera Pan";
-
+	
 	//UI Text (for 1st/3rd person camera) logic
 	if (Application::IsKeyPressed(VK_TAB) && BounceTime <= GetTickCount()) {
 		if (CameraSwitch == 0) CameraSwitch = 1; //1st person
@@ -541,9 +537,11 @@ void SceneSkybox::Update(double dt)
 		CameraSwitch = 0;
 	}
 
-	if (CameraToggle) UIText[2] = "(Press Tab to change) Current Camera: 1st Person";
-	else UIText[2] = "(Press Tab to change) Current Camera: 3rd Person";
-
+	if (Application::IsKeyPressed('E') && BounceTime <= GetTickCount())
+	{
+		UpdateEquippedCar();
+		BounceTime = GetTickCount() + 500.f;
+	}
 
 	// Rotate platform
 	if (Application::IsKeyPressed('N'))
@@ -621,13 +619,7 @@ void SceneSkybox::Update(double dt)
 
 	//Holograms and Camera logic
 
-	if (Application::IsKeyPressed('V') && BounceTime <= GetTickCount())
-	{
-		if (hologramcamera_leave) hologramcamera_leave = false;
-		else hologramcamera_leave = true;
-		BounceTime = GetTickCount() + 500.f;
-
-	}
+	
 
 	if (DistanceCheck(Aplayer.translate, Shop.translate) && !hologramcamera_leave)
 	{
@@ -657,14 +649,12 @@ void SceneSkybox::Update(double dt)
 			hologramcamera.Update(dt, CarHologram[i], Aplayer, 5.f);
 		}
 		UpdateHologram(CarHologram[i], car_Stats[i], &Platform[i], 5.f);
-
-
 	}
+
 	//change Scene
 	if (collision_detector(DoorCheck, CdoorScreen, Aplayer, Cplayer)) {
 		SceneManager::currSceneID = SceneManager::S_DRIVESCENE;
 	}
-	UIText[0] = "Currency owned: ";
 
 	camera.Update(dt, Aplayer);
 	firstpersoncamera.Update(dt, Aplayer);
@@ -676,6 +666,7 @@ void SceneSkybox::Update(double dt)
 		fps = (int)framespersecond;
 		framespersecond = 0;
 	}
+	playerdetails.Update(EquippedCar, currency);
 }
 
 void SceneSkybox::Render()
@@ -784,20 +775,19 @@ void SceneSkybox::Render()
 	RenderObj(meshList[GEO_SHOP], Shop, true, false);
 
 	//shop
+//	RenderMeshOnScreen(meshList[GEO_SHOWROOM_UI], 400, 25, 800, 50,0,0);
+	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(fps) + " frames/second", Color(0, 1, 0), 2, 0, 0); //frames
+	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(currency), Color(0, 1, 0), 2, 25, 0); //Currency 
+//	RenderTextOnScreen(meshList[GEO_TEXT], UIText[1], Color(0, 1, 0), 2, 0, 2); //Camera Pan
+//	RenderTextOnScreen(meshList[GEO_TEXT], UIText[2], Color(0, 1, 0), 2, 0, 3); //Camera Toggle	
+	RenderMeshOnScreen(getCarmeshList(EquippedCar_Scroll), 360, 15, 10, 10,0,90);
+	RenderMeshOnScreen(meshList[GEO_COIN], 300, 20, 10, 10, 0, 0);
 	if (DistanceCheck(Aplayer.translate, Shop.translate))
 	{
 		//	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 		RenderObj(meshList[GEO_SHOP_UI], ShopUI.UI, false, false);
 		RenderShopStats(car_Stats[ShopUI_Scroll]);
-
-		modelStack.Translate(-0.5f * ShopUI.lengthX, 3.f / 7.f * ShopUI.lengthY, 0.f);
-		modelStack.Scale(0.5f, 1.f, 1.f);
-		RenderText(meshList[GEO_TEXT], BuyText, Color(0, 1, 0));
-		modelStack.Translate(0.f, -1.f / 7.f * ShopUI.lengthY, 0.f);
-		RenderText(meshList[GEO_TEXT], "CurrentUpgrade:" + std::to_string(car_Stats[ShopUI_Scroll].current_upgrade), Color(0, 1, 0));
-		modelStack.Translate(0.f, 1.f / 7.f * ShopUI.lengthY, 0.f);
-		modelStack.Scale(2.f, 1.f, 1.f);
-		modelStack.Translate(0.5f * ShopUI.lengthX, -3.f / 7.f * ShopUI.lengthY, 0.f);
+		RenderShopText();
 
 		modelStack.PushMatrix();
 		modelStack.Rotate(90, 0, 1, 0);
@@ -821,32 +811,22 @@ void SceneSkybox::Render()
 		{
 			if (carnumber % 2 == 0) CarHologram[carnumber].UI.RotateY.degree = 90.f;
 			else CarHologram[carnumber].UI.RotateY.degree = -90.f;
-
-			RenderObj(meshList[GEO_PLATFORM], Platform[carnumber], false, false);
-//			glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-			RenderObj(meshList[GEO_HOLO], CarHologram[carnumber].UI, false, false);
-			RenderStats(CarHologram[carnumber], car_Stats[carnumber]);
-
-			modelStack.Translate(-2.5f, -(3.f / 7.f) * CarHologram[carnumber].lengthY, 0.f);
-			modelStack.Scale(1, 0.5f, 1);
-			if (!car_Stats[carnumber].lock) RenderText(meshList[GEO_TEXT], "Bought", Color(0, 1, 0));
-			else RenderText(meshList[GEO_TEXT], "Cost: " + std::to_string(car_Stats[carnumber].cost), Color(0, 1, 0));
-			modelStack.Scale(1, 2.f, 1);
-			modelStack.Translate(1.f, (3.f / 7.f) * CarHologram[carnumber].lengthY, 0.f);
-
-			modelStack.PopMatrix();
-//			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		}
-		else
-		{
-			CarHologram[carnumber].UI.RotateY.degree = 0.f;
-//			glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-			RenderObj(meshList[GEO_HOLO], CarHologram[carnumber].UI, false, false);
-			RenderStats(CarHologram[carnumber], car_Stats[carnumber]);
-			modelStack.PopMatrix();
-//			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			RenderObj(meshList[GEO_PLATFORM], Platform[carnumber], false, false);
 		}
+		else CarHologram[carnumber].UI.RotateY.degree = 0.f;
+
+		//			glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+		RenderObj(meshList[GEO_HOLO], CarHologram[carnumber].UI, false, false);
+		RenderStats(CarHologram[carnumber], car_Stats[carnumber]);
+		modelStack.Translate(-2.5f, -(3.f / 7.f) * CarHologram[carnumber].lengthY, 0.f);
+		modelStack.Scale(1, 0.5f, 1);
+		if (!car_Stats[carnumber].lock) RenderText(meshList[GEO_TEXT], "Bought", Color(0, 1, 0));
+		else RenderText(meshList[GEO_TEXT], "Cost: " + std::to_string(car_Stats[carnumber].cost), Color(0, 1, 0));
+		modelStack.Scale(1, 2.f, 1);
+		modelStack.Translate(1.f, (3.f / 7.f) * CarHologram[carnumber].lengthY, 0.f);
+		modelStack.PopMatrix();
+		//			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		if (!hologramcamera_leave) RenderObj(meshList[GEO_PLATFORM], Platform[carnumber], false, false);
 
 		RenderCar(carnumber);
 		modelStack.PopMatrix();
@@ -862,6 +842,8 @@ void SceneSkybox::Render()
 		RenderTextOnScreen(meshList[GEO_TEXT], "N and M to rotate platform", Color(0, 1, 0), 2, 0, 4); // Rotate Text
 	}
 
+	RenderObj(meshList[GEO_TEST_DICE], Atest_dice, true, false);
+  
 	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(fps) + " frames/second", Color(0, 1, 0), 2, 0, 0); //frames
 	RenderTextOnScreen(meshList[GEO_TEXT], UIText[0] + std::to_string(currency), Color(0, 1, 0), 2, 0, 1); //Camera Movement
 	RenderTextOnScreen(meshList[GEO_TEXT], UIText[1], Color(0, 1, 0), 2, 0, 2); //Camera Pan
@@ -880,6 +862,28 @@ void SceneSkybox::Exit()
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
 
+}
+
+Mesh* SceneSkybox::getCarmeshList(int carNumber)
+{
+	switch (carNumber)
+	{
+	case 0:
+		return meshList[GEO_CAR1BODY];
+		break;
+	case 1:
+		return meshList[GEO_CAR2BODY];
+		break;
+	case 2:
+		return meshList[GEO_CAR3BODY];
+		break;
+	case 3:
+		return meshList[GEO_CAR4BODY];
+		break;
+	default: 
+		return meshList[GEO_CAR1BODY];
+		break;
+	}
 }
 
 void SceneSkybox::RenderMesh(Mesh* mesh, bool enableLight)
@@ -1033,39 +1037,55 @@ void SceneSkybox::RenderSlotImage(Mesh* mesh, TRS& trs, int image)
 
 void SceneSkybox::UpdateHologram(HologramUI& UI, CarStats& car_Stats, TRS* ObjectDisplay, float targetY)
 {
+
+	if (Application::IsKeyPressed('V') && BounceTime <= GetTickCount())
+	{
+		if (hologramcamera_leave) hologramcamera_leave = false;
+		else hologramcamera_leave = true;
+		BounceTime = GetTickCount() + 500.f;
+	}
+
+
 	if (DistanceCheck(Aplayer.translate, ObjectDisplay->translate))
 	{
-		if (ObjectDisplay != &Shop && car_Stats.lock) BuyText = "Cost:500";
-		else if (ObjectDisplay != &Shop && !car_Stats.lock) BuyText = "Bought";
-		else if (ObjectDisplay == &Shop && car_Stats.lock) BuyText = "Car:500, CarUpgrade:250, Total:750";
 
-		if (Application::IsKeyPressed(VK_RETURN) && currency >= car_Stats.cost && BounceTime <= GetTickCount())
+
+		if (ObjectDisplay != &Shop && car_Stats.lock) BuyText = "Cost:500"; //if at platform and car is not bought
+		else if (ObjectDisplay != &Shop && !car_Stats.lock) BuyText = "Bought"; //if at platform and car is bought
+		else if (ObjectDisplay == &Shop && car_Stats.lock) BuyText = "Car:500, CarUpgrade:250, Total:750"; //if at shop and car is not bought
+		else if (ObjectDisplay == &Shop && !car_Stats.lock) BuyText = "Car:Bought, CarUpgrade:250, Total:250"; //if at shop and car is bought
+
+		if (Application::IsKeyPressed(VK_RETURN) && BounceTime <= GetTickCount())
 		{
-			car_Stats.lock = false;
-			if (ObjectDisplay != &Shop && car_Stats.lock)
+			if (currency >= car_Stats.cost)
 			{
-				currency -= car_Stats.cost;
-				BuyText = "Bought";
-			}
-			else
-			{
-				if (car_Stats.lock)
+				if (ObjectDisplay != &Shop && car_Stats.lock)
 				{
-					currency -= car_Stats.cost;
 					car_Stats.lock = false;
+					currency -= car_Stats.cost;
+					BuyText = "Bought";
 				}
-				else if (car_Stats.current_upgrade < 5)
+				else
 				{
-					for (int i = 0; i < 3; ++i)
+					if (car_Stats.lock)
 					{
-						car_Stats.StatLevel[i] += car_Stats.StatLevel[i + 3];
+						currency -= car_Stats.cost;
+						car_Stats.lock = false;
 					}
-					currency -= car_Stats.cost_upgrade;
-					BuyText = "Car:Bought, CarUpgrade:250";
-					++car_Stats.current_upgrade;
+					else if (car_Stats.current_upgrade < 5 && ObjectDisplay == &Shop && !car_Stats.lock)
+					{
+						for (int i = 0; i < 3; ++i)
+						{
+							car_Stats.StatLevel[i] += car_Stats.StatLevel[i + 3];
+						}
+						currency -= car_Stats.cost_upgrade;
+						BuyText = "Car:Bought, CarUpgrade:250";
+						++car_Stats.current_upgrade;
+						if (car_Stats.current_upgrade == 4) BuyText = "Car:Bought, CarUpgrade:0";
+					}
 				}
-				if (car_Stats.current_upgrade == 5) BuyText = "Car:Bought, CarUpgrade:0";
 			}
+			
 			BounceTime = GetTickCount() + 500.f;
 		}
 
@@ -1084,26 +1104,24 @@ void SceneSkybox::UpdateHologram(HologramUI& UI, CarStats& car_Stats, TRS* Objec
 		if (UI.UI.translate.y > 0.f) UI.UI.translate.y -= (targetY / 20.f);
 		if (UI.UI.Scale.x > 0.f) UI.UI.Scale.x -= 0.05f;
 	}
+
+	
+}
+
+void SceneSkybox::UpdateEquippedCar()
+{
+	if (!car_Stats[0].lock && EquippedCar_Scroll != 0) EquippedCar_Scroll = 0;
+	else if (!car_Stats[1].lock && EquippedCar_Scroll != 1) EquippedCar_Scroll = 1;
+	else if (!car_Stats[2].lock && EquippedCar_Scroll != 2) EquippedCar_Scroll = 2;
+	else if (!car_Stats[3].lock && EquippedCar_Scroll != 3) EquippedCar_Scroll = 3;
+	EquippedCar.EquipCar(car_Stats[EquippedCar_Scroll], EquippedCar_Scroll);
 }
 
 void SceneSkybox::RenderCar(int carnumber)
 {
-	if (carnumber == 0)
-	{
-		RenderObj(meshList[GEO_CAR1BODY], Cars[carnumber], false, false);
-	}
-	else if (carnumber == 1)
-	{
-		RenderObj(meshList[GEO_CAR2BODY], Cars[carnumber], false, false);
-	}
-	else if (carnumber == 2)
-	{
-		RenderObj(meshList[GEO_CAR3BODY], Cars[carnumber], false, false);
-	}
-	else if (carnumber == 3)
-	{
-		RenderObj(meshList[GEO_CAR4BODY], Cars[carnumber], false, false);
-	}
+	
+	RenderObj(getCarmeshList(carnumber), Cars[carnumber], false, false);
+	
 	for (int carnumwheel = 0; carnumwheel < 4; carnumwheel++)
 	{
 		if (carnumber == 0)
@@ -1123,6 +1141,56 @@ void SceneSkybox::RenderCar(int carnumber)
 			RenderObj(meshList[GEO_CAR4WHEEL], CarWheel[carnumber][carnumwheel], true, false);
 		}
 	}
+}
+
+void SceneSkybox::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey, float rotateX, float rotateY)
+{
+	if (!mesh || mesh->textureID <= 0) {
+		return;
+	}
+	glDisable(GL_DEPTH_TEST);
+
+	Mtx44 ortho;
+	ortho.SetToOrtho(0, 400, 0, 300, -10, 10); //size of screen
+	projectionStack.PushMatrix();
+	projectionStack.LoadMatrix(ortho);
+	viewStack.PushMatrix();
+	viewStack.LoadIdentity(); //no need camera for ortho mode
+	modelStack.PushMatrix();
+	modelStack.LoadIdentity();
+	modelStack.Translate(x, y, 0);
+	modelStack.Scale(sizex, sizey, 1);
+	modelStack.Rotate(rotateX, 1, 0, 0);
+	modelStack.Rotate(rotateY, 0, 1, 0);
+	RenderMesh(mesh, false);
+	modelStack.PopMatrix();
+	viewStack.PopMatrix();
+	projectionStack.PopMatrix();
+	
+	glEnable(GL_DEPTH_TEST);
+
+}
+
+void SceneSkybox::RenderShopText()
+{
+	modelStack.Translate(-0.5f * ShopUI.lengthX, 3.f / 7.f * ShopUI.lengthY, 0.f);
+	modelStack.Scale(0.5f, 1.f, 1.f);
+	RenderText(meshList[GEO_TEXT], BuyText, Color(0, 1, 0));
+
+	modelStack.Translate(0.f, -1.f / 14.f * ShopUI.lengthY, 0.f);
+	RenderText(meshList[GEO_TEXT], "CurrentUpgrade:" + std::to_string(car_Stats[ShopUI_Scroll].current_upgrade), Color(0, 1, 0));
+	
+	//if (EquippedCar.SelectedCar == car_Stats[ShopUI_Scroll])
+	//{
+	//modelStack.Translate(0.f, -1.f/14.f * ShopUI.lengthY, 0.f);
+	//RenderText(meshList[GEO_TEXT], "Equipped", Color(0, 1, 0));
+	//modelStack.Translate(0.f, 1.f / 14.f * ShopUI.lengthY,  0.f);
+	//}
+	
+	modelStack.Translate(0.f, 1.f / 14.f * ShopUI.lengthY, 0.f);
+
+	modelStack.Scale(2.f, 1.f, 1.f);
+	modelStack.Translate(0.5f * ShopUI.lengthX, -3.f / 7.f * ShopUI.lengthY, 0.f);
 }
 
 void SceneSkybox::PlayerMoveUp(double dt)

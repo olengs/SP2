@@ -164,7 +164,9 @@ void DriveScene::Init()
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//calibri.tga");
 
-	Acarnumber = 0;
+	playerdetails.GetData();
+
+	Acarnumber = playerdetails.car_number.cartype;
 
 	if (Acarnumber == 0)
 	{
