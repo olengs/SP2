@@ -7,6 +7,7 @@ class SceneManager
 private:
 	//int nextSceneID = 0;
 	static SceneManager* instance;
+	int currSceneID = 0;
 public:
 	enum SceneNames {
 		S_SHOWROOMSCENE = 0,
@@ -15,12 +16,11 @@ public:
 	};
 	SceneManager();
 	~SceneManager();
-	static SceneNames currSceneID;
 	Scene* Scenes[S_TOTAL];
 	static SceneManager* getInstance();
 	Scene* getCurrScene();
 	void Update(double ElapsedTime);
-	SceneNames getCurrSceneID();
-	void setCurrSceneID(SceneNames ID);
+	int getCurrSceneID();
+	void setCurrSceneID(int ID);
 };
 

@@ -29,6 +29,8 @@ DriveScene::~DriveScene()
 
 void DriveScene::Init()
 {
+	scenechange = false;
+
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
 	// Generate a default VAO for now
@@ -627,108 +629,117 @@ void DriveScene::Init()
 
 	camera.Init(ACarBody.translate + Vector3(0, 5, 30), ACarBody.translate + Vector3(0, 5, 0), Vector3(0, 1, 0));
 	test.Init(ACarBody.translate + Vector3(0, 150, 1), ACarBody.translate, Vector3(0, 1, 0));
+
+	startracetime = GetTickCount() + 6000;
+	start = false;
 	//test.Init(Vector3(0, 650, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
 }
 
 void DriveScene::Update(double dt)
 {
-	if (Application::IsKeyPressed(0x31))
+	if (startracetime < GetTickCount64())
 	{
-		glDisable(GL_CULL_FACE);
+		start = true;
 	}
-	else if (Application::IsKeyPressed(0x32))
+	if (start == true)
 	{
-		glEnable(GL_CULL_FACE);
-	}
-	else if (Application::IsKeyPressed(0x33))
-	{
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	}
-	else if (Application::IsKeyPressed(0x34))
-	{
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	}
+		if (Application::IsKeyPressed(0x31))
+		{
+			glDisable(GL_CULL_FACE);
+		}
+		else if (Application::IsKeyPressed(0x32))
+		{
+			glEnable(GL_CULL_FACE);
+		}
+		else if (Application::IsKeyPressed(0x33))
+		{
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		}
+		else if (Application::IsKeyPressed(0x34))
+		{
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		}
 
-	// Increase Car Velocity to move forward
-	if (Application::IsKeyPressed('W'))
-	{
-		if (carVelocity < 0)
+		// Increase Car Velocity to move forward
+		if (Application::IsKeyPressed('W'))
 		{
-			carVelocity += (1.5 * ((carAcceleration * dt) + (friction * dt)));
-		}
-		else
-		{
-			if (carVelocity < 80)
+			if (carVelocity < 0)
 			{
-				carVelocity += (carAcceleration * dt);
+				carVelocity += (1.5 * ((carAcceleration * dt) + (friction * dt)));
+			}
+			else
+			{
+				if (carVelocity < 80)
+				{
+					carVelocity += (carAcceleration * dt);
+				}
 			}
 		}
-	}
-	// Decrease Car Velocity to move backwards
-	if (Application::IsKeyPressed('S'))
-	{
-		if (carVelocity > 0)
+		// Decrease Car Velocity to move backwards
+		if (Application::IsKeyPressed('S'))
 		{
-			carVelocity -= (1.5 * ((carAcceleration * dt) + (friction * dt)));
-		}
-		else
-		{
-			if (carVelocity > -80)
+			if (carVelocity > 0)
 			{
-				carVelocity -= (carAcceleration * dt);
+				carVelocity -= (1.5 * ((carAcceleration * dt) + (friction * dt)));
+			}
+			else
+			{
+				if (carVelocity > -80)
+				{
+					carVelocity -= (carAcceleration * dt);
+				}
 			}
 		}
-	}
-	// Turn car to the left
-	if (carVelocity != 0.f && Application::IsKeyPressed('A'))
-	{
-		ACarBody.RotateY.degree += (float)(carTurningSpeed * dt);
-	}
-	// Turn car to the right
-	if (carVelocity != 0.f && Application::IsKeyPressed('D'))
-	{
-		ACarBody.RotateY.degree -= (float)(carTurningSpeed * dt);
-	}
-	// Using the car booster
-	if (Application::IsKeyPressed(VK_SPACE) && boostbar / 10 > 1)
-	{
-		boostbar -= 10;
-		boostVelocity += boostAcceleration;
-		carVelocity += boostVelocity;
-	}
-	else if (boostbar < 30 && !Application::IsKeyPressed(VK_SPACE))
-	{
-		boostbar += 5;
-		carVelocity -= boostVelocity;
-		boostVelocity = 0;
-	}
-	// If car is moving without key inputs, increase/decrease car velocity to being the car to a stop
-	if (!Application::IsKeyPressed('W') && !Application::IsKeyPressed('S'))
-	{
-		if (carVelocity < 0.f)
+		// Turn car to the left
+		if (carVelocity != 0.f && Application::IsKeyPressed('A'))
 		{
-			carVelocity += (2 * (friction * dt));
-			if (carVelocity > 0.f)
-			{
-				carVelocity = 0.f;
-			}
+			ACarBody.RotateY.degree += (float)(carTurningSpeed * dt);
 		}
-		else if (carVelocity > 0.f)
+		// Turn car to the right
+		if (carVelocity != 0.f && Application::IsKeyPressed('D'))
 		{
-			carVelocity -= (2 * (friction * dt));
+			ACarBody.RotateY.degree -= (float)(carTurningSpeed * dt);
+		}
+		// Using the car booster
+		if (Application::IsKeyPressed(VK_SPACE) && boostbar / 10 > 1)
+		{
+			boostbar -= 10;
+			boostVelocity += boostAcceleration;
+			carVelocity += boostVelocity;
+		}
+		else if (boostbar < 30 && !Application::IsKeyPressed(VK_SPACE))
+		{
+			boostbar += 5;
+			carVelocity -= boostVelocity;
+			boostVelocity = 0;
+		}
+		// If car is moving without key inputs, increase/decrease car velocity to being the car to a stop
+		if (!Application::IsKeyPressed('W') && !Application::IsKeyPressed('S'))
+		{
 			if (carVelocity < 0.f)
 			{
-				carVelocity = 0.f;
+				carVelocity += (2 * (friction * dt));
+				if (carVelocity > 0.f)
+				{
+					carVelocity = 0.f;
+				}
+			}
+			else if (carVelocity > 0.f)
+			{
+				carVelocity -= (2 * (friction * dt));
+				if (carVelocity < 0.f)
+				{
+					carVelocity = 0.f;
+				}
 			}
 		}
-	}
-	//Car Moving
-	ACarBody.translate.z -= cos(Math::DegreeToRadian(ACarBody.RotateY.degree)) * (float)(carVelocity * dt);
-	ACarBody.translate.x -= sin(Math::DegreeToRadian(ACarBody.RotateY.degree)) * (float)(carVelocity * dt);
+		//Car Moving
+		ACarBody.translate.z -= cos(Math::DegreeToRadian(ACarBody.RotateY.degree)) * (float)(carVelocity * dt);
+		ACarBody.translate.x -= sin(Math::DegreeToRadian(ACarBody.RotateY.degree)) * (float)(carVelocity * dt);
 
-	test.CarUpdate(dt, ACarBody);
-	//firstpersoncamera.Update(dt, Aplayer);
-	std::cout << boostbar << " " << boostVelocity << " " << carVelocity << std::endl;
+		test.CarUpdate(dt, ACarBody);
+		//firstpersoncamera.Update(dt, Aplayer);
+	}
 }
 
 void DriveScene::Render()

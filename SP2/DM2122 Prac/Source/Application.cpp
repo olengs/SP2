@@ -110,17 +110,19 @@ void Application::Run()
 	
 	thisScene->Scenes[SceneManager::S_SHOWROOMSCENE] = new SceneSkybox;
 	thisScene->Scenes[SceneManager::S_DRIVESCENE] = new DriveScene;
-
 	
 	//Main Loop
-	//Scene* scene = new SceneSkybox();
-	for (int i = 0; i < SceneManager::S_TOTAL; ++i) {
-		thisScene->Scenes[i]->Init();
-	}
 
+	thisScene->getCurrScene()->Init();
+	
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
 	{
+		if (thisScene->getCurrScene()->scenechange == true)
+		{
+			thisScene->setCurrSceneID(thisScene->getCurrScene()->scenenumber);
+			thisScene->getCurrScene()->Init();
+		}
 		//put condition here
 		thisScene->Update(m_timer.getElapsedTime());
 		//Swap buffers
@@ -128,7 +130,6 @@ void Application::Run()
 		//Get and organize events, like keyboard and mouse input, window resizing, etc...
 		glfwPollEvents();
         m_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms.   
-
 	} //Check if the ESC key had been pressed or if the window had been closed
 	
 	//thisScene->Exit();
