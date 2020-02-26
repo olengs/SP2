@@ -625,11 +625,13 @@ void DriveScene::Init()
 
 	carVelocity = 0.f;
 	carTurningSpeed = 135.f;
-	carAcceleration = 10.f;
+	carAcceleration = playerdetails.car_number.SelectedCar.StatLevel[0] * 10.f;
 	friction = 8.f;
 	boostbar = 30;
 	boostVelocity = 0.f;
-	boostAcceleration = 20.f;
+	boostAcceleration = playerdetails.car_number.SelectedCar.StatLevel[1] * 10.f;
+	fuel = 1000.f;
+	car_ismoving = false;
 
 	camera.Init(ACarBody.translate + Vector3(0, 5, 30), ACarBody.translate + Vector3(0, 5, 0), Vector3(0, 1, 0));
 	test.Init(ACarBody.translate + Vector3(0, 150, 1), ACarBody.translate, Vector3(0, 1, 0));
@@ -641,6 +643,7 @@ void DriveScene::Init()
 
 void DriveScene::Update(double dt)
 {
+//	std::cout << fuel << std::endl;
 	if (startracetime < GetTickCount64())
 	{
 		start = true;
@@ -670,12 +673,14 @@ void DriveScene::Update(double dt)
 			if (carVelocity < 0)
 			{
 				carVelocity += (1.5 * ((carAcceleration * dt) + (friction * dt)));
+				car_ismoving = true;
 			}
 			else
 			{
 				if (carVelocity < 80)
 				{
 					carVelocity += (carAcceleration * dt);
+					car_ismoving = true;
 				}
 			}
 		}
@@ -685,12 +690,14 @@ void DriveScene::Update(double dt)
 			if (carVelocity > 0)
 			{
 				carVelocity -= (1.5 * ((carAcceleration * dt) + (friction * dt)));
+				car_ismoving = true;
 			}
 			else
 			{
 				if (carVelocity > -80)
 				{
 					carVelocity -= (carAcceleration * dt);
+					car_ismoving = true;
 				}
 			}
 		}
@@ -698,11 +705,13 @@ void DriveScene::Update(double dt)
 		if (carVelocity != 0.f && Application::IsKeyPressed('A'))
 		{
 			ACarBody.RotateY.degree += (float)(carTurningSpeed * dt);
+			car_ismoving = true;
 		}
 		// Turn car to the right
 		if (carVelocity != 0.f && Application::IsKeyPressed('D'))
 		{
 			ACarBody.RotateY.degree -= (float)(carTurningSpeed * dt);
+			car_ismoving = true;
 		}
 		// Using the car booster
 		if (Application::IsKeyPressed(VK_SPACE) && boostbar / 10 > 1)
@@ -710,12 +719,14 @@ void DriveScene::Update(double dt)
 			boostbar -= 10;
 			boostVelocity += boostAcceleration;
 			carVelocity += boostVelocity;
+			car_ismoving = true;
 		}
 		else if (boostbar < 30 && !Application::IsKeyPressed(VK_SPACE))
 		{
 			boostbar += 5;
 			carVelocity -= boostVelocity;
 			boostVelocity = 0;
+			car_ismoving = true;
 		}
 		// If car is moving without key inputs, increase/decrease car velocity to being the car to a stop
 		if (!Application::IsKeyPressed('W') && !Application::IsKeyPressed('S'))
@@ -726,6 +737,7 @@ void DriveScene::Update(double dt)
 				if (carVelocity > 0.f)
 				{
 					carVelocity = 0.f;
+
 				}
 			}
 			else if (carVelocity > 0.f)
@@ -737,12 +749,20 @@ void DriveScene::Update(double dt)
 				}
 			}
 		}
+		
+		//Fuel decreasing
+		if (car_ismoving) --fuel;
+		
 		//Car Moving
 		carMovement(ACarBody, carVelocity, dt);
 
+
 		test.CarUpdate(dt, ACarBody);
-		//firstpersoncamera.Update(dt, Aplayer);
+		//firstpersoncamera.Update(dt, Aplayer);.
+
+		
 	}
+	playerdetails.Update();
 }
 
 void DriveScene::Render()
@@ -1065,6 +1085,8 @@ void DriveScene::carMovement(TRS carbody, float& velocity, double dt)
 		{	
 			if (collision_detector(ACarBody, CCarBody, current->transformation, CCoin)) {
 				coinlist.removeItem(current);
+				playerdetails.currency += 100;
+				
 				//coin/currency increase code here
 			}
 			if (coinlist.gethead() == nullptr) {
