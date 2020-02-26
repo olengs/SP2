@@ -164,7 +164,7 @@ void DriveScene::Init()
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//calibri.tga");
 
-	Acarnumber = 0;
+	
 
 	if (Acarnumber == 0)
 	{
@@ -626,6 +626,12 @@ void DriveScene::Init()
 	test.Init(ACarBody.translate + Vector3(0, 150, 1), ACarBody.translate, Vector3(0, 1, 0));
 	//test.Init(Vector3(0, 650, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	coinCounter = 0;
+	timeLeft = 120;
+}
+
+void DriveScene::changeCar(int i) 
+{
+	Acarnumber = i;
 }
 
 void DriveScene::Update(double dt)
@@ -819,7 +825,9 @@ void DriveScene::Render()
 	//RenderTextOnScreen(meshList[GEO_COIN]), "" , Color(0, 1, 0), 2, 0, 1); //coins
 	RenderMeshOnScreen(meshList[GEO_COIN],8,15,3,3,0,0);
 	RenderTextOnScreen(meshList[GEO_TEXT], "  x" + std::to_string(coinCounter), Color(0, 1, 0), 2, 0, 1); //coins
-	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string((int)carVelocity) + " kmph", Color(0, 1, 0), 2, 0, 2); //timeleft
+	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string((int)carVelocity) + " kmph", Color(0, 1, 0), 2, 0, 2); //carVelocity
+	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string((int)carVelocity) + " kmph", Color(0, 1, 0), 2, 0, 3); //boost
+	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(timeLeft) + " seconds", Color(0, 1, 0), 2, 1, 4); //timeleft
 
 	//if (currentTime - lastTime > 2.0f) {
 	//	iAni++;

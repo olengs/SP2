@@ -1,6 +1,6 @@
 #include "SceneManager.h"
 SceneManager* SceneManager::instance = 0;
-SceneManager::SceneNames SceneManager::currSceneID = SceneManager::S_SHOWROOMSCENE;
+SceneManager::SceneNames SceneManager::currSceneID = SceneManager::S_DRIVESCENE;
 
 SceneManager::SceneManager() {
 

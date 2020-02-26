@@ -104,7 +104,7 @@ private:
 
 	int coinCounter;
 
-
+	int timeLeft;
 	int fps;
 	float framespersecond;
 	float lastTime;
@@ -143,6 +143,8 @@ private:
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 	void RenderObj(Mesh* mesh, TRS& trs, bool end, bool enableLight);
 	void RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey, float rotateX, float rotateY);
+	void changeCar(int i);
+
 	////player movement
 	//void PlayerMoveUp(double dt);
 	//void PlayerMoveDown(double dt);
