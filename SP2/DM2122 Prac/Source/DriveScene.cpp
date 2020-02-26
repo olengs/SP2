@@ -625,6 +625,7 @@ void DriveScene::Init()
 	camera.Init(ACarBody.translate + Vector3(0, 5, 30), ACarBody.translate + Vector3(0, 5, 0), Vector3(0, 1, 0));
 	test.Init(ACarBody.translate + Vector3(0, 150, 1), ACarBody.translate, Vector3(0, 1, 0));
 	//test.Init(Vector3(0, 650, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
+	coinCounter = 0;
 }
 
 void DriveScene::Update(double dt)
@@ -713,6 +714,15 @@ void DriveScene::Update(double dt)
 
 	test.CarUpdate(dt, ACarBody);
 	//firstpersoncamera.Update(dt, Aplayer);
+
+	++framespersecond;
+	currentTime = GetTickCount() * 0.001f;
+	if (currentTime - lastTime > 1.0f) {
+		lastTime = currentTime;
+		fps = (int)framespersecond;
+		framespersecond = 0;
+	}
+	
 }
 
 void DriveScene::Render()
@@ -804,6 +814,49 @@ void DriveScene::Render()
 	{
 		RenderObj(meshList[GEO_COIN], current->transformation, true, false);
 	}
+
+	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(fps) + " frames/second", Color(0, 1, 0), 2, 0, 0); //frames
+	//RenderTextOnScreen(meshList[GEO_COIN]), "" , Color(0, 1, 0), 2, 0, 1); //coins
+	RenderMeshOnScreen(meshList[GEO_COIN],8,15,3,3,0,0);
+	RenderTextOnScreen(meshList[GEO_TEXT], "  x" + std::to_string(coinCounter), Color(0, 1, 0), 2, 0, 1); //coins
+	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string((int)carVelocity) + " kmph", Color(0, 1, 0), 2, 0, 2); //timeleft
+
+	//if (currentTime - lastTime > 2.0f) {
+	//	iAni++;
+	//	lastTime = currentTime;
+	//	fps = (int)framespersecond;
+	//	framespersecond = 0;
+	//}
+
+}
+
+
+void DriveScene::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey, float rotateX, float rotateY)
+{
+	if (!mesh || mesh->textureID <= 0) {
+		return;
+	}
+	glDisable(GL_DEPTH_TEST);
+
+	Mtx44 ortho;
+	ortho.SetToOrtho(0, 400, 0, 300, -10, 10); //size of screen
+	projectionStack.PushMatrix();
+	projectionStack.LoadMatrix(ortho);
+	viewStack.PushMatrix();
+	viewStack.LoadIdentity(); //no need camera for ortho mode
+	modelStack.PushMatrix();
+	modelStack.LoadIdentity();
+	modelStack.Translate(x, y, 0);
+	modelStack.Scale(sizex, sizey, 1);
+	modelStack.Rotate(rotateX, 1, 0, 0);
+	modelStack.Rotate(rotateY, 0, 1, 0);
+	RenderMesh(mesh, false);
+	modelStack.PopMatrix();
+	viewStack.PopMatrix();
+	projectionStack.PopMatrix();
+
+	glEnable(GL_DEPTH_TEST);
+
 }
 
 void DriveScene::Exit()
