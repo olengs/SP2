@@ -425,12 +425,7 @@ void SceneSkybox::Init()
 		}
 	}
 
-	meshList[GEO_TEST_DICE] = MeshBuilder::GenerateOBJ("box test" ,"obj//box.obj");
-	meshList[GEO_TEST_DICE]->textureID = LoadTGA("Image//box.tga");
-	Atest_dice.translate.Set(0, 0, -20);
-	Atest_dice.Scale.Set(1, 1, 1);
-	Atest_dice.RotateY.degree = 45;
-	Loadcoord("obj//box.obj", CTest_dice);
+	
 
 	currency = 5000;
 	playerdetails = PlayerDetails(EquippedCar, currency);
@@ -775,13 +770,7 @@ void SceneSkybox::Render()
 	RenderObj(meshList[GEO_SHOP], Shop, true, false);
 
 	//shop
-//	RenderMeshOnScreen(meshList[GEO_SHOWROOM_UI], 400, 25, 800, 50,0,0);
-	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(fps) + " frames/second", Color(0, 1, 0), 2, 0, 0); //frames
-	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(currency), Color(0, 1, 0), 2, 25, 0); //Currency 
-//	RenderTextOnScreen(meshList[GEO_TEXT], UIText[1], Color(0, 1, 0), 2, 0, 2); //Camera Pan
-//	RenderTextOnScreen(meshList[GEO_TEXT], UIText[2], Color(0, 1, 0), 2, 0, 3); //Camera Toggle	
-	RenderMeshOnScreen(getCarmeshList(EquippedCar_Scroll), 360, 15, 10, 10,0,90);
-	RenderMeshOnScreen(meshList[GEO_COIN], 300, 20, 10, 10, 0, 0);
+
 	if (DistanceCheck(Aplayer.translate, Shop.translate))
 	{
 		//	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
@@ -842,12 +831,12 @@ void SceneSkybox::Render()
 		RenderTextOnScreen(meshList[GEO_TEXT], "N and M to rotate platform", Color(0, 1, 0), 2, 0, 4); // Rotate Text
 	}
 
-	RenderObj(meshList[GEO_TEST_DICE], Atest_dice, true, false);
   
 	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(fps) + " frames/second", Color(0, 1, 0), 2, 0, 0); //frames
-	RenderTextOnScreen(meshList[GEO_TEXT], UIText[0] + std::to_string(currency), Color(0, 1, 0), 2, 0, 1); //Camera Movement
-	RenderTextOnScreen(meshList[GEO_TEXT], UIText[1], Color(0, 1, 0), 2, 0, 2); //Camera Pan
-	RenderTextOnScreen(meshList[GEO_TEXT], UIText[2], Color(0, 1, 0), 2, 0, 3); //Camera Toggle		
+	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(fps) + " frames/second", Color(0, 1, 0), 2, 0, 0); //frames
+	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(currency), Color(0, 1, 0), 2, 25, 0); //Currency 
+	RenderMeshOnScreen(getCarmeshList(EquippedCar_Scroll), 360, 15, 10, 10, 0, 90);
+	RenderMeshOnScreen(meshList[GEO_COIN], 300, 20, 10, 10, 0, 0);
 }
 
 void SceneSkybox::Exit()

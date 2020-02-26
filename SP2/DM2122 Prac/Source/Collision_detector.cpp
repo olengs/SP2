@@ -63,12 +63,6 @@ bool collision_detector(TRS& obj1, cornercoord coords1, TRS& obj2, cornercoord c
 	for (int i = 0; i < num_normals; ++i) {
 		getprojection(obj1_coords, normals[i], obj1_prj);
 		getprojection(obj2_coords, normals[i], obj2_prj);
-	//	std::cout << obj1_prj[0] << " " << obj1_prj[1] << " " << obj1_prj[2] << " " << obj1_prj[3] << "\n";
-		getminmax(obj1_min, obj1_max, obj2_min, obj2_max, obj1_prj, obj2_prj);
-	//	std::cout << obj1_min << " " << obj1_max<< " " << obj2_min<< " " << obj2_max << "\n";
-	//	std::cout << normals[i].x << " " << normals[i].y << " " << normals[i].z << "\n";
-		if (obj1_max < obj2_min || obj2_max < obj1_min) {
-		//	std::cout << "separated";
 		getminmax(obj1_min, obj1_max, obj2_min, obj2_max, obj1_prj, obj2_prj);
 		if (obj1_max < obj2_min || obj2_max < obj1_min) {
 			return false;
@@ -96,17 +90,11 @@ void setnormals(std::vector<Vector3>& normals, TRS obj, cornercoord coordinates)
 {
 	Vector3 temp1, temp2;
 	Mtx44 rotation;
-	temp1.Set(coordinates.maxX,0,0);
+	temp1.Set(coordinates.maxX, 0, 0);
 	temp2.Set(0, 0, coordinates.maxZ);
 	rotation.SetToRotation(obj.RotateY.degree, 0, 1, 0);
 	temp1 = rotation * temp1;
 	temp2 = rotation * temp2;
-//	std::cout << temp1.x << " " << temp1.y << " " << temp1.z << "\n";
-//	std::cout << temp2.x << " " << temp2.y << " " << temp2.z << "\n";
-	//temp1 += obj.translate;
-	//temp2 += obj.translate;
-	normals.push_back(temp1.Normalize());
-	normals.push_back(temp2.Normalize());
 	normals.push_back(temp1);
 	normals.push_back(temp2);
 }
