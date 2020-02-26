@@ -26,7 +26,7 @@ void FirstPersonCamera::Update(double dt, TRS player)
 {
 	static const float CAMERA_SPEED = 10.f;
 	static const float ROTATE_SPEED = 135.f;
-	float playerheight = player.translate.y + 6.11;
+	float playerheight = player.translate.y + 2;
 
 	Vector3 view = (target - position).Normalized();
 	Vector3 right = view.Cross(up);
@@ -54,29 +54,34 @@ void FirstPersonCamera::Update(double dt, TRS player)
 		view = rotation * view;
 		target = position + view;
 	}
-
-	//if (Application::IsKeyPressed(VK_UP))
-	//{
-	//	float pitch = (float)(ROTATE_SPEED * dt);
-	//	right.y = 0;
-	//	right.Normalize();
-	//	up = right.Cross(view).Normalized();
-	//	Mtx44 rotation;
-	//	rotation.SetToRotation(pitch, right.x, right.y, right.z);
-	//	view = rotation * view;
-	//	target = position + view;
-	//}
-	//if (Application::IsKeyPressed(VK_DOWN))
-	//{
-	//	float pitch = (float)(-ROTATE_SPEED * dt);
-	//	right.y = 0;
-	//	right.Normalize();
-	//	up = right.Cross(view).Normalized();
-	//	Mtx44 rotation;
-	//	rotation.SetToRotation(pitch, right.x, right.y, right.z);
-	//	view = rotation * view;
-	//	target = position + view;
-	//}
+	if (Application::IsKeyPressed(VK_UP))
+	{
+		float pitch = (float)(ROTATE_SPEED * dt);
+		right.y = 0;
+		right.Normalize();
+		up = right.Cross(view).Normalized();
+		Mtx44 rotation;
+		rotation.SetToRotation(pitch, right.x, right.y, right.z);
+		view = rotation * view;
+		if (view.y < 0.45)
+		{
+			target = position + view;
+		}
+	}
+	if (Application::IsKeyPressed(VK_DOWN))
+	{
+		float pitch = (float)(-ROTATE_SPEED * dt);
+		right.y = 0;
+		right.Normalize();
+		up = right.Cross(view).Normalized();
+		Mtx44 rotation;
+		rotation.SetToRotation(pitch, right.x, right.y, right.z);
+		view = rotation * view;
+		if (view.y > -0.45)
+		{
+			target = position + view;
+		}
+	}
 	if (Application::IsKeyPressed('R'))
 	{
 		Reset();

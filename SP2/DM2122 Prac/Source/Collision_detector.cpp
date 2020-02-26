@@ -69,10 +69,11 @@ bool collision_detector(TRS& obj1, cornercoord coords1, TRS& obj2, cornercoord c
 	//	std::cout << normals[i].x << " " << normals[i].y << " " << normals[i].z << "\n";
 		if (obj1_max < obj2_min || obj2_max < obj1_min) {
 		//	std::cout << "separated";
+		getminmax(obj1_min, obj1_max, obj2_min, obj2_max, obj1_prj, obj2_prj);
+		if (obj1_max < obj2_min || obj2_max < obj1_min) {
 			return false;
 		}
 	}
-	std::cout << "collided\n";
 	return true;
 }
 
@@ -85,6 +86,7 @@ void setcoords(Vector3* coords, TRS obj, cornercoord coordinates)
 	coords[2].Set(coordinates.maxX, 0, coordinates.minZ);
 	coords[3].Set(coordinates.minX, 0, coordinates.minZ);
 	for (int i = 0; i < 4; ++i) {
+		coords[i] *= obj.Scale.x;
 		coords[i] = rotation * coords[i];
 		coords[i] += obj.translate;
 	}
@@ -105,6 +107,8 @@ void setnormals(std::vector<Vector3>& normals, TRS obj, cornercoord coordinates)
 	//temp2 += obj.translate;
 	normals.push_back(temp1.Normalize());
 	normals.push_back(temp2.Normalize());
+	normals.push_back(temp1);
+	normals.push_back(temp2);
 }
 
 void getprojection(Vector3* coords, Vector3& normal, float* proj)
