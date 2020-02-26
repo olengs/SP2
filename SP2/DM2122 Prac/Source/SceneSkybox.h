@@ -132,10 +132,14 @@ private:
 	cornercoord Cplayer;
 	TRS ANPC;
 	cornercoord CNPC;
+
 	TRS Aplayerleftarm;
 	TRS Aplayerleftleg;
 	TRS Aplayerrightarm;
 	TRS Aplayerrightleg;
+
+	std::string NPCSpeach;
+
 	//player movement
 	const float playerMovementSpeed = 10.f;
 	const float playerTurningSpeed = 135.f;
@@ -191,9 +195,6 @@ private:
 	std::string BuyText;	
 	HologramUI CarHologram[4];
 	int currency;
-
-	TRS Atest_dice;
-	cornercoord CTest_dice;
 
 	void RenderMesh(Mesh* mesh, bool enableLight);
 	void RenderSkybox();
