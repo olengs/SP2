@@ -176,6 +176,14 @@ void SceneSkybox::Init()
 	meshList[GEO_NPC] = MeshBuilder::GenerateOBJ("npc", "OBJ//npc.obj");
 	meshList[GEO_NPC]->textureID = LoadTGA("Image//npc.tga");
 	ANPC.translate = Vector3(20, 3, 20);
+	NPCSpeech[0] = "Guang Theng's car,~a unique design by Guang Theng himself,~has high turbo and fuel~Would you like to buy this?";
+	NPCSpeech[1] = "Ryan's car,~a unique design by Ryan himself,~has high speed and turbo~Would you like to buy this?";
+	NPCSpeech[2] = "Jun Chen's car,~a unique design by Jun Chen himself,~has average stats across the board~Would you like to buy this?";
+	NPCSpeech[3] = "Jian Feng's car,~a unique design by Jian Feng himself,~has high fuel and turbo~Would you like to buy this?";
+	textLasttime = 0;
+	carnum = 5;
+	textnum = 0;
+	NPCtext = "";
 	
 	meshList[GEO_PLAYERBODY] = MeshBuilder::GenerateOBJ("playerbody", "OBJ//playerbody.obj");
 	meshList[GEO_PLAYERBODY]->textureID = LoadTGA("Image//player.tga");
@@ -505,18 +513,33 @@ void SceneSkybox::Update(double dt)
 	//uncomment cameratoggle when 3rd and 1st person camera are working
 	
 	//NPC
-	if ((ANPC.translate - Aplayer.translate).Length() > 3) {
+	if ((ANPC.translate - Aplayer.translate).Length() > 8) {
 		for (int i = 0; i < 4; ++i) {
-			if (collision_detector(Aplayer,Cplayer,Platform[i],PlatformR + 2)) {
-				ANPC.translate += ((Aplayer.translate) - ANPC.translate).Normalize() * (float)(dt * playerMovementSpeed);
+			if (collision_detector(Aplayer, Cplayer, Platform[i], PlatformR + 2)) {
+				ANPC.translate.x += ((Aplayer.translate) - ANPC.translate).Normalize().x * (float)(dt * playerMovementSpeed);
+				ANPC.translate.z += ((Aplayer.translate) - ANPC.translate).Normalize().z * (float)(dt * playerMovementSpeed);
+				if (carnum != i) {
+					NPCtext = "";
+					carnum = i;
+					textnum = 0;
+				}
+			}
+			else {
+				NPCtext = "";
+				textnum = 0;
 			}
 		}
 	}
+	else if ((ANPC.translate - Aplayer.translate).Length() < 8) {
+		if (GetTickCount() * 0.001f - textLasttime > 0.15f && textnum < NPCSpeech[carnum].length()) {
+			NPCtext.insert(NPCtext.end(), NPCSpeech[carnum][textnum++]);
+		}
+	}
 	ANPC.RotateY.degree = Math::RadianToDegree(acos((Aplayer.translate - ANPC.translate).Normalize().Dot(Vector3(0, 0, 1))));
-
 	if ((Aplayer.translate - ANPC.translate).Normalize().x < 0) {
 		ANPC.RotateY.degree *= -1;
 	}
+
 	//UI Text (for camera) logic
 	
 	//UI Text (for 1st/3rd person camera) logic
@@ -835,7 +858,7 @@ void SceneSkybox::Render()
 		RenderTextOnScreen(meshList[GEO_TEXT], "N and M to rotate platform", Color(0, 1, 0), 2, 0, 4); // Rotate Text
 	}
 
-  
+	RenderTextOnScreen(meshList[GEO_TEXT], NPCtext, Color(0, 0, 0), 2, 0, 27);
 	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(fps) + " frames/second", Color(0, 1, 0), 2, 0, 0); //frames
 	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(fps) + " frames/second", Color(0, 1, 0), 2, 0, 0); //frames
 	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(currency), Color(0, 1, 0), 2, 25, 0); //Currency 
@@ -1282,7 +1305,6 @@ void SceneSkybox::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, 
 		return;
 	}
 	glDisable(GL_DEPTH_TEST);
-	
 	Mtx44 ortho;
 	ortho.SetToOrtho(0, 80, 0, 60, -10, 10);
 	projectionStack.PushMatrix();
@@ -1294,6 +1316,7 @@ void SceneSkybox::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, 
 	modelStack.Scale(size, size, size);
 	modelStack.Translate(x, y, 0);
 
+	int moved = 0;
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 1);
 	glUniform3fv(m_parameters[U_TEXT_COLOR], 1, &color.r);
 	glUniform1i(m_parameters[U_LIGHTENABLED], 0);
@@ -1301,7 +1324,14 @@ void SceneSkybox::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, mesh->textureID);
 	glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);
-	for (unsigned i = 0; i < text.length(); ++i) {
+	for (unsigned i = 0; i < text.length(); ++i, ++moved) {
+		if (text[i] == '~') {
+			//newline += -1.f;
+			modelStack.Translate(-moved * 0.7f, -2, 0);
+			moved = 0;
+			continue;
+		}
+
 		Mtx44 characterSpacing;
 		characterSpacing.SetToTranslation(i * 0.7f, 0, 0);
 		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;

@@ -118,6 +118,9 @@ private:
 	float boostVelocity;
 
 	int Acarnumber;
+	int health;
+	float iFrames;
+
 
 	float startracetime;
 	bool start;
@@ -146,6 +149,7 @@ private:
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 	void RenderObj(Mesh* mesh, TRS& trs, bool end, bool enableLight);
+	void carMovement(TRS carbody, float& velocity, double dt);
 
 	////player movement
 	//void PlayerMoveUp(double dt);

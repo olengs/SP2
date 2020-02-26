@@ -266,6 +266,8 @@ void DriveScene::Init()
 		ACarWheel[3].translate = Vector3(-1.77, -1.35, 2.5);
 		ACarWheel[3].Scale = Vector3(1.2, 1.2, 1.2);
 	}
+	health = 10;
+	iFrames = 0;
 
 	meshList[GEO_SPIKE] = MeshBuilder::GenerateOBJ("spike", "OBJ//spike.obj");
 	meshList[GEO_SPIKE]->textureID = LoadTGA("Image//spike.tga");
@@ -736,8 +738,7 @@ void DriveScene::Update(double dt)
 			}
 		}
 		//Car Moving
-		ACarBody.translate.z -= cos(Math::DegreeToRadian(ACarBody.RotateY.degree)) * (float)(carVelocity * dt);
-		ACarBody.translate.x -= sin(Math::DegreeToRadian(ACarBody.RotateY.degree)) * (float)(carVelocity * dt);
+		carMovement(ACarBody, carVelocity, dt);
 
 		test.CarUpdate(dt, ACarBody);
 		//firstpersoncamera.Update(dt, Aplayer);
@@ -1018,78 +1019,70 @@ void DriveScene::RenderObj(Mesh* mesh, TRS& trs, bool end, bool enableLight)
 		modelStack.PopMatrix();
 }
 
-//void DriveScene::PlayerMoveUp(double dt)
-//{
-//	Aplayer.translate.z += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
-//	Aplayer.translate.x += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
-//	//if (collision_detector(Aplayer, Cplayer, Aslot_body, Cslot_body)) {
-//	//	Aplayer.translate.z -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
-//	//	Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
-//	//}
-//	//for (int i = 0; i < 4; i++)
-//	//{
-//	//	if (collision_detector(Aplayer, Cplayer, Platform[i], CCar[i]))
-//	//	{
-//	//		Aplayer.translate.z -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
-//	//		Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
-//	//	}
-//	//}
-//}
-//
-//void DriveScene::PlayerMoveDown(double dt)
-//{
-//	Aplayer.translate.z -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
-//	Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
-//	//if (collision_detector(Aplayer, Cplayer, Aslot_body, Cslot_body)) {
-//	//	Aplayer.translate.z += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
-//	//	Aplayer.translate.x += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
-//	//}
-//	//for (int i = 0; i < 4; i++)
-//	//{
-//	//	if (collision_detector(Aplayer, Cplayer, Platform[i], CCar[i]))
-//	//	{
-//	//		Aplayer.translate.z += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
-//	//		Aplayer.translate.x += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
-//	//	}
-//	//}
-//}
-//
-//void DriveScene::PlayerMoveRight(double dt)
-//{
-//
-//	Aplayer.translate.z += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
-//	Aplayer.translate.x -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
-//	//if (collision_detector(Aplayer, Cplayer, Aslot_body, Cslot_body)) {
-//	//	Aplayer.translate.z -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
-//	//	Aplayer.translate.x += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
-//	//}
-//	//for (int i = 0; i < 4; i++)
-//	//{
-//	//	if (collision_detector(Aplayer, Cplayer, Platform[i], CCar[i]))
-//	//	{
-//	//		Aplayer.translate.z -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
-//	//		Aplayer.translate.x += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
-//	//	}
-//	//}
-//}
-//
-//void DriveScene::PlayerMoveLeft(double dt)
-//{
-//	Aplayer.translate.z -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
-//	Aplayer.translate.x += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
-//	//if (collision_detector(Aplayer, Cplayer, Aslot_body, Cslot_body)) {
-//	//	Aplayer.translate.z += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
-//	//	Aplayer.translate.x -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
-//	//}
-//	//for (int i = 0; i < 4; i++)
-//	//{
-//	//	if (collision_detector(Aplayer, Cplayer, Platform[i], CCar[i]))
-//	//	{
-//	//		Aplayer.translate.z += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
-//	//		Aplayer.translate.x -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
-//	//	}
-//	//}
-//}
+
+void DriveScene::carMovement(TRS carbody, float& velocity, double dt)
+{
+	ACarBody.translate.z -= cos(Math::DegreeToRadian(ACarBody.RotateY.degree)) * (float)(carVelocity * dt);
+	ACarBody.translate.x -= sin(Math::DegreeToRadian(ACarBody.RotateY.degree)) * (float)(carVelocity * dt);
+
+	for (CNode* current = boxlist.gethead(); current != nullptr; current = current->getnext())
+	{
+		if (collision_detector(ACarBody, CCarBody, current->transformation, CBox, true)) {
+			ACarBody.translate.z += cos(Math::DegreeToRadian(ACarBody.RotateY.degree)) * (float)(carVelocity * dt);
+			ACarBody.translate.x += sin(Math::DegreeToRadian(ACarBody.RotateY.degree)) * (float)(carVelocity * dt);
+			carVelocity = 0;
+			if (GetTickCount() * 0.001f - iFrames > 3.0f) {
+				--health;
+				iFrames = GetTickCount() * 0.001f;
+				std::cout << health << "\n";
+				if (health < 0) {
+					//end driving
+				}
+			}
+		}
+	}
+	for (CNode* current = spikelist.gethead(); current != nullptr; current = current->getnext())
+	{
+		if (collision_detector(ACarBody, CCarBody, current->transformation, CSpike, true)) {
+			if (GetTickCount() * 0.001f - iFrames > 3.0f) {
+				--health;
+				iFrames = GetTickCount() * 0.001f;
+				std::cout << health << "\n";
+				if (health < 0) {
+					//end driving
+				}
+			}
+		}
+		for (CNode* current = boostpadlist.gethead(); current != nullptr; current = current->getnext())
+		{
+			if (collision_detector(ACarBody, CCarBody, current->transformation, CBoostpad, true)) {
+				carVelocity += 0.5;
+			}
+
+		}
+		for (CNode* current = coinlist.gethead(); current != nullptr;)
+		{
+			for (CNode* curr2 = coinlist.gethead(); curr2 != nullptr; curr2 = curr2->getnext()) {
+				std::cout << "1";
+			}
+			std::cout << "\n";
+			if (collision_detector(ACarBody, CCarBody, current->transformation, CCoin)) {
+				CNode* next = current->getnext();
+				coinlist.removeItem(current);
+				--count;
+				//coin/currency increase code here
+				if (current->getnext() == nullptr) {
+					break;
+				}
+				else {
+					current = next;
+				}
+				break;
+			}
+			current = current->getnext();
+		}
+	}
+}
 
 void DriveScene::Generatecoinposition()
 {
