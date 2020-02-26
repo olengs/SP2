@@ -51,7 +51,6 @@ class SceneSkybox : public Scene
 		GEO_DOOR,
 		GEO_DOORSCREEN,
 		GEO_HOLO,
-		GEO_TEST_DICE,
 		GEO_COIN,
 		GEO_PLAYERLEFTARM,
 		GEO_PLAYERRIGHTARM,
@@ -196,8 +195,7 @@ private:
 	HologramUI CarHologram[4];
 	int currency;
 
-	TRS Atest_dice;
-	cornercoord CTest_dice;
+	
 
 	
 	bool DistanceCheck(Vector3 Object1, Vector3 Object2);
