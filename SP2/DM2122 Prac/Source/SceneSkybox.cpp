@@ -656,11 +656,7 @@ void SceneSkybox::Update(double dt)
 			activate_slot_machine = 0;
 		}
 	}
-
 	//Holograms and Camera logic
-
-	
-
 	if (DistanceCheck(Aplayer.translate, Shop.translate) && !hologramcamera_leave)
 	{
 		CameraSwitch = 2;
@@ -1080,8 +1076,6 @@ void SceneSkybox::UpdateHologram(HologramUI& UI, CarStats& car_Stats, TRS* Objec
 		else hologramcamera_leave = true;
 		BounceTime = GetTickCount() + 500.f;
 	}
-
-
 	if (DistanceCheck(Aplayer.translate, ObjectDisplay->translate))
 	{
 
@@ -1233,10 +1227,19 @@ void SceneSkybox::PlayerMoveUp(double dt)
 {
 	Aplayer.translate.z += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	Aplayer.translate.x += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
-	if (collision_detector(Aplayer, Cplayer, Aslot_body, Cslot_body)) {
+
+	if (!(Aplayer.translate.x > -48 && Aplayer.translate.x < 48 && Aplayer.translate.z > -48 && Aplayer.translate.z < 48)) {
 		Aplayer.translate.z -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
-	} 
+	}
+	if (collision_detector(Aplayer, Cplayer, Aslot_body, Cslot_body,true)) {
+		Aplayer.translate.z -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+		Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+	}
+	if (collision_detector(Aplayer, Cplayer, ANPC, CNPC, true)) {
+		Aplayer.translate.z -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+		Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+	}
 	for (int i = 0; i < 4; i++)
 	{
 		if (collision_detector(Aplayer, Cplayer, Platform[i], PlatformR))
@@ -1245,16 +1248,18 @@ void SceneSkybox::PlayerMoveUp(double dt)
 			Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		}
 	}
-	if (collision_detector(Aplayer, Cplayer, ANPC, CNPC,true)) {
-		Aplayer.translate.z -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
-		Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
-	}
+
 }
 
 void SceneSkybox::PlayerMoveDown(double dt)
 {
 	Aplayer.translate.z -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+
+	if (!(Aplayer.translate.x > -48 && Aplayer.translate.x < 48 && Aplayer.translate.z > -48 && Aplayer.translate.z < 48)){
+		Aplayer.translate.z += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+		Aplayer.translate.x += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+	}
 	if (collision_detector(Aplayer, Cplayer, Aslot_body, Cslot_body)) {
 		Aplayer.translate.z += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
@@ -1275,9 +1280,13 @@ void SceneSkybox::PlayerMoveDown(double dt)
 
 void SceneSkybox::PlayerMoveRight(double dt)
 {
-
 	Aplayer.translate.z += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	Aplayer.translate.x -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+
+	if (!(Aplayer.translate.x > -48 && Aplayer.translate.x < 48 && Aplayer.translate.z > -48 && Aplayer.translate.z < 48)) {
+		Aplayer.translate.z -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+		Aplayer.translate.x += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+	}
 	if (collision_detector(Aplayer, Cplayer, Aslot_body, Cslot_body)) {
 		Aplayer.translate.z -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
@@ -1300,6 +1309,11 @@ void SceneSkybox::PlayerMoveLeft(double dt)
 {
 	Aplayer.translate.z -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	Aplayer.translate.x += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+
+	if (!(Aplayer.translate.x > -48 && Aplayer.translate.x < 48 && Aplayer.translate.z > -48 && Aplayer.translate.z < 48)) {
+		Aplayer.translate.z += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+		Aplayer.translate.x -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+	}
 	if (collision_detector(Aplayer, Cplayer, Aslot_body, Cslot_body)) {
 		Aplayer.translate.z += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
