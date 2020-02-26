@@ -181,10 +181,11 @@ private:
 	cornercoord Cslot_body;
 	TRS Aslot_arm;
 	TRS Aslot_image[9];
-	int slot_images[9]; 
 	//slot_images - top left , top middle , top right
-	//				middle left, middle middle, middle right
-	//				bottom left, bottom middle, bottom right
+//				middle left, middle middle, middle right
+//				bottom left, bottom middle, bottom right
+	int slot_images[9]; 
+
 	int slot_rotation_whole[5];
 	int slot_rotation_upper[5];
 	int slot_rotation_lower[5];

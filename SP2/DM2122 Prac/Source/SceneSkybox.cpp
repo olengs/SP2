@@ -611,28 +611,48 @@ void SceneSkybox::Update(double dt)
 			activate_slot_machine = 1;
 			slot_stop_lasttime = GetTickCount() * 0.001f;
 			stop_machine = 0;
+			currency -= 10;
 		}
 	}
 	if (activate_slot_machine == 1) {
-		if (GetTickCount()*0.001f - row1_lastTime > (0.2f) && stop_machine <= 0) {
+		if (GetTickCount()*0.001f - row1_lastTime > (0.2f * 5) && stop_machine <= 0) {
 			++slot_images[0];
 			++slot_images[3];
 			++slot_images[6];
 			row1_lastTime = GetTickCount() * 0.001f;
 		}
-		if (GetTickCount() * 0.001f - row2_lastTime > (0.1f) && stop_machine <= 1) {
+		if (GetTickCount() * 0.001f - row2_lastTime > (0.1f * 10) && stop_machine <= 1) {
 			++slot_images[1];
 			++slot_images[4];
 			++slot_images[7];
 			row2_lastTime = GetTickCount() * 0.001f;
 		}
-		if (GetTickCount() * 0.001f - row3_lastTime > (0.05f) && stop_machine <= 2) {
+		if (GetTickCount() * 0.001f - row3_lastTime > (0.05f * 20) && stop_machine <= 2) {
 			++slot_images[2];
 			++slot_images[5];
 			++slot_images[8];
 			row3_lastTime = GetTickCount() * 0.001f;
 		}
+		for (int i = 0; i < 9; ++i) {
+			std::cout << slot_images[i] << " ";
+		}
+		std::cout << "\n";
 		if (stop_machine > 2) {
+			if (slot_images[3]%5 == slot_images[4]%5 && slot_images[3]%5 == slot_images[5]%5) {
+				int num = slot_images[3] % 5;
+				switch (num) {
+				case 0:
+					currency += 100;
+				case 1:
+					currency += 20;
+				case 2:
+					currency += 30;
+				case 3:
+					currency += 40;
+				case 4:
+					currency += 50;
+				}
+			}
 			activate_slot_machine = 0;
 		}
 	}
