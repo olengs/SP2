@@ -171,9 +171,9 @@ void SceneSkybox::Init()
 	//Aplayer.translate = Vector3(0, 4, 5);
 	//Aplayer.RotateY.degree += 180;
 
-	meshList[GEO_NPC] = MeshBuilder::GenerateOBJ("npc", "OBJ//doorman.obj");
-	meshList[GEO_NPC]->textureID = LoadTGA("Image//doorman.tga");
-	ANPC.translate = Vector3(20, 0, 20);
+	meshList[GEO_NPC] = MeshBuilder::GenerateOBJ("npc", "OBJ//npc.obj");
+	meshList[GEO_NPC]->textureID = LoadTGA("Image//npc.tga");
+	ANPC.translate = Vector3(20, 3, 20);
 	
 	meshList[GEO_PLAYERBODY] = MeshBuilder::GenerateOBJ("playerbody", "OBJ//playerbody.obj");
 	meshList[GEO_PLAYERBODY]->textureID = LoadTGA("Image//player.tga");
