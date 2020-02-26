@@ -142,22 +142,22 @@ void DriveScene::Init()
 	glUniform1i(m_parameters[U_NUMLIGHTS], 2);
 
 	meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_LEFT]->textureID = LoadTGA("Image//left.tga");
+	meshList[GEO_LEFT]->textureID = LoadTGA("Image//trackleft.tga");
 
 	meshList[GEO_RIGHT] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_RIGHT]->textureID = LoadTGA("Image//right.tga");
+	meshList[GEO_RIGHT]->textureID = LoadTGA("Image//trackright.tga");
 
 	meshList[GEO_TOP] = MeshBuilder::GenerateQuad("top", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_TOP]->textureID = LoadTGA("Image//top.tga");
+	meshList[GEO_TOP]->textureID = LoadTGA("Image//tracktop.tga");
 
 	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("bottom", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//bottom.tga");
+	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//trackbottom.tga");
 
 	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_FRONT]->textureID = LoadTGA("Image//front.tga");
+	meshList[GEO_FRONT]->textureID = LoadTGA("Image//trackfront.tga");
 
 	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_BACK]->textureID = LoadTGA("Image//back.tga");
+	meshList[GEO_BACK]->textureID = LoadTGA("Image//trackback.tga");
 
 	meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 0.f), 9, 36, 1.f);
 
@@ -621,6 +621,9 @@ void DriveScene::Init()
 	carTurningSpeed = 135.f;
 	carAcceleration = 10.f;
 	friction = 8.f;
+	boostbar = 30;
+	boostVelocity = 0.f;
+	boostAcceleration = 20.f;
 
 	camera.Init(ACarBody.translate + Vector3(0, 5, 30), ACarBody.translate + Vector3(0, 5, 0), Vector3(0, 1, 0));
 	test.Init(ACarBody.translate + Vector3(0, 150, 1), ACarBody.translate, Vector3(0, 1, 0));
@@ -686,7 +689,19 @@ void DriveScene::Update(double dt)
 	{
 		ACarBody.RotateY.degree -= (float)(carTurningSpeed * dt);
 	}
-
+	// Using the car booster
+	if (Application::IsKeyPressed(VK_SPACE) && boostbar / 10 > 1)
+	{
+		boostbar -= 10;
+		boostVelocity += boostAcceleration;
+		carVelocity += boostVelocity;
+	}
+	else if (boostbar < 30 && !Application::IsKeyPressed(VK_SPACE))
+	{
+		boostbar += 5;
+		carVelocity -= boostVelocity;
+		boostVelocity = 0;
+	}
 	// If car is moving without key inputs, increase/decrease car velocity to being the car to a stop
 	if (!Application::IsKeyPressed('W') && !Application::IsKeyPressed('S'))
 	{
@@ -713,6 +728,7 @@ void DriveScene::Update(double dt)
 
 	test.CarUpdate(dt, ACarBody);
 	//firstpersoncamera.Update(dt, Aplayer);
+	std::cout << boostbar << " " << boostVelocity << " " << carVelocity << std::endl;
 }
 
 void DriveScene::Render()

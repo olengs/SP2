@@ -54,6 +54,11 @@ class SceneSkybox : public Scene
 		GEO_HOLO2,
 		GEO_HOLO3,
 		GEO_TEST_DICE,
+		GEO_PLAYERLEFTARM,
+		GEO_PLAYERRIGHTARM,
+		GEO_PLAYERBODY,
+		GEO_PLAYERLEFTLEG,
+		GEO_PLAYERRIGHTLEG,
 		NUM_GEOMETRY,
 	};
 
@@ -127,7 +132,14 @@ private:
 	cornercoord Cplayer;
 	TRS ANPC;
 	cornercoord CNPC;
+
+	TRS Aplayerleftarm;
+	TRS Aplayerleftleg;
+	TRS Aplayerrightarm;
+	TRS Aplayerrightleg;
+
 	std::string NPCSpeach;
+
 	//player movement
 	const float playerMovementSpeed = 10.f;
 	const float playerTurningSpeed = 135.f;

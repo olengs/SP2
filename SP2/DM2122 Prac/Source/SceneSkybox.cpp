@@ -162,20 +162,40 @@ void SceneSkybox::Init()
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//calibri.tga");
 
-	meshList[GEO_DICE] = MeshBuilder::GenerateOBJ("dice", "OBJ//doorman.obj");
-	meshList[GEO_DICE]->textureID = LoadTGA("Image//doorman.tga");
-	meshList[GEO_DICE]->material.kAmbient.Set(0.7f, 0.7f, 0.7f);
-	meshList[GEO_DICE]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	meshList[GEO_DICE]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[GEO_DICE]->material.kShininess = 1.f;
-	Aplayer.translate = Vector3(0, 0, 5);
-	Aplayer.RotateY.degree += 180;
-	Loadcoord("OBJ//doorman.obj", Cplayer);
+	//meshList[GEO_DICE] = MeshBuilder::GenerateOBJ("dice", "OBJ//player.obj");
+	//meshList[GEO_DICE]->textureID = LoadTGA("Image//player.tga");
+	//meshList[GEO_DICE]->material.kAmbient.Set(0.7f, 0.7f, 0.7f);
+	//meshList[GEO_DICE]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	//meshList[GEO_DICE]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	//meshList[GEO_DICE]->material.kShininess = 1.f;
+	//Aplayer.translate = Vector3(0, 4, 5);
+	//Aplayer.RotateY.degree += 180;
 
 	meshList[GEO_NPC] = MeshBuilder::GenerateOBJ("npc", "OBJ//doorman.obj");
 	meshList[GEO_NPC]->textureID = LoadTGA("Image//doorman.tga");
 	ANPC.translate = Vector3(20, 0, 20);
 	
+	meshList[GEO_PLAYERBODY] = MeshBuilder::GenerateOBJ("playerbody", "OBJ//playerbody.obj");
+	meshList[GEO_PLAYERBODY]->textureID = LoadTGA("Image//player.tga");
+	Aplayer.translate = Vector3(0, 5.5, 5);
+	Aplayer.RotateY.degree += 180;
+	Loadcoord("OBJ//playerbody.obj", Cplayer);
+
+	meshList[GEO_PLAYERLEFTARM] = MeshBuilder::GenerateOBJ("playerleftarm", "OBJ//playerleftarm.obj");
+	meshList[GEO_PLAYERLEFTARM]->textureID = LoadTGA("Image//player.tga");
+	Aplayerleftarm.translate = Vector3(1, -0.3, -0.2);
+
+	meshList[GEO_PLAYERRIGHTARM] = MeshBuilder::GenerateOBJ("playerrightarm", "OBJ//playerrightarm.obj");
+	meshList[GEO_PLAYERRIGHTARM]->textureID = LoadTGA("Image//player.tga");
+	Aplayerrightarm.translate = Vector3(-1, -0.3, -0.2);
+
+	meshList[GEO_PLAYERLEFTLEG] = MeshBuilder::GenerateOBJ("playerleftleg", "OBJ//playerleftleg.obj");
+	meshList[GEO_PLAYERLEFTLEG]->textureID = LoadTGA("Image//player.tga");
+	Aplayerleftleg.translate = Vector3(0.3, -3.2, 0.5);
+
+	meshList[GEO_PLAYERRIGHTLEG] = MeshBuilder::GenerateOBJ("playerrightleg", "OBJ//playerrightleg.obj");
+	meshList[GEO_PLAYERRIGHTLEG]->textureID = LoadTGA("Image//player.tga");
+	Aplayerrightleg.translate = Vector3(-0.3, -3.2, 0.5);
 
 	meshList[GEO_SHOP] = MeshBuilder::GenerateOBJ("shop", "OBJ//shop.obj");
 	meshList[GEO_SHOP]->textureID = LoadTGA("Image//shop.tga");
@@ -405,7 +425,7 @@ void SceneSkybox::Init()
 
 	hologramcamera_leave = true;
 	camera.Init(Aplayer.translate + Vector3(0, 8, 15), Vector3(Aplayer.translate) + Vector3(0, 5, 0), Vector3(0, 1, 0));
-	firstpersoncamera.Init(Vector3(Aplayer.translate.x, Aplayer.translate.y + 6.1, Aplayer.translate.z), Vector3(0, Aplayer.translate.y + 6.1, 0), Vector3(0, 1, 0));
+	firstpersoncamera.Init(Vector3(Aplayer.translate.x, Aplayer.translate.y + 2, Aplayer.translate.z), Vector3(0, Aplayer.translate.y + 2, 0), Vector3(0, 1, 0));
 	hologramcamera.Init(Aplayer.translate + Vector3(0, 5, 0), Vector3(ShopUI.UI.translate) + Vector3(0, 5, 0), Vector3(0, 1, 0));
 	currency = 5000;
 	CameraSwitch = 0;
@@ -749,8 +769,16 @@ void SceneSkybox::Render()
 	RenderMesh(meshList[GEO_LIGHTSPHERE], false);
 	modelStack.PopMatrix();
 
-	RenderObj(meshList[GEO_DICE], Aplayer, true, false);
-	RenderObj(meshList[GEO_DICE], ANPC, true, false);
+	//RenderObj(meshList[GEO_DICE], Aplayer, true, false);
+	RenderObj(meshList[GEO_NPC], ANPC, true, false);
+
+	//player
+	RenderObj(meshList[GEO_PLAYERBODY], Aplayer, false, false);
+	RenderObj(meshList[GEO_PLAYERLEFTARM], Aplayerleftarm, true, false);
+	RenderObj(meshList[GEO_PLAYERRIGHTARM], Aplayerrightarm, true, false);
+	RenderObj(meshList[GEO_PLAYERLEFTLEG], Aplayerleftleg, true, false);
+	RenderObj(meshList[GEO_PLAYERRIGHTLEG], Aplayerrightleg, true, false);
+	modelStack.PopMatrix();
 
 	ShopUI.UI.RotateY.degree = 0.f;
 	RenderObj(meshList[GEO_SHOP], Shop, true, false);

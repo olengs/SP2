@@ -98,6 +98,7 @@ private:
 	CItemList boostpadlist;
 	CItemList coinlist;
 
+	// Coin randomizer
 	int check[20] = { 0 };
 	int coinarray[10] = { 0 };
 	int count = 0;
@@ -107,10 +108,14 @@ private:
 	float lastTime;
 	float currentTime;
 
+	// Car movements variable
 	float carVelocity;
 	float carTurningSpeed;
 	float carAcceleration;
 	float friction;
+	float boostbar;
+	float boostAcceleration;
+	float boostVelocity;
 
 	int Acarnumber;
 
