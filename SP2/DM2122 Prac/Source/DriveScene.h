@@ -119,6 +119,9 @@ private:
 
 	int Acarnumber;
 
+	float startracetime;
+	bool start;
+
 	const float playerMovementSpeed = 10.f;
 	const float playerTurningSpeed = 135.f;
 

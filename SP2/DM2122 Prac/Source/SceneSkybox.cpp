@@ -27,6 +27,8 @@ SceneSkybox::~SceneSkybox()
 
 void SceneSkybox::Init()
 {
+	scenechange = false;
+
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
 	// Generate a default VAO for now
@@ -648,7 +650,9 @@ void SceneSkybox::Update(double dt)
 
 	//change Scene
 	if (collision_detector(DoorCheck, CdoorScreen, Aplayer, Cplayer)) {
-		SceneManager::currSceneID = SceneManager::S_DRIVESCENE;
+		//SceneManager::currSceneID = SceneManager::S_DRIVESCENE;
+		scenenumber = 1;
+		scenechange = true;
 	}
 
 	camera.Update(dt, Aplayer);
