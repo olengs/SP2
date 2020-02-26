@@ -55,22 +55,33 @@ void CItemList::addItem(Vector3 translate)
 	}
 }
 
-void CItemList::removeItem(CNode* current)
+void CItemList::removeItem(CNode*& current)
 {
-	if (current == head) {
-		
+	if (head == tail) {
+		head = tail = nullptr;
+		delete current;
+		current = nullptr;
+	}
+	else if (current == head) {
 		head = current->getnext();
 		delete current;
+		current = head;
+		current->setprev(nullptr);
 	}
 	else if (current == tail) {
 		tail = current->getprev();
+		tail->setnext(nullptr);
 		delete current;
+		current = tail;
 	}
 	else {
+		CNode* next = current->getnext();
 		current->getprev()->setnext(current->getnext());
 		current->getnext()->setprev(current->getprev());
 		delete current;
+		current = head;
 	}
+
 }
 
 TRS& CItemList::getTRS(CNode* current)

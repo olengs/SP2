@@ -1060,23 +1060,14 @@ void DriveScene::carMovement(TRS carbody, float& velocity, double dt)
 			}
 
 		}
+		CNode* curr2 = coinlist.gethead();
 		for (CNode* current = coinlist.gethead(); current != nullptr;)
-		{
-			for (CNode* curr2 = coinlist.gethead(); curr2 != nullptr; curr2 = curr2->getnext()) {
-				std::cout << "1";
-			}
-			std::cout << "\n";
+		{	
 			if (collision_detector(ACarBody, CCarBody, current->transformation, CCoin)) {
-				CNode* next = current->getnext();
 				coinlist.removeItem(current);
-				--count;
 				//coin/currency increase code here
-				if (current->getnext() == nullptr) {
-					break;
-				}
-				else {
-					current = next;
-				}
+			}
+			if (coinlist.gethead() == nullptr) {
 				break;
 			}
 			current = current->getnext();
