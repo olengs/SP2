@@ -403,13 +403,6 @@ void SceneSkybox::Init()
 		}
 	}
 
-	meshList[GEO_TEST_DICE] = MeshBuilder::GenerateOBJ("box test" ,"obj//box.obj");
-	meshList[GEO_TEST_DICE]->textureID = LoadTGA("Image//box.tga");
-	Atest_dice.translate.Set(0, 0, -20);
-	Atest_dice.Scale.Set(1, 1, 1);
-	Atest_dice.RotateY.degree = 45;
-	Loadcoord("obj//box.obj", CTest_dice);
-
 	hologramcamera_leave = true;
 	camera.Init(Aplayer.translate + Vector3(0, 8, 15), Vector3(Aplayer.translate) + Vector3(0, 5, 0), Vector3(0, 1, 0));
 	firstpersoncamera.Init(Vector3(Aplayer.translate.x, Aplayer.translate.y + 6.1, Aplayer.translate.z), Vector3(0, Aplayer.translate.y + 6.1, 0), Vector3(0, 1, 0));
@@ -488,7 +481,7 @@ void SceneSkybox::Update(double dt)
 	//NPC
 	if ((ANPC.translate - Aplayer.translate).Length() > 3) {
 		for (int i = 0; i < 4; ++i) {
-			if ((Aplayer.translate - Platform[i].translate).Length() < 13) {
+			if (collision_detector(Aplayer,Cplayer,Platform[i],PlatformR + 2)) {
 				ANPC.translate += ((Aplayer.translate) - ANPC.translate).Normalize() * (float)(dt * playerMovementSpeed);
 			}
 		}
@@ -845,8 +838,6 @@ void SceneSkybox::Render()
 	RenderTextOnScreen(meshList[GEO_TEXT], UIText[0] + std::to_string(currency), Color(0, 1, 0), 2, 0, 1); //Camera Movement
 	RenderTextOnScreen(meshList[GEO_TEXT], UIText[1], Color(0, 1, 0), 2, 0, 2); //Camera Pan
 	RenderTextOnScreen(meshList[GEO_TEXT], UIText[2], Color(0, 1, 0), 2, 0, 3); //Camera Toggle		
-
-	RenderObj(meshList[GEO_TEST_DICE], Atest_dice, true, false);
 }
 
 void SceneSkybox::Exit()
@@ -975,7 +966,6 @@ void SceneSkybox::RenderText(Mesh* mesh, std::string text, Color color)
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
 	glEnable(GL_DEPTH_TEST);
-
 	
 }
 
@@ -1123,7 +1113,7 @@ void SceneSkybox::PlayerMoveUp(double dt)
 			Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		}
 	}
-	if (collision_detector(Aplayer, Cplayer, Atest_dice, CTest_dice, true)) {
+	if (collision_detector(Aplayer, Cplayer, ANPC, CNPC,true)) {
 		Aplayer.translate.z -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
@@ -1145,7 +1135,7 @@ void SceneSkybox::PlayerMoveDown(double dt)
 			Aplayer.translate.x += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		}
 	}
-	if (collision_detector(Aplayer, Cplayer, Atest_dice, CTest_dice, true)) {
+	if (collision_detector(Aplayer, Cplayer, ANPC, CNPC, true)) {
 		Aplayer.translate.z += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
@@ -1168,10 +1158,9 @@ void SceneSkybox::PlayerMoveRight(double dt)
 			Aplayer.translate.x += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		}
 	}
-	if (collision_detector(Aplayer, Cplayer, Atest_dice, CTest_dice, true)) {
+	if (collision_detector(Aplayer, Cplayer, ANPC, CNPC, true)) {
 		Aplayer.translate.z -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
-
 	}
 }
 
@@ -1191,10 +1180,11 @@ void SceneSkybox::PlayerMoveLeft(double dt)
 			Aplayer.translate.x -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		}
 	}
-	if (collision_detector(Aplayer, Cplayer, Atest_dice, CTest_dice, true)) {
+	if (collision_detector(Aplayer, Cplayer, ANPC, CNPC, true)) {
 		Aplayer.translate.z += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
+
 }
 
 void SceneSkybox::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
