@@ -205,6 +205,7 @@ void SceneSkybox::Init()
 	Shop.translate = Vector3(0, 0, -45);
 	Shop.Scale = Vector3(10, 10, 10);
 	Shop.RotateY = Vector4(90, 0, 1, 0);
+	Loadcoord("OBJ//shop.obj", CShop);
 
 	meshList[GEO_SHOP_UI] = MeshBuilder::GenerateQuad("shopUI", Color(0, 0, 1), 10.f, 10.f);
 	meshList[GEO_SHOP_UI]->textureID = LoadTGA("image//shopUI.tga");
@@ -553,7 +554,7 @@ void SceneSkybox::Update(double dt)
 		}
 	}
 	else if ((ANPC.translate - Aplayer.translate).Length() < 8) {
-		if (GetTickCount() * 0.001f - textLasttime > 0.08f && textnum < NPCSpeech[carnum].length()) {
+		if (GetTickCount() * 0.001f - textLasttime > 0.08f && textnum < NPCSpeech[carnum].length() && carnum !=5) {
 			NPCtext.insert(NPCtext.end(), NPCSpeech[carnum][textnum++]);
 			if (NPCSpeech[carnum][textnum] == ' ') {
 				textLasttime = GetTickCount() * 0.001f + 0.15f;
@@ -568,8 +569,6 @@ void SceneSkybox::Update(double dt)
 		ANPC.RotateY.degree *= -1;
 	}
 
-	//UI Text (for camera) logic
-	
 	//UI Text (for 1st/3rd person camera) logic
 	if (Application::IsKeyPressed(VK_TAB) && BounceTime <= GetTickCount()) {
 		if (CameraSwitch == 0) CameraSwitch = 1; //1st person
@@ -834,7 +833,6 @@ void SceneSkybox::Render()
 	modelStack.PopMatrix();
 
 	RenderShopUI();
-
 	//Render Platform, Car, Wheel
 
 	for (int carnumber = 0; carnumber < 4; carnumber++)
@@ -1267,6 +1265,10 @@ void SceneSkybox::PlayerMoveUp(double dt)
 		Aplayer.translate.z -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
+	if (collision_detector(Aplayer, Cplayer, Shop, CShop, true)) {
+		Aplayer.translate.z -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+		Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+	}
 	for (int i = 0; i < 4; i++)
 	{
 		if (collision_detector(Aplayer, Cplayer, Platform[i], PlatformR))
@@ -1337,6 +1339,10 @@ void SceneSkybox::PlayerMoveDown(double dt)
 		Aplayer.translate.z += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
+	if (collision_detector(Aplayer, Cplayer, Shop, CShop, true)) {
+		Aplayer.translate.z += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+		Aplayer.translate.x += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+	}
 	if (Aplayerleftarm.RotateX.degree > -30 && rotatebodyparts == false)
 	{
 		Aplayerleftarm.RotateX.degree--;
@@ -1398,6 +1404,10 @@ void SceneSkybox::PlayerMoveRight(double dt)
 		Aplayer.translate.z -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
+	if (collision_detector(Aplayer, Cplayer, Shop, CShop, true)) {
+		Aplayer.translate.z -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+		Aplayer.translate.x += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+	}
 }
 
 void SceneSkybox::PlayerMoveLeft(double dt)
@@ -1422,6 +1432,10 @@ void SceneSkybox::PlayerMoveLeft(double dt)
 		}
 	}
 	if (collision_detector(Aplayer, Cplayer, ANPC, CNPC, true)) {
+		Aplayer.translate.z += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+		Aplayer.translate.x -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+	}
+	if (collision_detector(Aplayer, Cplayer, Shop, CShop, true)) {
 		Aplayer.translate.z += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}

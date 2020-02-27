@@ -13,6 +13,7 @@ public:
 		S_MAINMENUSCENE = 0,
 		S_SHOWROOMSCENE,
 		S_DRIVESCENE,
+		S_GAMEOVERSCENE,
 		S_TOTAL
 	};
 	SceneManager();

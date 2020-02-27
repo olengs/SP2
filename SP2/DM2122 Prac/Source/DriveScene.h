@@ -30,6 +30,8 @@ class DriveScene : public Scene
 		GEO_BOOSTPAD,
 		GEO_SPIKE,
 		GEO_BOX,
+		GEO_FIRE,
+		GEO_EXPLOSION,
 		NUM_GEOMETRY,
 	};
 
@@ -103,8 +105,6 @@ private:
 	int coinarray[10] = { 0 };
 	int count = 0;
 
-	int coinCounter = 0;
-
 	int fps;
 	float framespersecond;
 	float lastTime;
@@ -121,6 +121,9 @@ private:
 	float fuel;
 	bool car_ismoving;
 
+	int countDown;
+	bool carcanmove;
+
 	int Acarnumber;
 	int health;
 	float iFrames;
@@ -131,7 +134,6 @@ private:
 	const float playerMovementSpeed = 10.f;
 	const float playerTurningSpeed = 135.f;
 
-	//buildings
 	TRS ABuilding[4];
 	TRS ASpike;
 	cornercoord CSpike;
@@ -141,6 +143,8 @@ private:
 	cornercoord CBox;
 	TRS ABoostpad;
 	cornercoord CBoostpad;
+	TRS AFire[3];
+	TRS AExplosion;
 
 	//cars
 	TRS ACarBody;
