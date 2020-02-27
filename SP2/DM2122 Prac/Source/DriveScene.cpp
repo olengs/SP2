@@ -759,9 +759,8 @@ void DriveScene::Update(double dt)
 
 		test.CarUpdate(dt, ACarBody);
 		//firstpersoncamera.Update(dt, Aplayer);.
-
-		
 	}
+
 	playerdetails.Update();
 }
 
@@ -1054,8 +1053,10 @@ void DriveScene::carMovement(TRS carbody, float& velocity, double dt)
 			if (GetTickCount() * 0.001f - iFrames > 3.0f) {
 				--health;
 				iFrames = GetTickCount() * 0.001f;
-				std::cout << health << "\n";
+				//std::cout << health << "\n";
 				if (health < 0) {
+					scenenumber = 0;
+					scenechange = true;
 					//end driving
 				}
 			}
@@ -1067,7 +1068,7 @@ void DriveScene::carMovement(TRS carbody, float& velocity, double dt)
 			if (GetTickCount() * 0.001f - iFrames > 3.0f) {
 				--health;
 				iFrames = GetTickCount() * 0.001f;
-				std::cout << health << "\n";
+				//std::cout << health << "\n";
 				if (health < 0) {
 					//end driving
 				}
@@ -1082,7 +1083,7 @@ void DriveScene::carMovement(TRS carbody, float& velocity, double dt)
 		}
 		CNode* curr2 = coinlist.gethead();
 		for (CNode* current = coinlist.gethead(); current != nullptr;)
-		{	
+		{
 			if (collision_detector(ACarBody, CCarBody, current->transformation, CCoin)) {
 				coinlist.removeItem(current);
 				playerdetails.currency += 100;
