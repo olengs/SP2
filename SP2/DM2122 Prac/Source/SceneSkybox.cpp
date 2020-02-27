@@ -1538,10 +1538,8 @@ void SceneSkybox::RenderStats(HologramUI UI, CarStats& car_Stats)
 {
 	if (UI.UI.Scale.x >= 1.f)
 	{
-		car_Stats.StatTRS[0].translate = Vector3(-((3.f / 14.f) * UI.lengthX) + (car_Stats.StatLevel[0] / 14.f), (5.5f / 14.f) * UI.lengthY, 0.1f);
-		car_Stats.StatTRS[1].translate = Vector3(-((3.f / 14.f) * UI.lengthX) + (car_Stats.StatLevel[1] / 14.f), (2.f / 14.f) * UI.lengthY, 0.1f);
-		car_Stats.StatTRS[2].translate = Vector3(-((3.f / 14.f) * UI.lengthX) + (car_Stats.StatLevel[2] / 14.f), -(2.f / 14.f) * UI.lengthY, 0.1f);
-		for (int i = 0; i < 3; ++i)
+		car_Stats.InitStatsinHolo(UI);
+		for (int i = 0; i < 5; ++i)
 		{
 			car_Stats.StatTRS[i].Scale.y = 1.f / 14.f * UI.lengthY;
 			RenderObj(meshList[GEO_CAR_STAT], car_Stats.StatTRS[i], true, false);
@@ -1555,12 +1553,8 @@ void SceneSkybox::RenderShopStats(CarStats& car_Stats)
 {
 	if (ShopUI.UI.Scale.x >= 1.f)
 	{
-		car_Stats.StatTRS[0].translate = Vector3(-((3.f / 14.f) * ShopUI.lengthX) + ((car_Stats.StatLevel[0] / 28.f) * ShopUI.lengthX), -(1.f / 14.f) * ShopUI.lengthY, 0.1f);
-		car_Stats.StatTRS[1].translate = Vector3(-((3.f / 14.f) * ShopUI.lengthX) + ((car_Stats.StatLevel[1] / 28.f) * ShopUI.lengthX), -(2.f / 14.f) * ShopUI.lengthY, 0.1f);
-		car_Stats.StatTRS[2].translate = Vector3(-((3.f / 14.f) * ShopUI.lengthX) + ((car_Stats.StatLevel[2] / 28.f) * ShopUI.lengthX), -(3.f / 14.f) * ShopUI.lengthY, 0.1f);
-		car_Stats.StatTRS[3].translate = Vector3(-((3.f / 14.f) * ShopUI.lengthX) + ((car_Stats.StatLevel[3] / 28.f) * ShopUI.lengthX), -(4.f / 14.f) * ShopUI.lengthY, 0.1f);
-		car_Stats.StatTRS[4].translate = Vector3(-((3.f / 14.f) * ShopUI.lengthX) + ((car_Stats.StatLevel[4] / 28.f) * ShopUI.lengthX), -(5.f / 14.f) * ShopUI.lengthY, 0.1f);
-		
+		car_Stats.InitStatsinShop(ShopUI);
+
 		for (int i = 0; i < 5; ++i)
 		{
 			car_Stats.StatTRS[i].Scale.y = 0.25f / 14.f * ShopUI.lengthY;

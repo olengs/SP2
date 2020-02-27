@@ -19,6 +19,25 @@ void CarStats::UpgradeFromStart()
 	else return;
 }
 
+void CarStats::InitStatsinShop(HologramUI ObjectDisplay)
+{
+	StatTRS[0].translate = Vector3(-((3.f / 14.f) * ObjectDisplay.lengthX) + ((StatLevel[0] / 28.f) * ObjectDisplay.lengthX), -(1.f / 14.f) * ObjectDisplay.lengthY, 0.1f);
+	StatTRS[1].translate = Vector3(-((3.f / 14.f) * ObjectDisplay.lengthX) + ((StatLevel[1] / 28.f) * ObjectDisplay.lengthX), -(2.f / 14.f) * ObjectDisplay.lengthY, 0.1f);
+	StatTRS[2].translate = Vector3(-((3.f / 14.f) * ObjectDisplay.lengthX) + ((StatLevel[2] / 28.f) * ObjectDisplay.lengthX), -(3.f / 14.f) * ObjectDisplay.lengthY, 0.1f);
+	StatTRS[3].translate = Vector3(-((3.f / 14.f) * ObjectDisplay.lengthX) + ((StatLevel[3] / 28.f) * ObjectDisplay.lengthX), -(4.f / 14.f) * ObjectDisplay.lengthY, 0.1f);
+	StatTRS[4].translate = Vector3(-((3.f / 14.f) * ObjectDisplay.lengthX) + ((StatLevel[4] / 28.f) * ObjectDisplay.lengthX), -(5.f / 14.f) * ObjectDisplay.lengthY, 0.1f);
+}
+
+void CarStats::InitStatsinHolo(HologramUI ObjectDisplay)
+{
+	StatTRS[0].translate = Vector3(-((3.f / 14.f) * ObjectDisplay.lengthX) + (StatLevel[0] / 28.f) * ObjectDisplay.lengthX, (6.f / 14.f) * ObjectDisplay.lengthY, 0.1f);
+	StatTRS[1].translate = Vector3(-((3.f / 14.f) * ObjectDisplay.lengthX) + (StatLevel[1] / 28.f) * ObjectDisplay.lengthX, (3.5f / 14.f) * ObjectDisplay.lengthY, 0.1f);
+	StatTRS[2].translate = Vector3(-((3.f / 14.f) * ObjectDisplay.lengthX) + (StatLevel[2] / 28.f) * ObjectDisplay.lengthX, (1.f / 14.f) * ObjectDisplay.lengthY, 0.1f);
+	StatTRS[3].translate = Vector3(-((3.f / 14.f) * ObjectDisplay.lengthX) + (StatLevel[3] / 28.f) * ObjectDisplay.lengthX, -(1.5f / 14.f) * ObjectDisplay.lengthY, 0.1f);
+	StatTRS[4].translate = Vector3(-((3.f / 14.f) * ObjectDisplay.lengthX) + (StatLevel[4] / 28.f) * ObjectDisplay.lengthX, -(4.f / 14.f) * ObjectDisplay.lengthY, 0.1f);
+
+}
+
 CarStats::CarStats() //set default to 1
 {
 	for (int i = 0; i < 5; ++i)

@@ -649,6 +649,7 @@ void DriveScene::Init()
 	AExplosion.translate = Vector3(0, 4, 0);
 	AExplosion.Scale = Vector3(3, 3, 3);
 
+	//StatLevel[0]: acceleration, [1]: Max speed, [2]: Turbo, [3]: Max Fuel, [4]: Current Fuel
 	carVelocity = 0.f;
 	carTurningSpeed = 135.f;
 	carAcceleration = playerdetails.car_number.SelectedCar.StatLevel[0] * 10.f;
@@ -656,7 +657,7 @@ void DriveScene::Init()
 	boostbar = 30;
 	boostVelocity = 0.f;
 	boostAcceleration = playerdetails.car_number.SelectedCar.StatLevel[1] * 10.f;
-	fuel = 1000.f;
+	fuel = playerdetails.car_number.SelectedCar.StatLevel[4] * 1000.f;
 	car_ismoving = false;
 
 	countDown = 50;
