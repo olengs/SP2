@@ -188,7 +188,7 @@ void SceneSkybox::Init()
 	meshList[GEO_PLAYERBODY] = MeshBuilder::GenerateOBJ("playerbody", "OBJ//playerbody.obj");
 	meshList[GEO_PLAYERBODY]->textureID = LoadTGA("Image//player.tga");
 	Aplayer.translate = Vector3(0, 5.5, 5);
-	Aplayer.RotateY.degree += 180;
+	Aplayer.RotateY.degree = 180;
 	Loadcoord("OBJ//playerbody.obj", Cplayer);
 
 	meshList[GEO_PLAYERLEFTARM] = MeshBuilder::GenerateOBJ("playerleftarm", "OBJ//playerleftarm.obj");
@@ -347,7 +347,7 @@ void SceneSkybox::Init()
 	meshList[GEO_DOOR]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_DOOR]->material.kShininess = 1.f;
 	Door.translate = Vector3(45, 4, 35);
-	Door.RotateY.degree += 270;
+	Door.RotateY.degree = 270;
 	Door.Scale = Vector3(1.5, 1.5, 1.5);
 
 
@@ -673,7 +673,6 @@ void SceneSkybox::Update(double dt)
 
 	//change Scene
 	if (collision_detector(DoorCheck, CdoorScreen, Aplayer, Cplayer)) {
-		//SceneManager::currSceneID = SceneManager::S_DRIVESCENE;
 		scenenumber = 1;
 		scenechange = true;
 	}
