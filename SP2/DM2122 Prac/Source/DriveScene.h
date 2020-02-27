@@ -105,8 +105,6 @@ private:
 	int coinarray[10] = { 0 };
 	int count = 0;
 
-	int coinCounter = 0;
-
 	int fps;
 	float framespersecond;
 	float lastTime;

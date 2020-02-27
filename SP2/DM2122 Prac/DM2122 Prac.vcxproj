@@ -138,6 +138,7 @@
     <ClInclude Include="Source\cornercoord.h" />
     <ClInclude Include="Source\DriveScene.h" />
     <ClInclude Include="Source\FirstPersonCamera.h" />
+    <ClInclude Include="Source\GameOverScene.h" />
     <ClInclude Include="Source\HologramCamera.h" />
     <ClInclude Include="Source\HologramUI.h" />
     <ClInclude Include="Source\Light.h" />
@@ -169,6 +170,7 @@
     <ClCompile Include="Source\Collision_detector.cpp" />
     <ClCompile Include="Source\DriveScene.cpp" />
     <ClCompile Include="Source\FirstPersonCamera.cpp" />
+    <ClCompile Include="Source\GameOverScene.cpp" />
     <ClCompile Include="Source\HologramCamera.cpp" />
     <ClCompile Include="Source\HologramUI.cpp" />
     <ClCompile Include="Source\Loadcornercoord.cpp" />
