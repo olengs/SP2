@@ -689,7 +689,7 @@ void SceneSkybox::Update(double dt)
 
 	//change Scene
 	if (collision_detector(DoorCheck, CdoorScreen, Aplayer, Cplayer)) {
-		scenenumber = 1;
+		scenenumber = 2;
 		scenechange = true;
 	}
 

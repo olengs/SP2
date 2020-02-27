@@ -1100,7 +1100,7 @@ void DriveScene::carMovement(TRS carbody, float& velocity, double dt)
 				//coin/currency increase code here
 			}
 			if (coinlist.gethead() == nullptr) {
-				scenenumber = 0;
+				scenenumber = 1;
 				scenechange = true;
 				break;
 			}
@@ -1109,7 +1109,7 @@ void DriveScene::carMovement(TRS carbody, float& velocity, double dt)
 	}
 
 	if (health < 0) {
-		scenenumber = 0;
+		scenenumber = 1;
 		scenechange = true;
 		//end driving
 	}
