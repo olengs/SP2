@@ -4,10 +4,10 @@ AllCarDetails::AllCarDetails()
 
 	if (!IsInit())
 	{
-		car_Stats[0] = CarStats(1.f, 0.5f, 1.f, 1.f); //guangtheng car
-		car_Stats[1] = CarStats(1.f, 1.f, 0.5f, 1.f); //ryan car
-		car_Stats[2] = CarStats(0.5f, 0.5f, 0.5f, 1.f); //junchen car
-		car_Stats[3] = CarStats(0.5f, 1.f, 1.f, 1.f); //jianfeng car
+		car_Stats[0] = CarStats(2.f, 1.f, 2.f, 1.f, 1.f, 1.f); //guangtheng car
+		car_Stats[1] = CarStats(2.f, 2.f, 1.f, 1.f, 1.f, 1.f); //ryan car
+		car_Stats[2] = CarStats(1.f, 1.f, 1.f, 1.f, 1.f, 1.f); //junchen car
+		car_Stats[3] = CarStats(1.f, 2.f, 2.f, 1.f, 1.f, 1.f); //jianfeng car
 
 		car_Stats[2].lock = false;
 

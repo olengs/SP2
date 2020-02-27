@@ -16,7 +16,7 @@ void PlayerDetails::Update(CarSelection updatedcar, int updatedcurrency)
 	}
 	car_number = updatedcar;
 	
-	currency = updatedcurrency;	
+	currency = updatedcurrency;
 }
 
 void PlayerDetails::Update()
@@ -70,10 +70,10 @@ bool PlayerDetails::IsInit()
 PlayerDetails::PlayerDetails(CarSelection car, int currency)
 {
 
-	all_car_Details[0] = CarStats(2.f, 1.f, 2.f, 1.f); //guangtheng car
-	all_car_Details[1] = CarStats(2.f, 2.f, 1.f, 1.f); //ryan car
+	all_car_Details[0] = CarStats(2.f, 1.f, 2.f, 1.f, 1.f, 1.f); //guangtheng car
+	all_car_Details[1] = CarStats(2.f, 2.f, 1.f, 1.f, 1.f, 1.f); //ryan car
 	all_car_Details[2] = car.SelectedCar; //junchen car
-	all_car_Details[3] = CarStats(1.f, 2.f, 2.f, 1.f); //jianfeng car
+	all_car_Details[3] = CarStats(1.f, 2.f, 2.f, 1.f, 1.f, 1.f); //jianfeng car
 
 	std::ofstream data;
 	data.open("PlayerDetails.txt");
