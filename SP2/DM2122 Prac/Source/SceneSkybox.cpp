@@ -350,8 +350,17 @@ void SceneSkybox::Init()
 	meshList[GEO_DOORSCREEN]->material.kShininess = 1.f;
 	DoorScreen.translate = Vector3(0, -0.2, 2);
 	DoorScreen.Scale = Vector3(1, 1, 1);	
-	Loadcoord("OBJ//doorscreen.obj", CdoorScreen);
 	DoorCheck = Door + DoorScreen;
+
+	meshList[GEO_FAKEDOORSCREEN] = MeshBuilder::GenerateOBJ("doorscreen", "OBJ//doorscreen.obj");
+	meshList[GEO_FAKEDOORSCREEN]->textureID = LoadTGA("Image//doorscreen.tga");
+	meshList[GEO_FAKEDOORSCREEN]->material.kAmbient.Set(0.7f, 0.7f, 0.7f);
+	meshList[GEO_FAKEDOORSCREEN]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[GEO_FAKEDOORSCREEN]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_FAKEDOORSCREEN]->material.kShininess = 1.f;
+	FakeScreen.translate = Vector3(45, 4, 35);
+	FakeScreen.RotateY.degree = 90;
+	Loadcoord("OBJ//doorscreen.obj", CdoorScreen);
 
 
 	meshList[GEO_SLOT_BODY] = MeshBuilder::GenerateOBJ("slot body", "obj//slots_body.obj");
@@ -563,7 +572,7 @@ void SceneSkybox::Update(double dt)
 	{
 		for (int i = 0; i < 4; i++)
 		{
-			if ((Aplayer.translate - Platform[i].translate).Length() < 13)
+			if ((Aplayer.translate - Platform[i].translate).Length() < 15)
 			{
 				Platform[i].RotateY.degree--;
 			}
@@ -573,7 +582,7 @@ void SceneSkybox::Update(double dt)
 	{
 		for (int i = 0; i < 4; i++)
 		{
-			if ((Aplayer.translate - Platform[i].translate).Length() < 13)
+			if ((Aplayer.translate - Platform[i].translate).Length() < 15)
 			{
 				Platform[i].RotateY.degree++;
 			}
@@ -581,7 +590,7 @@ void SceneSkybox::Update(double dt)
 	}
 
 	// Open & Close Door
-	if ((Aplayer.translate - Door.translate).Length() < 13)
+	if ((Aplayer.translate - Door.translate).Length() < 14)
 	{
 		if (DoorScreen.translate.x <= 8)
 		{
@@ -862,6 +871,7 @@ void SceneSkybox::Render()
 	RenderObj(meshList[GEO_DOOR], Door, false, false);
 	RenderObj(meshList[GEO_DOORSCREEN], DoorScreen, true, false);
 	modelStack.PopMatrix();
+	RenderObj(meshList[GEO_FAKEDOORSCREEN], FakeScreen, true, false);
 
 	if ((Aplayer.translate - Platform[0].translate).Length() < 15 || (Aplayer.translate - Platform[1].translate).Length() < 15 || (Aplayer.translate - Platform[2].translate).Length() < 15 || (Aplayer.translate - Platform[3].translate).Length() < 15)
 	{
