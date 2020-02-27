@@ -199,8 +199,6 @@ private:
 	HologramUI CarHologram[4];
 
 	
-
-	
 	bool DistanceCheck(Vector3 Object1, Vector3 Object2);
 	
 	//RenderFunctions

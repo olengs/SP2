@@ -42,9 +42,9 @@ void SceneSkybox::Init()
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, 1000.f);
 	projectionStack.LoadMatrix(projection);
-	
+
 	m_programID = LoadShaders("Shader//Texture.vertexshader", "Shader//Text.fragmentshader");
-	
+
 	//m_programID = LoadShaders("Shader//Texture.vertexshader", "Shader//Texture.fragmentshader"); 
 
 	m_parameters[U_MVP] = glGetUniformLocation(m_programID, "MVP");
@@ -65,7 +65,7 @@ void SceneSkybox::Init()
 	m_parameters[U_LIGHT0_SPOTDIRECTION] = glGetUniformLocation(m_programID, "lights[0].spotDirection");
 	m_parameters[U_LIGHT0_COSCUTOFF] = glGetUniformLocation(m_programID, "lights[0].cosCutoff");
 	m_parameters[U_LIGHT0_COSINNER] = glGetUniformLocation(m_programID, "lights[0].cosInner");
-	m_parameters[U_LIGHT0_EXPONENT] = glGetUniformLocation(m_programID, "lights[0].exponent");	
+	m_parameters[U_LIGHT0_EXPONENT] = glGetUniformLocation(m_programID, "lights[0].exponent");
 	//light 1
 	m_parameters[U_LIGHT1_POSITION] = glGetUniformLocation(m_programID, "lights[1].position_cameraspace");
 	m_parameters[U_LIGHT1_COLOR] = glGetUniformLocation(m_programID, "lights[1].color");
@@ -95,7 +95,7 @@ void SceneSkybox::Init()
 	glEnable(GL_DEPTH_TEST);
 
 	light[0].type = Light::LIGHT_DIRECTIONAL;
-	light[0].position.Set(10,10,10);
+	light[0].position.Set(10, 10, 10);
 	light[0].color.Set(0.5f, 0.5f, 0.5f);
 	light[0].power = 1;
 	light[0].kC = 1.f;
@@ -163,15 +163,6 @@ void SceneSkybox::Init()
 
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//calibri.tga");
-
-	//meshList[GEO_DICE] = MeshBuilder::GenerateOBJ("dice", "OBJ//player.obj");
-	//meshList[GEO_DICE]->textureID = LoadTGA("Image//player.tga");
-	//meshList[GEO_DICE]->material.kAmbient.Set(0.7f, 0.7f, 0.7f);
-	//meshList[GEO_DICE]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	//meshList[GEO_DICE]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	//meshList[GEO_DICE]->material.kShininess = 1.f;
-	//Aplayer.translate = Vector3(0, 4, 5);
-	//Aplayer.RotateY.degree += 180;
 
 	meshList[GEO_NPC] = MeshBuilder::GenerateOBJ("npc", "OBJ//npc.obj");
 	meshList[GEO_NPC]->textureID = LoadTGA("Image//npc.tga");
