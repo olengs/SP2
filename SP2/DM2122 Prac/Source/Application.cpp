@@ -12,6 +12,7 @@
 #include "SceneManager.h"
 #include "SceneSkybox.h"
 #include "SceneMainMenu.h"
+#include "GameOverScene.h"
 #include "DriveScene.h"
 
 GLFWwindow* m_window;
@@ -111,6 +112,7 @@ void Application::Run()
 	thisScene->Scenes[SceneManager::S_MAINMENUSCENE] = new SceneMainMenu;
 	thisScene->Scenes[SceneManager::S_SHOWROOMSCENE] = new SceneSkybox;
 	thisScene->Scenes[SceneManager::S_DRIVESCENE] = new DriveScene;
+	thisScene->Scenes[SceneManager::S_GAMEOVERSCENE] = new GameOverScene;
 	
 	//Main Loop
 

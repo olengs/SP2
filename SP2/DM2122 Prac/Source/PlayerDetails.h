@@ -11,6 +11,7 @@ class PlayerDetails
 public:
 	CarStats all_car_Details[4];
 	int currency;
+	int coinCounter;
 	CarSelection car_number;
 	void Update(CarSelection updatedcar, int updatedcurrency);
 	void Update();

@@ -659,7 +659,7 @@ void DriveScene::Init()
 	fuel = 1000.f;
 	car_ismoving = false;
 
-	countDown = 10;
+	countDown = 50;
 	carcanmove = true;
 
 	test.Init(ACarBody.translate + Vector3(0, 150, 1), ACarBody.translate, Vector3(0, 1, 0));
@@ -667,7 +667,7 @@ void DriveScene::Init()
 	showtext = GetTickCount() + 3000;
 	startingtext = "Collect all 10 coins around the field~without destroying your car ~/ running out fuel";
 
-	coinCounter = 0;
+	playerdetails.coinCounter = 0;
 
 	if (playsound == true)
 	{
@@ -822,13 +822,13 @@ void DriveScene::Update(double dt)
 		carMovement(ACarBody, carVelocity, dt);
 	}
 
-	if (coinCounter == 10)
+	if (playerdetails.coinCounter == 10)
 	{
 		carcanmove = false;
 		countDown -= dt * 10;
 		if (countDown == 0)
 		{
-			scenenumber = 1;
+			scenenumber = 3;
 			scenechange = true;
 		}
 	}
@@ -839,7 +839,7 @@ void DriveScene::Update(double dt)
 		countDown -= dt * 10;
 		if (countDown == 0)
 		{
-			scenenumber = 1;
+			scenenumber = 3;
 			scenechange = true;
 		}
 		//end driving
@@ -949,7 +949,7 @@ void DriveScene::Render()
 		RenderTextOnScreen(meshList[GEO_TEXT], startingtext, Color(0, 1, 0), 3, 0, 15);
 	}
 
-	RenderTextOnScreen(meshList[GEO_TEXT], "  x" + std::to_string(coinCounter), Color(0, 1, 0), 2, 0, 4); //coins
+	RenderTextOnScreen(meshList[GEO_TEXT], "  x" + std::to_string(playerdetails.coinCounter), Color(0, 1, 0), 2, 0, 4); //coins
 	RenderMeshOnScreen(meshList[GEO_COIN], 8, 45, 3, 3, 0, 0);
 	RenderTextOnScreen(meshList[GEO_TEXT], "Nitro left: " + std::to_string((int)boostbar), Color(0, 1, 0), 2, 0, 3); //fuel
 	RenderTextOnScreen(meshList[GEO_TEXT], "Health: " + std::to_string(health), Color(0, 1, 0), 2, 0, 2); //health
@@ -1188,7 +1188,7 @@ void DriveScene::carMovement(TRS carbody, float& velocity, double dt)
 			if (collision_detector(ACarBody, CCarBody, current->transformation, CCoin)) {
 				coinlist.removeItem(current);
 				playerdetails.currency += 100;
-				coinCounter++;
+				playerdetails.coinCounter++;
 
 				//coin/currency increase code here
 			}
