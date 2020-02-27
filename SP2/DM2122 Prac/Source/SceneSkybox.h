@@ -50,6 +50,7 @@ class SceneSkybox : public Scene
 		GEO_SLOT_SCREEN_IMAGE,
 		GEO_DOOR,
 		GEO_DOORSCREEN,
+		GEO_FAKEDOORSCREEN,
 		GEO_HOLO,
 		GEO_COIN,
 		GEO_PLAYERLEFTARM,
@@ -173,6 +174,7 @@ private:
 	TRS Door;
 	TRS DoorCheck;
 	TRS DoorScreen;
+	TRS FakeScreen;
 	cornercoord CdoorScreen;
 
 	//slot machine
