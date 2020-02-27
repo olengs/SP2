@@ -123,9 +123,8 @@ private:
 	int health;
 	float iFrames;
 
-
-	float startracetime;
-	bool start;
+	std::string startingtext;
+	float showtext;
 
 	const float playerMovementSpeed = 10.f;
 	const float playerTurningSpeed = 135.f;
