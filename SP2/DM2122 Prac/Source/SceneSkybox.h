@@ -51,6 +51,7 @@ class SceneSkybox : public Scene
 		GEO_SLOT_SCREEN_IMAGE,
 		GEO_DOOR,
 		GEO_DOORSCREEN,
+		GEO_FAKEDOORSCREEN,
 		GEO_HOLO,
 		GEO_COIN,
 		GEO_PLAYERLEFTARM,
@@ -142,6 +143,7 @@ private:
 	TRS Aplayerleftleg;
 	TRS Aplayerrightarm;
 	TRS Aplayerrightleg;
+	bool rotatebodyparts;
 
 	//player movement
 	const float playerMovementSpeed = 10.f;
@@ -175,6 +177,7 @@ private:
 	TRS Door;
 	TRS DoorCheck;
 	TRS DoorScreen;
+	TRS FakeScreen;
 	cornercoord CdoorScreen;
 
 	//slot machine
@@ -199,8 +202,6 @@ private:
 
 	std::string BuyText;	
 	HologramUI CarHologram[4];
-
-	
 
 	
 	bool DistanceCheck(Vector3 Object1, Vector3 Object2);

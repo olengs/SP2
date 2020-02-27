@@ -630,7 +630,7 @@ void DriveScene::Init()
 	carVelocity = 0.f;
 	carTurningSpeed = 135.f;
 	carAcceleration = playerdetails.car_number.SelectedCar.StatLevel[0] * 10.f;
-	friction = 8.f;
+	friction = 10.f;
 	boostbar = 30;
 	boostVelocity = 0.f;
 	boostAcceleration = playerdetails.car_number.SelectedCar.StatLevel[1] * 10.f;
@@ -641,7 +641,14 @@ void DriveScene::Init()
 	test.Init(ACarBody.translate + Vector3(0, 150, 1), ACarBody.translate, Vector3(0, 1, 0));
 
 	showtext = GetTickCount() + 3000;
-	startingtext = "Collect all 10 coins around the field";
+	startingtext = "Collect all 10 coins around the field~without destroying your car ~/ running out fuel";
+
+	coinCounter = 0;
+
+	if (playsound == true)
+	{
+		PlaySound(TEXT("Music/Cycle.wav"), NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
+	}
 }
 
 void DriveScene::Update(double dt)
@@ -667,11 +674,13 @@ void DriveScene::Update(double dt)
 	// Increase Car Velocity to move forward
 	if (Application::IsKeyPressed('W'))
 	{
+		// If car was moving backwards and player wants to move forward
 		if (carVelocity < 0)
 		{
 			carVelocity += (1.5 * ((carAcceleration * dt) + (friction * dt)));
 			car_ismoving = true;
 		}
+		// Move forward normally
 		else
 		{
 			if (carVelocity < 80)
@@ -680,15 +689,23 @@ void DriveScene::Update(double dt)
 				car_ismoving = true;
 			}
 		}
+
+		// Animation for car wheel
+		for (int i = 0; i < 2; i++)
+		{
+			ACarWheel[i].RotateY.degree = 0;
+		}
 	}
 	// Decrease Car Velocity to move backwards
 	if (Application::IsKeyPressed('S'))
 	{
+		// If car was moving forwards and player wants to move backward
 		if (carVelocity > 0)
 		{
 			carVelocity -= (1.5 * ((carAcceleration * dt) + (friction * dt)));
 			car_ismoving = true;
 		}
+		// Move backward normally
 		else
 		{
 			if (carVelocity > -80)
@@ -697,33 +714,49 @@ void DriveScene::Update(double dt)
 				car_ismoving = true;
 			}
 		}
+
+		// Animation for car wheel
+		for (int i = 0; i < 2; i++)
+		{
+			ACarWheel[i].RotateY.degree = 0;
+		}
 	}
 	// Turn car to the left
 	if (carVelocity != 0.f && Application::IsKeyPressed('A'))
 	{
 		ACarBody.RotateY.degree += (float)(carTurningSpeed * dt);
+
+		// Animation for car wheel
+		for (int i = 0; i < 2; i++)
+		{
+			ACarWheel[i].RotateY.degree = 30;
+		}
 		car_ismoving = true;
 	}
 	// Turn car to the right
 	if (carVelocity != 0.f && Application::IsKeyPressed('D'))
 	{
 		ACarBody.RotateY.degree -= (float)(carTurningSpeed * dt);
+
+		// Animation for car wheel
+		for (int i = 0; i < 2; i++)
+		{
+			ACarWheel[i].RotateY.degree = -30;
+		}
 		car_ismoving = true;
 	}
-	// Using the car booster
-	if (Application::IsKeyPressed(VK_SPACE) && boostbar / 10 > 1)
+	//Nitro booster
+	if (Application::IsKeyPressed(VK_SPACE) && boostbar > 0 && carVelocity < 120)
 	{
-		boostbar -= 10;
-		boostVelocity += boostAcceleration;
+
+		boostVelocity += 5 * dt;
 		carVelocity += boostVelocity;
-		car_ismoving = true;
+		boostbar -= dt * 10;
+
 	}
-	else if (boostbar < 30 && !Application::IsKeyPressed(VK_SPACE))
+	if (!Application::IsKeyPressed(VK_SPACE) && boostVelocity > 0)
 	{
-		boostbar += 5;
-		carVelocity -= boostVelocity;
 		boostVelocity = 0;
-		car_ismoving = true;
 	}
 	// If car is moving without key inputs, increase/decrease car velocity to being the car to a stop
 	if (!Application::IsKeyPressed('W') && !Application::IsKeyPressed('S'))
@@ -745,8 +778,17 @@ void DriveScene::Update(double dt)
 				carVelocity = 0.f;
 			}
 		}
+		// Animation for car wheel
+		for (int i = 0; i < 2; i++)
+		{
+			ACarWheel[i].RotateY.degree = 0;
+		}
 	}
 		
+	if (carVelocity == 0)
+	{
+		car_ismoving = false;
+	}
 	//Fuel decreasing
 	if (car_ismoving) --fuel;
 	
@@ -841,6 +883,13 @@ void DriveScene::Render()
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], startingtext, Color(0, 1, 0), 3, 0, 15);
 	}
+
+	RenderTextOnScreen(meshList[GEO_TEXT], "  x" + std::to_string(coinCounter), Color(0, 1, 0), 2, 0, 4); //coins
+	RenderMeshOnScreen(meshList[GEO_COIN], 8, 45, 3, 3, 0, 0);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Nitro left: " + std::to_string((int)boostbar), Color(0, 1, 0), 2, 0, 3); //fuel
+	RenderTextOnScreen(meshList[GEO_TEXT], "Health: " + std::to_string(health), Color(0, 1, 0), 2, 0, 2); //health
+	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string((int)carVelocity) + " kmph", Color(0, 1, 0), 2, 0, 1); //speed
+	RenderTextOnScreen(meshList[GEO_TEXT], "Fuel left: " + std::to_string((int)fuel), Color(0, 1, 0), 2, 0, 0); //fuel
 }
 
 void DriveScene::Exit()
@@ -902,22 +951,22 @@ void DriveScene::RenderSkybox()
 {
 	modelStack.PushMatrix();
 	///scale, translate, rotate 
-	modelStack.Translate(-250.f, 50.f, 0.f);
-	modelStack.Scale(503.f, 503.f, 503.f);
+	modelStack.Translate(-270.f, 50.f, 0.f);
+	modelStack.Scale(553.f, 553.f, 553.f);
 	modelStack.Rotate(90.f, 0.f, 1.f, 0.f);
 	RenderMesh(meshList[GEO_LEFT], false);
 	modelStack.PopMatrix();
 	modelStack.PushMatrix();
 	///scale, translate, rotate 
-	modelStack.Translate(250.f, 50.f, 0.f);
-	modelStack.Scale(503.f, 503.f, 503.f);
+	modelStack.Translate(270.f, 50.f, 0.f);
+	modelStack.Scale(553.f, 553.f, 553.f);
 	modelStack.Rotate(-90.f, 0.f, 1.f, 0.f);
 	RenderMesh(meshList[GEO_RIGHT], false);
 	modelStack.PopMatrix();
 	modelStack.PushMatrix();
 	///scale, translate, rotate 
 	modelStack.Translate(0.f, 150.f, 1.f);
-	modelStack.Scale(503.f, 503.f, 503.f);
+	modelStack.Scale(553.f, 553.f, 553.f);
 	modelStack.Rotate(90.f, 1.f, 0.f, 0.f);
 	modelStack.Rotate(0.f, 0.f, 0.f, 1.f);
 	RenderMesh(meshList[GEO_TOP], false);
@@ -925,21 +974,21 @@ void DriveScene::RenderSkybox()
 	modelStack.PushMatrix();
 	///scale, translate, rotate 
 	modelStack.Translate(0.f, -50.f, 0.f);
-	modelStack.Scale(503.f, 503.f, 503.f);
+	modelStack.Scale(553.f, 553.f, 553.f);
 	modelStack.Rotate(-90.f, 1.f, 0.f, 0.f);
 	modelStack.Rotate(90.f, 0.f, 0.f, 1.f);
 	RenderMesh(meshList[GEO_BOTTOM], false);
 	modelStack.PopMatrix();
 	modelStack.PushMatrix();
 	///scale, translate, rotate 
-	modelStack.Translate(0.f, 50.f, -250.f);
-	modelStack.Scale(503.f, 503.f, 503.f);
+	modelStack.Translate(0.f, 50.f, -270.f);
+	modelStack.Scale(553.f, 553.f, 553.f);
 	RenderMesh(meshList[GEO_FRONT], false);
 	modelStack.PopMatrix();
 	modelStack.PushMatrix();
 	///scale, translate, rotate 
-	modelStack.Translate(0.f, 50.f, 250.f);
-	modelStack.Scale(503.f, 503.f, 503.f);
+	modelStack.Translate(0.f, 50.f, 270.f);
+	modelStack.Scale(553.f, 553.f, 553.f);
 	modelStack.Rotate(180.f, 0.f, 1.f, 0.f);
 	RenderMesh(meshList[GEO_BACK], false);
 	modelStack.PopMatrix();
@@ -977,7 +1026,6 @@ void DriveScene::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, f
 		return;
 	}
 	glDisable(GL_DEPTH_TEST);
-
 	Mtx44 ortho;
 	ortho.SetToOrtho(0, 80, 0, 60, -10, 10);
 	projectionStack.PushMatrix();
@@ -989,6 +1037,7 @@ void DriveScene::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, f
 	modelStack.Scale(size, size, size);
 	modelStack.Translate(x, y, 0);
 
+	int moved = 0;
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 1);
 	glUniform3fv(m_parameters[U_TEXT_COLOR], 1, &color.r);
 	glUniform1i(m_parameters[U_LIGHTENABLED], 0);
@@ -996,7 +1045,14 @@ void DriveScene::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, f
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, mesh->textureID);
 	glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);
-	for (unsigned i = 0; i < text.length(); ++i) {
+	for (unsigned i = 0; i < text.length(); ++i, ++moved) {
+		if (text[i] == '~') {
+			//newline += -1.f;
+			modelStack.Translate(-moved * 0.7f, -2, 0);
+			moved = 0;
+			continue;
+		}
+
 		Mtx44 characterSpacing;
 		characterSpacing.SetToTranslation(i * 0.7f, 0, 0);
 		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
@@ -1057,7 +1113,7 @@ void DriveScene::carMovement(TRS carbody, float& velocity, double dt)
 		for (CNode* current = boostpadlist.gethead(); current != nullptr; current = current->getnext())
 		{
 			if (collision_detector(ACarBody, CCarBody, current->transformation, CBoostpad, true)) {
-				carVelocity += 0.5;
+				carVelocity += 0.2;
 			}
 
 		}
@@ -1067,11 +1123,12 @@ void DriveScene::carMovement(TRS carbody, float& velocity, double dt)
 			if (collision_detector(ACarBody, CCarBody, current->transformation, CCoin)) {
 				coinlist.removeItem(current);
 				playerdetails.currency += 100;
+				coinCounter++;
 				
 				//coin/currency increase code here
 			}
 			if (coinlist.gethead() == nullptr) {
-				scenenumber = 0;
+				scenenumber = 1;
 				scenechange = true;
 				break;
 			}
@@ -1080,10 +1137,38 @@ void DriveScene::carMovement(TRS carbody, float& velocity, double dt)
 	}
 
 	if (health < 0) {
-		scenenumber = 0;
+		scenenumber = 1;
 		scenechange = true;
 		//end driving
 	}
+}
+
+void DriveScene::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey, float rotateX, float rotateY)
+{
+	if (!mesh || mesh->textureID <= 0) {
+		return;
+	}
+	glDisable(GL_DEPTH_TEST);
+
+	Mtx44 ortho;
+	ortho.SetToOrtho(0, 400, 0, 300, -10, 10); //size of screen
+	projectionStack.PushMatrix();
+	projectionStack.LoadMatrix(ortho);
+	viewStack.PushMatrix();
+	viewStack.LoadIdentity(); //no need camera for ortho mode
+	modelStack.PushMatrix();
+	modelStack.LoadIdentity();
+	modelStack.Translate(x, y, 0);
+	modelStack.Scale(sizex, sizey, 1);
+	modelStack.Rotate(rotateX, 1, 0, 0);
+	modelStack.Rotate(rotateY, 0, 1, 0);
+	RenderMesh(mesh, false);
+	modelStack.PopMatrix();
+	viewStack.PopMatrix();
+	projectionStack.PopMatrix();
+
+	glEnable(GL_DEPTH_TEST);
+
 }
 
 void DriveScene::Generatecoinposition()

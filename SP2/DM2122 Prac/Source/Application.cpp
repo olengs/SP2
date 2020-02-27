@@ -11,6 +11,7 @@
 #include "Application.h"
 #include "SceneManager.h"
 #include "SceneSkybox.h"
+#include "SceneMainMenu.h"
 #include "DriveScene.h"
 
 GLFWwindow* m_window;
@@ -107,7 +108,7 @@ void Application::Run()
 	
 	SceneManager* thisScene = SceneManager::getInstance();
 	
-	
+	thisScene->Scenes[SceneManager::S_MAINMENUSCENE] = new SceneMainMenu;
 	thisScene->Scenes[SceneManager::S_SHOWROOMSCENE] = new SceneSkybox;
 	thisScene->Scenes[SceneManager::S_DRIVESCENE] = new DriveScene;
 	
@@ -120,7 +121,9 @@ void Application::Run()
 	{
 		if (thisScene->getCurrScene()->scenechange == true)
 		{
+			applicationsound = thisScene->getCurrScene()->playsound;
 			thisScene->setCurrSceneID(thisScene->getCurrScene()->scenenumber);
+			thisScene->getCurrScene()->playsound = applicationsound;
 			thisScene->getCurrScene()->Init();
 		}
 		//put condition here

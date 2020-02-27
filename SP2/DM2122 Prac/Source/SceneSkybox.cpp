@@ -42,9 +42,9 @@ void SceneSkybox::Init()
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, 1000.f);
 	projectionStack.LoadMatrix(projection);
-	
+
 	m_programID = LoadShaders("Shader//Texture.vertexshader", "Shader//Text.fragmentshader");
-	
+
 	//m_programID = LoadShaders("Shader//Texture.vertexshader", "Shader//Texture.fragmentshader"); 
 
 	m_parameters[U_MVP] = glGetUniformLocation(m_programID, "MVP");
@@ -65,7 +65,7 @@ void SceneSkybox::Init()
 	m_parameters[U_LIGHT0_SPOTDIRECTION] = glGetUniformLocation(m_programID, "lights[0].spotDirection");
 	m_parameters[U_LIGHT0_COSCUTOFF] = glGetUniformLocation(m_programID, "lights[0].cosCutoff");
 	m_parameters[U_LIGHT0_COSINNER] = glGetUniformLocation(m_programID, "lights[0].cosInner");
-	m_parameters[U_LIGHT0_EXPONENT] = glGetUniformLocation(m_programID, "lights[0].exponent");	
+	m_parameters[U_LIGHT0_EXPONENT] = glGetUniformLocation(m_programID, "lights[0].exponent");
 	//light 1
 	m_parameters[U_LIGHT1_POSITION] = glGetUniformLocation(m_programID, "lights[1].position_cameraspace");
 	m_parameters[U_LIGHT1_COLOR] = glGetUniformLocation(m_programID, "lights[1].color");
@@ -95,7 +95,7 @@ void SceneSkybox::Init()
 	glEnable(GL_DEPTH_TEST);
 
 	light[0].type = Light::LIGHT_DIRECTIONAL;
-	light[0].position.Set(10,10,10);
+	light[0].position.Set(10, 10, 10);
 	light[0].color.Set(0.5f, 0.5f, 0.5f);
 	light[0].power = 1;
 	light[0].kC = 1.f;
@@ -164,15 +164,6 @@ void SceneSkybox::Init()
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//calibri.tga");
 
-	//meshList[GEO_DICE] = MeshBuilder::GenerateOBJ("dice", "OBJ//player.obj");
-	//meshList[GEO_DICE]->textureID = LoadTGA("Image//player.tga");
-	//meshList[GEO_DICE]->material.kAmbient.Set(0.7f, 0.7f, 0.7f);
-	//meshList[GEO_DICE]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	//meshList[GEO_DICE]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	//meshList[GEO_DICE]->material.kShininess = 1.f;
-	//Aplayer.translate = Vector3(0, 4, 5);
-	//Aplayer.RotateY.degree += 180;
-
 	meshList[GEO_NPC] = MeshBuilder::GenerateOBJ("npc", "OBJ//npc.obj");
 	meshList[GEO_NPC]->textureID = LoadTGA("Image//npc.tga");
 	ANPC.translate = Vector3(20, 3, 20);
@@ -206,6 +197,8 @@ void SceneSkybox::Init()
 	meshList[GEO_PLAYERRIGHTLEG] = MeshBuilder::GenerateOBJ("playerrightleg", "OBJ//playerrightleg.obj");
 	meshList[GEO_PLAYERRIGHTLEG]->textureID = LoadTGA("Image//player.tga");
 	Aplayerrightleg.translate = Vector3(-0.3, -3.2, 0.5);
+
+	rotatebodyparts = false;
 
 	meshList[GEO_SHOP] = MeshBuilder::GenerateOBJ("shop", "OBJ//shop.obj");
 	meshList[GEO_SHOP]->textureID = LoadTGA("Image//shop.tga");
@@ -351,8 +344,18 @@ void SceneSkybox::Init()
 	meshList[GEO_DOORSCREEN]->material.kShininess = 1.f;
 	DoorScreen.translate = Vector3(0, -0.2, 2);
 	DoorScreen.Scale = Vector3(1, 1, 1);	
-	Loadcoord("OBJ//doorscreen.obj", CdoorScreen);
 	DoorCheck = Door + DoorScreen;
+
+	meshList[GEO_FAKEDOORSCREEN] = MeshBuilder::GenerateOBJ("doorscreen", "OBJ//doorscreen.obj");
+	meshList[GEO_FAKEDOORSCREEN]->textureID = LoadTGA("Image//doorscreen.tga");
+	meshList[GEO_FAKEDOORSCREEN]->material.kAmbient.Set(0.7f, 0.7f, 0.7f);
+	meshList[GEO_FAKEDOORSCREEN]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[GEO_FAKEDOORSCREEN]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_FAKEDOORSCREEN]->material.kShininess = 1.f;
+	FakeScreen.translate = Vector3(45, 4, 35);
+	FakeScreen.RotateY.degree = 90;
+	FakeScreen.Scale = Vector3(2, 2, 2);
+	Loadcoord("OBJ//doorscreen.obj", CdoorScreen);
 
 
 	meshList[GEO_SLOT_BODY] = MeshBuilder::GenerateOBJ("slot body", "obj//slots_body.obj");
@@ -449,6 +452,11 @@ void SceneSkybox::Init()
 	firstpersoncamera.Init(Vector3(Aplayer.translate.x, Aplayer.translate.y + 2, Aplayer.translate.z), Vector3(0, Aplayer.translate.y + 2, 0), Vector3(0, 1, 0));
 	hologramcamera.Init(Aplayer.translate + Vector3(0, 5, 0), Vector3(ShopUI.UI.translate) + Vector3(0, 5, 0), Vector3(0, 1, 0));
 	CameraSwitch = 0;
+
+	if (playsound == true)
+	{
+		PlaySound(TEXT("Music/Jubilife.wav"), NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
+	}
 }
 
 void SceneSkybox::Update(double dt)
@@ -470,24 +478,6 @@ void SceneSkybox::Update(double dt)
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	}
-	else if (Application::IsKeyPressed('I')) {
-		light[0].position.y += (float)(50 * dt);
-	}
-	else if (Application::IsKeyPressed('K')) {
-		light[0].position.y -= (float)(50 * dt);
-	}
-	else if (Application::IsKeyPressed('J')) {
-		light[0].position.x -= (float)(50 * dt);
-	}
-	else if (Application::IsKeyPressed('L')) {
-		light[0].position.x += (float)(50 * dt);
-	}
-	else if (Application::IsKeyPressed('O')) {
-		light[0].position.z += (float)(50 * dt);
-	}
-	else if (Application::IsKeyPressed('P')) {
-		light[0].position.y -= (float)(50 * dt);
-	}
 
 	//UI Text (for movement) logic
 	if (Application::IsKeyPressed('W') && CameraSwitch != 2) {
@@ -508,8 +498,42 @@ void SceneSkybox::Update(double dt)
 	if (Application::IsKeyPressed(VK_RIGHT) && CameraSwitch != 2) {
 		Aplayer.RotateY.degree -= (float)(playerTurningSpeed * dt);
 	}
-	//uncomment cameratoggle when 3rd and 1st person camera are working
-	
+	// If player is not moving, check whether has the arms rotate back to the original position (if not, rotate the arms back)
+	if (!Application::IsKeyPressed('W') && !Application::IsKeyPressed('S'))
+	{
+		if (Aplayerleftarm.RotateX.degree < 0)
+		{
+			Aplayerleftarm.RotateX.degree++;
+			if (Aplayerleftarm.RotateX.degree > 0)
+			{
+				Aplayerleftarm.RotateX.degree = 0;
+			}
+		}
+		else if (Aplayerleftarm.RotateX.degree > 0)
+		{
+			Aplayerleftarm.RotateX.degree--;
+			if (Aplayerleftarm.RotateX.degree < 0)
+			{
+				Aplayerleftarm.RotateX.degree = 0;
+			}
+		}
+		if (Aplayerrightarm.RotateX.degree < 0)
+		{
+			Aplayerrightarm.RotateX.degree++;
+			if (Aplayerrightarm.RotateX.degree > 0)
+			{
+				Aplayerrightarm.RotateX.degree = 0;
+			}
+		}
+		else if (Aplayerrightarm.RotateX.degree > 0)
+		{
+			Aplayerrightarm.RotateX.degree--;
+			if (Aplayerrightarm.RotateX.degree < 0)
+			{
+				Aplayerrightarm.RotateX.degree = 0;
+			}
+		}
+	}	
 	//NPC
 	if ((ANPC.translate - Aplayer.translate).Length() > 8) {
 		for (int i = 0; i < 4; ++i) {
@@ -529,8 +553,14 @@ void SceneSkybox::Update(double dt)
 		}
 	}
 	else if ((ANPC.translate - Aplayer.translate).Length() < 8) {
-		if (GetTickCount() * 0.001f - textLasttime > 0.15f && textnum < NPCSpeech[carnum].length()) {
+		if (GetTickCount() * 0.001f - textLasttime > 0.08f && textnum < NPCSpeech[carnum].length()) {
 			NPCtext.insert(NPCtext.end(), NPCSpeech[carnum][textnum++]);
+			if (NPCSpeech[carnum][textnum] == ' ') {
+				textLasttime = GetTickCount() * 0.001f + 0.15f;
+			}
+			else {
+				textLasttime = GetTickCount() * 0.001f;
+			}
 		}
 	}
 	ANPC.RotateY.degree = Math::RadianToDegree(acos((Aplayer.translate - ANPC.translate).Normalize().Dot(Vector3(0, 0, 1))));
@@ -566,7 +596,7 @@ void SceneSkybox::Update(double dt)
 	{
 		for (int i = 0; i < 4; i++)
 		{
-			if ((Aplayer.translate - Platform[i].translate).Length() < 13)
+			if ((Aplayer.translate - Platform[i].translate).Length() < 15)
 			{
 				Platform[i].RotateY.degree--;
 			}
@@ -576,7 +606,7 @@ void SceneSkybox::Update(double dt)
 	{
 		for (int i = 0; i < 4; i++)
 		{
-			if ((Aplayer.translate - Platform[i].translate).Length() < 13)
+			if ((Aplayer.translate - Platform[i].translate).Length() < 15)
 			{
 				Platform[i].RotateY.degree++;
 			}
@@ -584,7 +614,7 @@ void SceneSkybox::Update(double dt)
 	}
 
 	// Open & Close Door
-	if ((Aplayer.translate - Door.translate).Length() < 13)
+	if ((Aplayer.translate - Door.translate).Length() < 14)
 	{
 		if (DoorScreen.translate.x <= 8)
 		{
@@ -613,28 +643,24 @@ void SceneSkybox::Update(double dt)
 		}
 	}
 	if (activate_slot_machine == 1) {
-		if (GetTickCount()*0.001f - row1_lastTime > (0.2f * 5) && stop_machine <= 0) {
+		if (GetTickCount()*0.001f - row1_lastTime > (0.2f) && stop_machine <= 0) {
 			++slot_images[0];
 			++slot_images[3];
 			++slot_images[6];
 			row1_lastTime = GetTickCount() * 0.001f;
 		}
-		if (GetTickCount() * 0.001f - row2_lastTime > (0.1f * 10) && stop_machine <= 1) {
+		if (GetTickCount() * 0.001f - row2_lastTime > (0.1f) && stop_machine <= 1) {
 			++slot_images[1];
 			++slot_images[4];
 			++slot_images[7];
 			row2_lastTime = GetTickCount() * 0.001f;
 		}
-		if (GetTickCount() * 0.001f - row3_lastTime > (0.05f * 20) && stop_machine <= 2) {
+		if (GetTickCount() * 0.001f - row3_lastTime > (0.05f) && stop_machine <= 2) {
 			++slot_images[2];
 			++slot_images[5];
 			++slot_images[8];
 			row3_lastTime = GetTickCount() * 0.001f;
 		}
-		for (int i = 0; i < 9; ++i) {
-			std::cout << slot_images[i] << " ";
-		}
-		std::cout << "\n";
 		if (stop_machine > 2) {
 			if (slot_images[3]%5 == slot_images[4]%5 && slot_images[3]%5 == slot_images[5]%5) {
 				int num = slot_images[3] % 5;
@@ -686,8 +712,8 @@ void SceneSkybox::Update(double dt)
 	}
 
 	//change Scene
-	if (collision_detector(DoorCheck, CdoorScreen, Aplayer, Cplayer)) {
-		scenenumber = 1;
+	if (collision_detector(FakeScreen, CdoorScreen, Aplayer, Cplayer, true)) {
+		scenenumber = 2;
 		scenechange = true;
 	}
 
@@ -1244,7 +1270,41 @@ void SceneSkybox::PlayerMoveUp(double dt)
 			Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		}
 	}
-
+	
+	if (Aplayerleftarm.RotateX.degree > -30 && rotatebodyparts == false)
+	{
+		Aplayerleftarm.RotateX.degree--;
+		if (Aplayerleftarm.RotateX.degree <= -30)
+		{
+			Aplayerleftarm.RotateX.degree = -30;
+			rotatebodyparts = true;
+		}
+	}
+	else if(Aplayerleftarm.RotateX.degree < 30 && rotatebodyparts == true)
+	{
+		Aplayerleftarm.RotateX.degree++;
+		if (Aplayerleftarm.RotateX.degree >= 30)
+		{
+			Aplayerleftarm.RotateX.degree = 30;
+			rotatebodyparts = false;
+		}
+	}
+	if (Aplayerrightarm.RotateX.degree < 30 && rotatebodyparts == false)
+	{
+		Aplayerrightarm.RotateX.degree++;
+		if (Aplayerrightarm.RotateX.degree >= 30)
+		{
+			Aplayerrightarm.RotateX.degree = 30;
+		}
+	}
+	else if (Aplayerrightarm.RotateX.degree > -30 && rotatebodyparts == true)
+	{
+		Aplayerrightarm.RotateX.degree--;
+		if (Aplayerrightarm.RotateX.degree <= -30)
+		{
+			Aplayerrightarm.RotateX.degree = -30;
+		}
+	}
 }
 
 void SceneSkybox::PlayerMoveDown(double dt)
@@ -1271,6 +1331,40 @@ void SceneSkybox::PlayerMoveDown(double dt)
 	if (collision_detector(Aplayer, Cplayer, ANPC, CNPC, true)) {
 		Aplayer.translate.z += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+	}
+	if (Aplayerleftarm.RotateX.degree > -30 && rotatebodyparts == false)
+	{
+		Aplayerleftarm.RotateX.degree--;
+		if (Aplayerleftarm.RotateX.degree <= -30)
+		{
+			Aplayerleftarm.RotateX.degree = -30;
+			rotatebodyparts = true;
+		}
+	}
+	else if (Aplayerleftarm.RotateX.degree < 30 && rotatebodyparts == true)
+	{
+		Aplayerleftarm.RotateX.degree++;
+		if (Aplayerleftarm.RotateX.degree >= 30)
+		{
+			Aplayerleftarm.RotateX.degree = 30;
+			rotatebodyparts = false;
+		}
+	}
+	if (Aplayerrightarm.RotateX.degree < 30 && rotatebodyparts == false)
+	{
+		Aplayerrightarm.RotateX.degree++;
+		if (Aplayerrightarm.RotateX.degree >= 30)
+		{
+			Aplayerrightarm.RotateX.degree = 30;
+		}
+	}
+	else if (Aplayerrightarm.RotateX.degree > -30 && rotatebodyparts == true)
+	{
+		Aplayerrightarm.RotateX.degree--;
+		if (Aplayerrightarm.RotateX.degree <= -30)
+		{
+			Aplayerrightarm.RotateX.degree = -30;
+		}
 	}
 }
 
@@ -1326,7 +1420,6 @@ void SceneSkybox::PlayerMoveLeft(double dt)
 		Aplayer.translate.z += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
-
 }
 
 void SceneSkybox::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)

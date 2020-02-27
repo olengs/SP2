@@ -97,6 +97,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\AllCarDetails.h">
+    <ClInclude Include="Source\MainMenuCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneMainMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -171,6 +175,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\AllCarDetails.cpp">
+    <ClCompile Include="Source\MainMenuCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SceneMainMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
