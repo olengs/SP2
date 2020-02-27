@@ -10,7 +10,8 @@ private:
 	int currSceneID = 0;
 public:
 	enum SceneNames {
-		S_SHOWROOMSCENE = 0,
+		S_MAINMENUSCENE = 0,
+		S_SHOWROOMSCENE,
 		S_DRIVESCENE,
 		S_TOTAL
 	};
