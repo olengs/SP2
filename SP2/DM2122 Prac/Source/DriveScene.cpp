@@ -745,6 +745,19 @@ void DriveScene::Update(double dt)
 		}
 		car_ismoving = true;
 	}
+	//Nitro booster
+	if (Application::IsKeyPressed(VK_SPACE) && boostbar > 0 && carVelocity < 120)
+	{
+
+		boostVelocity += 5 * dt;
+		carVelocity += boostVelocity;
+		boostbar -= dt * 10;
+
+	}
+	if (!Application::IsKeyPressed(VK_SPACE) && boostVelocity > 0)
+	{
+		boostVelocity = 0;
+	}
 	// If car is moving without key inputs, increase/decrease car velocity to being the car to a stop
 	if (!Application::IsKeyPressed('W') && !Application::IsKeyPressed('S'))
 	{
@@ -871,8 +884,9 @@ void DriveScene::Render()
 		RenderTextOnScreen(meshList[GEO_TEXT], startingtext, Color(0, 1, 0), 3, 0, 15);
 	}
 
-	RenderMeshOnScreen(meshList[GEO_COIN], 8, 35, 3, 3, 0, 0);
-	RenderTextOnScreen(meshList[GEO_TEXT], "  x" + std::to_string(coinCounter), Color(0, 1, 0), 2, 0, 3); //coins
+	RenderTextOnScreen(meshList[GEO_TEXT], "  x" + std::to_string(coinCounter), Color(0, 1, 0), 2, 0, 4); //coins
+	RenderMeshOnScreen(meshList[GEO_COIN], 8, 45, 3, 3, 0, 0);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Nitro left: " + std::to_string((int)boostbar), Color(0, 1, 0), 2, 0, 3); //fuel
 	RenderTextOnScreen(meshList[GEO_TEXT], "Health: " + std::to_string(health), Color(0, 1, 0), 2, 0, 2); //health
 	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string((int)carVelocity) + " kmph", Color(0, 1, 0), 2, 0, 1); //speed
 	RenderTextOnScreen(meshList[GEO_TEXT], "Fuel left: " + std::to_string((int)fuel), Color(0, 1, 0), 2, 0, 0); //fuel

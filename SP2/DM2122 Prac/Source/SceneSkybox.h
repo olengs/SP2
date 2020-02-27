@@ -142,6 +142,7 @@ private:
 	TRS Aplayerleftleg;
 	TRS Aplayerrightarm;
 	TRS Aplayerrightleg;
+	bool rotatebodyparts;
 
 	//player movement
 	const float playerMovementSpeed = 10.f;
