@@ -1,6 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{3d58065e-e0a8-4022-a8e8-47604189ca73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{3775c638-8c5c-4a9c-9022-cd158ed43789}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="Source\AllCarDetails.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -79,18 +87,18 @@
     <ClCompile Include="Source\Utility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\GameOverScene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\shader.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
     <ClInclude Include="Source\AllCarDetails.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Camera.h">
+    <ClInclude Include="Source\CarSelection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Camera2.h">
@@ -129,7 +137,7 @@
     <ClInclude Include="Source\Light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Loadcornercoord.h">
+    <ClInclude Include="Source\LoadTGA.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\LoadOBJ.h">
@@ -160,12 +168,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\SceneManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SceneSkybox.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\shader.hpp">
+  
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Utility.h">
@@ -174,19 +177,8 @@
     <ClInclude Include="Source\Vertex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\GameOverScene.h">
+    <ClInclude Include="Source\SceneSkybox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{de215a9b-5cbf-44db-b0a1-2d0bc6078392}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{1b7a73bd-b5c4-43ce-903c-3be7d2ba2559}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{b4b51280-d044-4064-af47-949b329bc9e8}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
 </Project>
