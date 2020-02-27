@@ -627,6 +627,28 @@ void DriveScene::Init()
 	Boostpad.translate.Set(-204, -4, -14);
 	boostpadlist.addItem(Boostpad);
 
+	meshList[GEO_FIRE] = MeshBuilder::GenerateOBJ("fire", "OBJ//fire.obj");
+	meshList[GEO_FIRE]->textureID = LoadTGA("Image//fire.tga");
+	meshList[GEO_FIRE]->material.kAmbient.Set(0.7f, 0.7f, 0.7f);
+	meshList[GEO_FIRE]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[GEO_FIRE]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_FIRE]->material.kShininess = 1.f;
+	AFire[0].translate = Vector3(1, 3, -2);
+	AFire[1].translate = Vector3(0, 3, 0);
+	AFire[2].translate = Vector3(0.5, 3, 2);
+	AFire[0].Scale = Vector3(0.5, 0.5, 0.5);
+	AFire[1].Scale = Vector3(0.5, 0.5, 0.5);
+	AFire[2].Scale = Vector3(0.5, 0.5, 0.5);
+
+	meshList[GEO_EXPLOSION] = MeshBuilder::GenerateOBJ("explosion", "OBJ//explosion.obj");
+	meshList[GEO_EXPLOSION]->textureID = LoadTGA("Image//explosion.tga");
+	meshList[GEO_EXPLOSION]->material.kAmbient.Set(0.7f, 0.7f, 0.7f);
+	meshList[GEO_EXPLOSION]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[GEO_EXPLOSION]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_EXPLOSION]->material.kShininess = 1.f;
+	AExplosion.translate = Vector3(0, 4, 0);
+	AExplosion.Scale = Vector3(3, 3, 3);
+
 	carVelocity = 0.f;
 	carTurningSpeed = 135.f;
 	carAcceleration = playerdetails.car_number.SelectedCar.StatLevel[0] * 10.f;
@@ -637,7 +659,9 @@ void DriveScene::Init()
 	fuel = 1000.f;
 	car_ismoving = false;
 
-	camera.Init(ACarBody.translate + Vector3(0, 5, 30), ACarBody.translate + Vector3(0, 5, 0), Vector3(0, 1, 0));
+	countDown = 10;
+	carcanmove = true;
+
 	test.Init(ACarBody.translate + Vector3(0, 150, 1), ACarBody.translate, Vector3(0, 1, 0));
 
 	showtext = GetTickCount() + 3000;
@@ -671,130 +695,155 @@ void DriveScene::Update(double dt)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	}
 
-	// Increase Car Velocity to move forward
-	if (Application::IsKeyPressed('W'))
+	if (carcanmove == true)
 	{
-		// If car was moving backwards and player wants to move forward
-		if (carVelocity < 0)
+		// Increase Car Velocity to move forward
+		if (Application::IsKeyPressed('W'))
 		{
-			carVelocity += (1.5 * ((carAcceleration * dt) + (friction * dt)));
-			car_ismoving = true;
-		}
-		// Move forward normally
-		else
-		{
-			if (carVelocity < 80)
+			// If car was moving backwards and player wants to move forward
+			if (carVelocity < 0)
 			{
-				carVelocity += (carAcceleration * dt);
+				carVelocity += (1.5 * ((carAcceleration * dt) + (friction * dt)));
 				car_ismoving = true;
 			}
-		}
-
-		// Animation for car wheel
-		for (int i = 0; i < 2; i++)
-		{
-			ACarWheel[i].RotateY.degree = 0;
-		}
-	}
-	// Decrease Car Velocity to move backwards
-	if (Application::IsKeyPressed('S'))
-	{
-		// If car was moving forwards and player wants to move backward
-		if (carVelocity > 0)
-		{
-			carVelocity -= (1.5 * ((carAcceleration * dt) + (friction * dt)));
-			car_ismoving = true;
-		}
-		// Move backward normally
-		else
-		{
-			if (carVelocity > -80)
+			// Move forward normally
+			else
 			{
-				carVelocity -= (carAcceleration * dt);
+				if (carVelocity < 80)
+				{
+					carVelocity += (carAcceleration * dt);
+					car_ismoving = true;
+				}
+			}
+
+			// Animation for car wheel
+			for (int i = 0; i < 2; i++)
+			{
+				ACarWheel[i].RotateY.degree = 0;
+			}
+		}
+		// Decrease Car Velocity to move backwards
+		if (Application::IsKeyPressed('S'))
+		{
+			// If car was moving forwards and player wants to move backward
+			if (carVelocity > 0)
+			{
+				carVelocity -= (1.5 * ((carAcceleration * dt) + (friction * dt)));
 				car_ismoving = true;
 			}
-		}
-
-		// Animation for car wheel
-		for (int i = 0; i < 2; i++)
-		{
-			ACarWheel[i].RotateY.degree = 0;
-		}
-	}
-	// Turn car to the left
-	if (carVelocity != 0.f && Application::IsKeyPressed('A'))
-	{
-		ACarBody.RotateY.degree += (float)(carTurningSpeed * dt);
-
-		// Animation for car wheel
-		for (int i = 0; i < 2; i++)
-		{
-			ACarWheel[i].RotateY.degree = 30;
-		}
-		car_ismoving = true;
-	}
-	// Turn car to the right
-	if (carVelocity != 0.f && Application::IsKeyPressed('D'))
-	{
-		ACarBody.RotateY.degree -= (float)(carTurningSpeed * dt);
-
-		// Animation for car wheel
-		for (int i = 0; i < 2; i++)
-		{
-			ACarWheel[i].RotateY.degree = -30;
-		}
-		car_ismoving = true;
-	}
-	//Nitro booster
-	if (Application::IsKeyPressed(VK_SPACE) && boostbar > 0 && carVelocity < 120)
-	{
-
-		boostVelocity += 5 * dt;
-		carVelocity += boostVelocity;
-		boostbar -= dt * 10;
-
-	}
-	if (!Application::IsKeyPressed(VK_SPACE) && boostVelocity > 0)
-	{
-		boostVelocity = 0;
-	}
-	// If car is moving without key inputs, increase/decrease car velocity to being the car to a stop
-	if (!Application::IsKeyPressed('W') && !Application::IsKeyPressed('S'))
-	{
-		if (carVelocity < 0.f)
-		{
-			carVelocity += (2 * (friction * dt));
-			if (carVelocity > 0.f)
+			// Move backward normally
+			else
 			{
-				carVelocity = 0.f;
+				if (carVelocity > -80)
+				{
+					carVelocity -= (carAcceleration * dt);
+					car_ismoving = true;
+				}
+			}
 
+			// Animation for car wheel
+			for (int i = 0; i < 2; i++)
+			{
+				ACarWheel[i].RotateY.degree = 0;
 			}
 		}
-		else if (carVelocity > 0.f)
+		// Turn car to the left
+		if (carVelocity != 0.f && Application::IsKeyPressed('A'))
 		{
-			carVelocity -= (2 * (friction * dt));
+			ACarBody.RotateY.degree += (float)(carTurningSpeed * dt);
+
+			// Animation for car wheel
+			for (int i = 0; i < 2; i++)
+			{
+				ACarWheel[i].RotateY.degree = 30;
+			}
+			car_ismoving = true;
+		}
+		// Turn car to the right
+		if (carVelocity != 0.f && Application::IsKeyPressed('D'))
+		{
+			ACarBody.RotateY.degree -= (float)(carTurningSpeed * dt);
+
+			// Animation for car wheel
+			for (int i = 0; i < 2; i++)
+			{
+				ACarWheel[i].RotateY.degree = -30;
+			}
+			car_ismoving = true;
+		}
+		//Nitro booster
+		if (Application::IsKeyPressed(VK_SPACE) && boostbar > 0 && carVelocity < 120)
+		{
+
+			boostVelocity += 5 * dt;
+			carVelocity += boostVelocity;
+			boostbar -= dt * 10;
+
+		}
+		if (!Application::IsKeyPressed(VK_SPACE) && boostVelocity > 0)
+		{
+			boostVelocity = 0;
+		}
+		// If car is moving without key inputs, increase/decrease car velocity to being the car to a stop
+		if (!Application::IsKeyPressed('W') && !Application::IsKeyPressed('S'))
+		{
 			if (carVelocity < 0.f)
 			{
-				carVelocity = 0.f;
+				carVelocity += (2 * (friction * dt));
+				if (carVelocity > 0.f)
+				{
+					carVelocity = 0.f;
+
+				}
+			}
+			else if (carVelocity > 0.f)
+			{
+				carVelocity -= (2 * (friction * dt));
+				if (carVelocity < 0.f)
+				{
+					carVelocity = 0.f;
+				}
+			}
+			// Animation for car wheel
+			for (int i = 0; i < 2; i++)
+			{
+				ACarWheel[i].RotateY.degree = 0;
 			}
 		}
-		// Animation for car wheel
-		for (int i = 0; i < 2; i++)
+
+		if (carVelocity == 0)
 		{
-			ACarWheel[i].RotateY.degree = 0;
+			car_ismoving = false;
+		}
+		//Fuel decreasing
+		if (car_ismoving) --fuel;
+
+		//Car Moving
+		carMovement(ACarBody, carVelocity, dt);
+	}
+
+	if (coinCounter == 10)
+	{
+		carcanmove = false;
+		countDown -= dt * 10;
+		if (countDown == 0)
+		{
+			scenenumber = 1;
+			scenechange = true;
 		}
 	}
-		
-	if (carVelocity == 0)
-	{
-		car_ismoving = false;
-	}
-	//Fuel decreasing
-	if (car_ismoving) --fuel;
-	
-	//Car Moving
-	carMovement(ACarBody, carVelocity, dt);
 
+	if (health <= 0)
+	{
+		carcanmove = false;
+		countDown -= dt * 10;
+		if (countDown == 0)
+		{
+			scenenumber = 1;
+			scenechange = true;
+		}
+		//end driving
+	}
 	test.CarUpdate(dt, ACarBody);
 	playerdetails.Update();
 }
@@ -859,6 +908,22 @@ void DriveScene::Render()
 	for (int carnumwheel = 0; carnumwheel < 4; carnumwheel++)
 	{
 		RenderObj(meshList[GEO_CARWHEEL], ACarWheel[carnumwheel], true, false);
+	}
+	if (health <= 7)
+	{
+		RenderObj(meshList[GEO_FIRE], AFire[0], true, false);
+	}
+	if (health <= 4)
+	{
+		RenderObj(meshList[GEO_FIRE], AFire[1], true, false);
+	}
+	if (health <= 1)
+	{
+		RenderObj(meshList[GEO_FIRE], AFire[2], true, false);
+	}
+	if (health <= 0)
+	{
+		RenderObj(meshList[GEO_EXPLOSION], AExplosion, true, false);
 	}
 	modelStack.PopMatrix();
 
@@ -1124,22 +1189,14 @@ void DriveScene::carMovement(TRS carbody, float& velocity, double dt)
 				coinlist.removeItem(current);
 				playerdetails.currency += 100;
 				coinCounter++;
-				
+
 				//coin/currency increase code here
 			}
 			if (coinlist.gethead() == nullptr) {
-				scenenumber = 1;
-				scenechange = true;
 				break;
 			}
 			current = current->getnext();
 		}
-	}
-
-	if (health < 0) {
-		scenenumber = 1;
-		scenechange = true;
-		//end driving
 	}
 }
 
