@@ -96,6 +96,7 @@
     <ClInclude Include="Source\CarSelection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\AllCarDetails.h">
     <ClInclude Include="Source\MainMenuCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -173,6 +174,7 @@
     <ClCompile Include="Source\CarSelection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\AllCarDetails.cpp">
     <ClCompile Include="Source\MainMenuCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

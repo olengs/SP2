@@ -167,10 +167,10 @@ void SceneSkybox::Init()
 	meshList[GEO_NPC] = MeshBuilder::GenerateOBJ("npc", "OBJ//npc.obj");
 	meshList[GEO_NPC]->textureID = LoadTGA("Image//npc.tga");
 	ANPC.translate = Vector3(20, 3, 20);
-	NPCSpeech[0] = "Guang Theng's car,~a unique design by Guang Theng himself,~has high turbo and fuel~Would you like to buy this?";
-	NPCSpeech[1] = "Ryan's car,~a unique design by Ryan himself,~has high speed and turbo~Would you like to buy this?";
-	NPCSpeech[2] = "Jun Chen's car,~a unique design by Jun Chen himself,~has average stats across the board~Would you like to buy this?";
-	NPCSpeech[3] = "Jian Feng's car,~a unique design by Jian Feng himself,~has high fuel and turbo~Would you like to buy this?";
+	NPCSpeech[0] = "Guang Theng's car,~a unique design by Guang Theng himself,~has high speed and fuel";
+	NPCSpeech[1] = "Ryan's car,~a unique design by Ryan himself,~has high speed and turbo";
+	NPCSpeech[2] = "Jun Chen's car,~a unique design by Jun Chen himself,~has average stats across the board";
+	NPCSpeech[3] = "Jian Feng's car,~a unique design by Jian Feng himself,~has high fuel and turbo";
 	textLasttime = 0;
 	carnum = 5;
 	textnum = 0;
@@ -214,18 +214,10 @@ void SceneSkybox::Init()
 	ShopUI.lengthX = 10.f;
 	ShopUI.lengthY = 10.f;
 	ShopUI_Scroll = 0;
-
 	
-
 	meshList[GEO_CAR_STAT] = MeshBuilder::GenerateQuad("car_stat", Color(1, 0, 0), 1.f, 1.f);
 	meshList[GEO_CAR_STAT_UPGRADE] = MeshBuilder::GenerateQuad("car_stat_upgrade", Color(0, 1, 0), 1.f, 1.f);
-	
-	car_Stats[0] = CarStats(3.f, 1.f, 3.f, 1.f, 1.f, 1.f); //guangtheng car
-	car_Stats[1] = CarStats(3.f, 3.f, 1.f, 1.f, 1.f, 1.f); //ryan car
-	car_Stats[2] = CarStats(2.f, 2.f, 2.f, 1.f, 1.f, 1.f); //junchen car
-	car_Stats[3] = CarStats(1.f, 3.f, 3.f, 1.f, 1.f, 1.f); //jianfeng car
-
-	
+	 	
 	BounceTime = 0;
 
 	meshList[GEO_PLATFORM] = MeshBuilder::GenerateOBJ("Platform", "OBJ//Platform.obj");
@@ -422,6 +414,8 @@ void SceneSkybox::Init()
 	meshList[GEO_COIN] = MeshBuilder::GenerateOBJ("coin", "obj//coin.obj");
 	meshList[GEO_COIN]->textureID = LoadTGA("Image//coin.tga");
 
+
+
 	for (int i = 0; i < 4; ++i)
 	{
 		CarHologram[i].lengthX = 5.f;
@@ -438,20 +432,20 @@ void SceneSkybox::Init()
 		}
 	}
 
+	allcardetails = AllCarDetails();
+	allcardetails.InitScene(car_Stats[0], car_Stats[1], car_Stats[2], car_Stats[3]);
+
 	if (playerdetails.IsInit())
 	{
 		playerdetails.GetData();		
 		EquippedCar_Scroll = playerdetails.car_number.cartype;
-		car_Stats[EquippedCar_Scroll] = playerdetails.car_number.SelectedCar;
 	}
 
 	else
 	{
-	playerdetails = PlayerDetails(CarSelection(car_Stats[2],2), 5000);
+	playerdetails = PlayerDetails(CarSelection(allcardetails.getCarStats(EquippedCar_Scroll),2), 5000);
 	EquippedCar_Scroll = 2;
 	}
-
-	car_Stats[2].lock = false;
 
 	hologramcamera_leave = true;
 	camera.Init(Aplayer.translate + Vector3(0, 8, 15), Vector3(Aplayer.translate) + Vector3(0, 5, 0), Vector3(0, 1, 0));
@@ -734,6 +728,7 @@ void SceneSkybox::Update(double dt)
 		framespersecond = 0;
 	}
 	playerdetails.Update();
+	allcardetails.SaveData(car_Stats[0],car_Stats[1],car_Stats[2],car_Stats[3]);
 }
 
 void SceneSkybox::Render()
@@ -1133,14 +1128,11 @@ void SceneSkybox::UpdateHologram(HologramUI& UI, CarStats& car_Stats, TRS* Objec
 					}
 					else if (car_Stats.current_upgrade < 5 && ObjectDisplay == &Shop && !car_Stats.lock)
 					{
-						for (int i = 0; i < 3; ++i)
-						{
-							car_Stats.StatLevel[i] += car_Stats.StatLevel[i + 3];
-						}
+						car_Stats.UpgradeOnce();
 						playerdetails.currency -= car_Stats.cost_upgrade;
 						BuyText = "Car:Bought, CarUpgrade:250";
 						++car_Stats.current_upgrade;
-						if (car_Stats.current_upgrade == 4) BuyText = "Car:Bought, CarUpgrade:0";
+						if (playerdetails.car_number.SelectedCar.current_upgrade == 4) BuyText = "Car:Bought, CarUpgrade:0";
 					}
 				}
 			}
@@ -1169,7 +1161,8 @@ void SceneSkybox::UpdateHologram(HologramUI& UI, CarStats& car_Stats, TRS* Objec
 
 void SceneSkybox::UpdateEquippedCar()
 {
-	if (!car_Stats[0].lock && EquippedCar_Scroll != 0) EquippedCar_Scroll = 0;
+
+	if (!car_Stats[0].lock && EquippedCar_Scroll == 3) EquippedCar_Scroll = 0;
 	else if (!car_Stats[1].lock && EquippedCar_Scroll != 1) EquippedCar_Scroll = 1;
 	else if (!car_Stats[2].lock && EquippedCar_Scroll != 2) EquippedCar_Scroll = 2;
 	else if (!car_Stats[3].lock && EquippedCar_Scroll != 3) EquippedCar_Scroll = 3;
