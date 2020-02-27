@@ -18,6 +18,66 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\AllCarDetails.h" />
+    <ClInclude Include="Source\Application.h" />
+    <ClInclude Include="Source\Camera.h" />
+    <ClInclude Include="Source\Camera2.h" />
+    <ClInclude Include="Source\CarSelection.h" />
+    <ClInclude Include="Source\CarStats.h" />
+    <ClInclude Include="Source\CItemList.h" />
+    <ClInclude Include="Source\CNode.h" />
+    <ClInclude Include="Source\Collision_detector.h" />
+    <ClInclude Include="Source\cornercoord.h" />
+    <ClInclude Include="Source\DriveScene.h" />
+    <ClInclude Include="Source\FirstPersonCamera.h" />
+    <ClInclude Include="Source\HologramCamera.h" />
+    <ClInclude Include="Source\HologramUI.h" />
+    <ClInclude Include="Source\Light.h" />
+    <ClInclude Include="Source\Loadcornercoord.h" />
+    <ClInclude Include="Source\LoadOBJ.h" />
+    <ClInclude Include="Source\LoadTGA.h" />
+    <ClInclude Include="Source\MainMenuCamera.h" />
+    <ClInclude Include="Source\Material.h" />
+    <ClInclude Include="Source\Mesh.h" />
+    <ClInclude Include="Source\MeshBuilder.h" />
+    <ClInclude Include="Source\PlayerDetails.h" />
+    <ClInclude Include="Source\Scene.h" />
+    <ClInclude Include="Source\SceneMainMenu.h" />
+    <ClInclude Include="Source\SceneManager.h" />
+    <ClInclude Include="Source\SceneSkybox.h" />
+    <ClInclude Include="Source\shader.hpp" />
+    <ClInclude Include="Source\Utility.h" />
+    <ClInclude Include="Source\Vertex.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\AllCarDetails.cpp" />
+    <ClCompile Include="Source\Application.cpp" />
+    <ClCompile Include="Source\Camera.cpp" />
+    <ClCompile Include="Source\Camera2.cpp" />
+    <ClCompile Include="Source\CarSelection.cpp" />
+    <ClCompile Include="Source\CarStats.cpp" />
+    <ClCompile Include="Source\CItemList.cpp" />
+    <ClCompile Include="Source\CNode.cpp" />
+    <ClCompile Include="Source\Collision_detector.cpp" />
+    <ClCompile Include="Source\DriveScene.cpp" />
+    <ClCompile Include="Source\FirstPersonCamera.cpp" />
+    <ClCompile Include="Source\HologramCamera.cpp" />
+    <ClCompile Include="Source\HologramUI.cpp" />
+    <ClCompile Include="Source\Loadcornercoord.cpp" />
+    <ClCompile Include="Source\LoadOBJ.cpp" />
+    <ClCompile Include="Source\LoadTGA.cpp" />
+    <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\MainMenuCamera.cpp" />
+    <ClCompile Include="Source\Mesh.cpp" />
+    <ClCompile Include="Source\MeshBuilder.cpp" />
+    <ClCompile Include="Source\PlayerDetails.cpp" />
+    <ClCompile Include="Source\SceneMainMenu.cpp" />
+    <ClCompile Include="Source\SceneManager.cpp" />
+    <ClCompile Include="Source\SceneSkybox.cpp" />
+    <ClCompile Include="Source\shader.cpp" />
+    <ClCompile Include="Source\Utility.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{43E2EEBF-AD78-42E4-AD27-C7F104D9962B}</ProjectGuid>
@@ -125,66 +185,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="Source\AllCarDetails.h" />
-    <ClInclude Include="Source\Application.h" />
-    <ClInclude Include="Source\Camera.h" />
-    <ClInclude Include="Source\Camera2.h" />
-    <ClInclude Include="Source\CarSelection.h" />
-    <ClInclude Include="Source\CarStats.h" />
-    <ClInclude Include="Source\CItemList.h" />
-    <ClInclude Include="Source\CNode.h" />
-    <ClInclude Include="Source\Collision_detector.h" />
-    <ClInclude Include="Source\cornercoord.h" />
-    <ClInclude Include="Source\DriveScene.h" />
-    <ClInclude Include="Source\FirstPersonCamera.h" />
-    <ClInclude Include="Source\HologramCamera.h" />
-    <ClInclude Include="Source\HologramUI.h" />
-    <ClInclude Include="Source\Light.h" />
-    <ClInclude Include="Source\Loadcornercoord.h" />
-    <ClInclude Include="Source\LoadOBJ.h" />
-    <ClInclude Include="Source\LoadTGA.h" />
-    <ClInclude Include="Source\MainMenuCamera.h" />
-    <ClInclude Include="Source\Material.h" />
-    <ClInclude Include="Source\Mesh.h" />
-    <ClInclude Include="Source\MeshBuilder.h" />
-    <ClInclude Include="Source\PlayerDetails.h" />
-    <ClInclude Include="Source\Scene.h" />
-    <ClInclude Include="Source\SceneMainMenu.h" />
-    <ClInclude Include="Source\SceneManager.h" />
-    <ClInclude Include="Source\SceneSkybox.h" />
-    <ClInclude Include="Source\shader.hpp" />
-    <ClInclude Include="Source\Utility.h" />
-    <ClInclude Include="Source\Vertex.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Source\AllCarDetails.cpp" />
-    <ClCompile Include="Source\Application.cpp" />
-    <ClCompile Include="Source\Camera.cpp" />
-    <ClCompile Include="Source\Camera2.cpp" />
-    <ClCompile Include="Source\CarSelection.cpp" />
-    <ClCompile Include="Source\CarStats.cpp" />
-    <ClCompile Include="Source\CItemList.cpp" />
-    <ClCompile Include="Source\CNode.cpp" />
-    <ClCompile Include="Source\Collision_detector.cpp" />
-    <ClCompile Include="Source\DriveScene.cpp" />
-    <ClCompile Include="Source\FirstPersonCamera.cpp" />
-    <ClCompile Include="Source\HologramCamera.cpp" />
-    <ClCompile Include="Source\HologramUI.cpp" />
-    <ClCompile Include="Source\Loadcornercoord.cpp" />
-    <ClCompile Include="Source\LoadOBJ.cpp" />
-    <ClCompile Include="Source\LoadTGA.cpp" />
-    <ClCompile Include="Source\main.cpp" />
-    <ClCompile Include="Source\MainMenuCamera.cpp" />
-    <ClCompile Include="Source\Mesh.cpp" />
-    <ClCompile Include="Source\MeshBuilder.cpp" />
-    <ClCompile Include="Source\PlayerDetails.cpp" />
-    <ClCompile Include="Source\SceneMainMenu.cpp" />
-    <ClCompile Include="Source\SceneManager.cpp" />
-    <ClCompile Include="Source\SceneSkybox.cpp" />
-    <ClCompile Include="Source\shader.cpp" />
-    <ClCompile Include="Source\Utility.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
