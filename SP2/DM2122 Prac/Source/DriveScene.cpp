@@ -642,6 +642,13 @@ void DriveScene::Init()
 
 	showtext = GetTickCount() + 3000;
 	startingtext = "Collect all 10 coins around the field~without destroying your car ~/ running out fuel";
+
+	coinCounter = 0;
+
+	if (playsound == true)
+	{
+		PlaySound(TEXT("Music/Cycle.wav"), NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
+	}
 }
 
 void DriveScene::Update(double dt)
@@ -863,6 +870,12 @@ void DriveScene::Render()
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], startingtext, Color(0, 1, 0), 3, 0, 15);
 	}
+
+	RenderMeshOnScreen(meshList[GEO_COIN], 8, 35, 3, 3, 0, 0);
+	RenderTextOnScreen(meshList[GEO_TEXT], "  x" + std::to_string(coinCounter), Color(0, 1, 0), 2, 0, 3); //coins
+	RenderTextOnScreen(meshList[GEO_TEXT], "Health: " + std::to_string(health), Color(0, 1, 0), 2, 0, 2); //health
+	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string((int)carVelocity) + " kmph", Color(0, 1, 0), 2, 0, 1); //speed
+	RenderTextOnScreen(meshList[GEO_TEXT], "Fuel left: " + std::to_string((int)fuel), Color(0, 1, 0), 2, 0, 0); //fuel
 }
 
 void DriveScene::Exit()
@@ -1096,6 +1109,7 @@ void DriveScene::carMovement(TRS carbody, float& velocity, double dt)
 			if (collision_detector(ACarBody, CCarBody, current->transformation, CCoin)) {
 				coinlist.removeItem(current);
 				playerdetails.currency += 100;
+				coinCounter++;
 				
 				//coin/currency increase code here
 			}
@@ -1113,6 +1127,34 @@ void DriveScene::carMovement(TRS carbody, float& velocity, double dt)
 		scenechange = true;
 		//end driving
 	}
+}
+
+void DriveScene::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey, float rotateX, float rotateY)
+{
+	if (!mesh || mesh->textureID <= 0) {
+		return;
+	}
+	glDisable(GL_DEPTH_TEST);
+
+	Mtx44 ortho;
+	ortho.SetToOrtho(0, 400, 0, 300, -10, 10); //size of screen
+	projectionStack.PushMatrix();
+	projectionStack.LoadMatrix(ortho);
+	viewStack.PushMatrix();
+	viewStack.LoadIdentity(); //no need camera for ortho mode
+	modelStack.PushMatrix();
+	modelStack.LoadIdentity();
+	modelStack.Translate(x, y, 0);
+	modelStack.Scale(sizex, sizey, 1);
+	modelStack.Rotate(rotateX, 1, 0, 0);
+	modelStack.Rotate(rotateY, 0, 1, 0);
+	RenderMesh(mesh, false);
+	modelStack.PopMatrix();
+	viewStack.PopMatrix();
+	projectionStack.PopMatrix();
+
+	glEnable(GL_DEPTH_TEST);
+
 }
 
 void DriveScene::Generatecoinposition()

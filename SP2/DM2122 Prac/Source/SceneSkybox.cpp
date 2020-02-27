@@ -360,6 +360,7 @@ void SceneSkybox::Init()
 	meshList[GEO_FAKEDOORSCREEN]->material.kShininess = 1.f;
 	FakeScreen.translate = Vector3(45, 4, 35);
 	FakeScreen.RotateY.degree = 90;
+	FakeScreen.Scale = Vector3(2, 2, 2);
 	Loadcoord("OBJ//doorscreen.obj", CdoorScreen);
 
 
@@ -455,6 +456,11 @@ void SceneSkybox::Init()
 	firstpersoncamera.Init(Vector3(Aplayer.translate.x, Aplayer.translate.y + 2, Aplayer.translate.z), Vector3(0, Aplayer.translate.y + 2, 0), Vector3(0, 1, 0));
 	hologramcamera.Init(Aplayer.translate + Vector3(0, 5, 0), Vector3(ShopUI.UI.translate) + Vector3(0, 5, 0), Vector3(0, 1, 0));
 	CameraSwitch = 0;
+
+	if (playsound == true)
+	{
+		PlaySound(TEXT("Music/Jubilife.wav"), NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
+	}
 }
 
 void SceneSkybox::Update(double dt)
@@ -535,8 +541,14 @@ void SceneSkybox::Update(double dt)
 		}
 	}
 	else if ((ANPC.translate - Aplayer.translate).Length() < 8) {
-		if (GetTickCount() * 0.001f - textLasttime > 0.15f && textnum < NPCSpeech[carnum].length()) {
+		if (GetTickCount() * 0.001f - textLasttime > 0.08f && textnum < NPCSpeech[carnum].length()) {
 			NPCtext.insert(NPCtext.end(), NPCSpeech[carnum][textnum++]);
+			if (NPCSpeech[carnum][textnum] == ' ') {
+				textLasttime = GetTickCount() * 0.001f + 0.15f;
+			}
+			else {
+				textLasttime = GetTickCount() * 0.001f;
+			}
 		}
 	}
 	ANPC.RotateY.degree = Math::RadianToDegree(acos((Aplayer.translate - ANPC.translate).Normalize().Dot(Vector3(0, 0, 1))));
@@ -688,7 +700,7 @@ void SceneSkybox::Update(double dt)
 	}
 
 	//change Scene
-	if (collision_detector(DoorCheck, CdoorScreen, Aplayer, Cplayer)) {
+	if (collision_detector(FakeScreen, CdoorScreen, Aplayer, Cplayer, true)) {
 		scenenumber = 2;
 		scenechange = true;
 	}
@@ -867,7 +879,6 @@ void SceneSkybox::Render()
 	RenderObj(meshList[GEO_DOOR], Door, false, false);
 	RenderObj(meshList[GEO_DOORSCREEN], DoorScreen, true, false);
 	modelStack.PopMatrix();
-	RenderObj(meshList[GEO_FAKEDOORSCREEN], FakeScreen, true, false);
 
 	if ((Aplayer.translate - Platform[0].translate).Length() < 15 || (Aplayer.translate - Platform[1].translate).Length() < 15 || (Aplayer.translate - Platform[2].translate).Length() < 15 || (Aplayer.translate - Platform[3].translate).Length() < 15)
 	{

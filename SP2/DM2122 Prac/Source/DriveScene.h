@@ -103,6 +103,8 @@ private:
 	int coinarray[10] = { 0 };
 	int count = 0;
 
+	int coinCounter = 0;
+
 	int fps;
 	float framespersecond;
 	float lastTime;
@@ -151,12 +153,7 @@ private:
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 	void RenderObj(Mesh* mesh, TRS& trs, bool end, bool enableLight);
 	void carMovement(TRS carbody, float& velocity, double dt);
-
-	////player movement
-	//void PlayerMoveUp(double dt);
-	//void PlayerMoveDown(double dt);
-	//void PlayerMoveRight(double dt);
-	//void PlayerMoveLeft(double dt);
+	void RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey, float rotateX, float rotateY);
 
 	//coin random generator
 	void Generatecoinposition();
