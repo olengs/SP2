@@ -1,4 +1,24 @@
 #include "CarStats.h"
+void CarStats::UpgradeOnce()
+{
+	for (int i = 0; i < 3; ++i)
+	{
+		StatLevel[i] += StatLevel[i + 3];
+	}
+}
+
+void CarStats::UpgradeFromStart()
+{
+	if (current_upgrade != 0)
+	{
+		for (int i = 0; i < current_upgrade; ++i)
+		{
+			UpgradeOnce();
+		}
+	}
+	else return;
+}
+
 CarStats::CarStats() //set default to 1
 {
 	for (int i = 0; i < 6; ++i)

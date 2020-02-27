@@ -96,6 +96,9 @@
     <ClInclude Include="Source\CarSelection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\AllCarDetails.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\shader.cpp">
@@ -165,6 +168,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\CarSelection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AllCarDetails.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

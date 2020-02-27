@@ -14,6 +14,7 @@
 #include "HologramUI.h"
 #include "HologramCamera.h"
 #include "CarSelection.h"
+#include "AllCarDetails.h"
 
 class SceneSkybox : public Scene
 {
@@ -149,6 +150,7 @@ private:
 	TRS Shop;
 	HologramUI ShopUI;
 	CarStats car_Stats[4];
+	AllCarDetails allcardetails;
 	Mesh* getCarmeshList(int carNumber);
 
 	int ShopUI_Scroll;
