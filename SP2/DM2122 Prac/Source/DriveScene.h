@@ -116,6 +116,8 @@ private:
 	float boostbar;
 	float boostAcceleration;
 	float boostVelocity;
+	float fuel;
+	bool car_ismoving;
 
 	int Acarnumber;
 	int health;
