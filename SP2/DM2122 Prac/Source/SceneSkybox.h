@@ -150,6 +150,7 @@ private:
 	const float playerTurningSpeed = 135.f;
 	//shop
 	TRS Shop;
+	cornercoord CShop;
 	HologramUI ShopUI;
 	CarStats car_Stats[4];
 	AllCarDetails allcardetails;
