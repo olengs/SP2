@@ -833,31 +833,7 @@ void SceneSkybox::Render()
 	RenderObj(meshList[GEO_PLAYERRIGHTLEG], Aplayerrightleg, true, false);
 	modelStack.PopMatrix();
 
-	ShopUI.UI.RotateY.degree = 0.f;
-	RenderObj(meshList[GEO_SHOP], Shop, true, false);
-
-	//shop
-
-	if (DistanceCheck(Aplayer.translate, Shop.translate))
-	{
-		//	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-		RenderObj(meshList[GEO_SHOP_UI], ShopUI.UI, false, false);
-		RenderShopStats(car_Stats[ShopUI_Scroll]);
-		RenderShopText();
-
-		modelStack.PushMatrix();
-		modelStack.Rotate(90, 0, 1, 0);
-		modelStack.Scale(0.5f, 0.5f, 0.5f);
-		RenderCar(ShopUI_Scroll);
-		modelStack.Rotate(-90, 0, 1, 0);
-		modelStack.Scale(2, 2, 2);
-		modelStack.PopMatrix();
-
-		modelStack.PopMatrix(); //car
-		modelStack.PopMatrix(); //shop
-	//	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	}
+	RenderShopUI();
 
 	//Render Platform, Car, Wheel
 
@@ -1144,14 +1120,15 @@ void SceneSkybox::UpdateHologram(HologramUI& UI, CarStats& car_Stats, TRS* Objec
 		if (UI.UI.Scale.x < 1.f) UI.UI.Scale.x += 0.05f;
 
 
-		for (int i = 0; i < 3; ++i)
+		for (int i = 0; i < 5; ++i)
 		{
-			if (car_Stats.StatTRS[i].Scale.x < (car_Stats.StatLevel[i] / 7.f)) car_Stats.StatTRS[i].Scale.x += 0.05f;
-			else if (car_Stats.StatTRS[i + 3].Scale.x < (car_Stats.StatLevel[i + 3] / 7.f)) car_Stats.StatTRS[i + 3].Scale.x += 0.03f;
+			if (car_Stats.StatTRS[i].Scale.x < (car_Stats.StatLevel[i] / 14.f) * UI.lengthX) car_Stats.StatTRS[i].Scale.x += 0.05f;
+			else if (car_Stats.StatUpgrade.Scale.x < 1.f / 14.f * UI.lengthX ) car_Stats.StatUpgrade.Scale.x += 0.03f;
 		}
 	}
 
-	else {
+	else 
+	{
 		if (UI.UI.translate.y > 0.f) UI.UI.translate.y -= (targetY / 20.f);
 		if (UI.UI.Scale.x > 0.f) UI.UI.Scale.x -= 0.05f;
 	}
@@ -1243,6 +1220,34 @@ void SceneSkybox::RenderShopText()
 
 	modelStack.Scale(2.f, 1.f, 1.f);
 	modelStack.Translate(0.5f * ShopUI.lengthX, -3.f / 7.f * ShopUI.lengthY, 0.f);
+}
+
+void SceneSkybox::RenderShopUI()
+{
+	ShopUI.UI.RotateY.degree = 0.f;
+	RenderObj(meshList[GEO_SHOP], Shop, true, false);
+	//shop
+
+	if (DistanceCheck(Aplayer.translate, Shop.translate))
+	{
+		//	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+		RenderObj(meshList[GEO_SHOP_UI], ShopUI.UI, false, false);
+		RenderShopStats(car_Stats[ShopUI_Scroll]);
+		RenderShopText();
+
+		modelStack.PushMatrix();
+		modelStack.Rotate(90, 0, 1, 0);
+		modelStack.Scale(0.4f, 0.4f, 0.4f);
+		RenderCar(ShopUI_Scroll);
+		modelStack.Scale(2.5f, 2.5f, 2.5f);
+		modelStack.Rotate(-90, 0, 1, 0);
+		modelStack.PopMatrix();
+
+		modelStack.PopMatrix(); //car
+		modelStack.PopMatrix(); //shop
+	//	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	}
 }
 
 void SceneSkybox::PlayerMoveUp(double dt)
@@ -1512,23 +1517,25 @@ void SceneSkybox::RenderShopStats(CarStats& car_Stats)
 {
 	if (ShopUI.UI.Scale.x >= 1.f)
 	{
-		car_Stats.StatTRS[0].translate = Vector3(-((3.f / 14.f) * 10.f) + (car_Stats.StatLevel[0] / 14.f), -(1.5f / 14.f) * 10.f, 0.1f);
-		car_Stats.StatTRS[1].translate = Vector3(-((3.f / 14.f) * 10.f) + (car_Stats.StatLevel[1] / 14.f), -(3.5f / 14.f) * 10.f, 0.1f);
-		car_Stats.StatTRS[2].translate = Vector3(-((3.f / 14.f) * 10.f) + (car_Stats.StatLevel[2] / 14.f), -(5.5f / 14.f) * 10.f, 0.1f);
+		car_Stats.StatTRS[0].translate = Vector3(-((3.f / 14.f) * ShopUI.lengthX) + ((car_Stats.StatLevel[0] / 28.f) * ShopUI.lengthX), -(1.f / 14.f) * ShopUI.lengthY, 0.1f);
+		car_Stats.StatTRS[1].translate = Vector3(-((3.f / 14.f) * ShopUI.lengthX) + ((car_Stats.StatLevel[1] / 28.f) * ShopUI.lengthX), -(2.f / 14.f) * ShopUI.lengthY, 0.1f);
+		car_Stats.StatTRS[2].translate = Vector3(-((3.f / 14.f) * ShopUI.lengthX) + ((car_Stats.StatLevel[2] / 28.f) * ShopUI.lengthX), -(3.f / 14.f) * ShopUI.lengthY, 0.1f);
+		car_Stats.StatTRS[3].translate = Vector3(-((3.f / 14.f) * ShopUI.lengthX) + ((car_Stats.StatLevel[3] / 28.f) * ShopUI.lengthX), -(4.f / 14.f) * ShopUI.lengthY, 0.1f);
+		car_Stats.StatTRS[4].translate = Vector3(-((3.f / 14.f) * ShopUI.lengthX) + ((car_Stats.StatLevel[4] / 28.f) * ShopUI.lengthX), -(5.f / 14.f) * ShopUI.lengthY, 0.1f);
 
-		for (int i = 0; i < 3; ++i)
+		for (int i = 0; i < 5; ++i)
 		{
-			car_Stats.StatTRS[i].Scale.y = 1.f / 14.f * ShopUI.lengthY;
+			car_Stats.StatTRS[i].Scale.y = 0.25f / 14.f* ShopUI.lengthY;
 			RenderObj(meshList[GEO_CAR_STAT], car_Stats.StatTRS[i], true, false);
 		}
 
 		if (car_Stats.current_upgrade < 5)
 		{
-			for (int i = 3; i < 6; ++i)
+			for (int i = 0; i < 5; ++i)
 			{
-				car_Stats.StatTRS[i].Scale.y = 1.f / 14.f * ShopUI.lengthY;
-				car_Stats.StatTRS[i].translate = Vector3(car_Stats.StatTRS[i - 3].translate.x + ((car_Stats.StatLevel[i] + car_Stats.StatLevel[i - 3]) / 14.f), car_Stats.StatTRS[i - 3].translate.y, 0.1f);
-				RenderObj(meshList[GEO_CAR_STAT_UPGRADE], car_Stats.StatTRS[i], true, false);
+				car_Stats.StatUpgrade.Scale.y = 0.25f / 14.f * ShopUI.lengthY;
+				car_Stats.StatUpgrade.translate = Vector3(car_Stats.StatTRS[i].translate.x + (((1.f + car_Stats.StatLevel[i]) / 28.f) * ShopUI.lengthX), car_Stats.StatTRS[i].translate.y, 0.1f);
+				RenderObj(meshList[GEO_CAR_STAT_UPGRADE], car_Stats.StatUpgrade, true, false);
 			}
 		}
 

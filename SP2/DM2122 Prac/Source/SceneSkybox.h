@@ -218,6 +218,7 @@ private:
 	void RenderCar(int carnumber);
 	void RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey, float rotateX, float rotateY);
 	void RenderShopText();
+	void RenderShopUI();
 
 	//Update Functions
 	void UpdateHologram(HologramUI& UI, CarStats& car_Stats, TRS* ObjectDisplay, float targetY);
