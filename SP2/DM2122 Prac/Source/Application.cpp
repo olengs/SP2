@@ -121,7 +121,9 @@ void Application::Run()
 	{
 		if (thisScene->getCurrScene()->scenechange == true)
 		{
+			applicationsound = thisScene->getCurrScene()->playsound;
 			thisScene->setCurrSceneID(thisScene->getCurrScene()->scenenumber);
+			thisScene->getCurrScene()->playsound = applicationsound;
 			thisScene->getCurrScene()->Init();
 		}
 		//put condition here

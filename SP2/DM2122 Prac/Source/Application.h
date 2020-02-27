@@ -18,6 +18,7 @@ private:
 
 	//Declare a window object
 	StopWatch m_timer;
+	bool applicationsound;
 };
 
 #endif

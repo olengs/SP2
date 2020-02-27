@@ -141,6 +141,8 @@ void SceneMainMenu::Init()
 	meshList[GEO_ARROW] = MeshBuilder::GenerateOBJ("arrow", "OBJ//arrow.obj");
 	meshList[GEO_ARROW]->textureID = LoadTGA("Image//Red.tga");
 
+	playsound = true;
+	PlaySound(TEXT("Music/Icirrus.wav"), NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
 }
 
 void SceneMainMenu::Update(double dt)
@@ -224,6 +226,8 @@ void SceneMainMenu::Update(double dt)
 						arrowY = 0;
 						isMenu = false;
 						BGMOn = false;
+						playsound = false;
+						PlaySound(NULL, 0, 0);
 						//insert BGM off trigger code
 					}
 				}
@@ -236,6 +240,8 @@ void SceneMainMenu::Update(double dt)
 						arrowY = 0;
 						isMenu = false;
 						BGMOn = true;
+						playsound = true;
+						PlaySound(TEXT("Music/Icirrus.wav"), NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
 						//insert BGM on trigger code
 					}
 				}
