@@ -12,6 +12,7 @@ struct CarStats
 	void UpgradeFromStart();
 	void InitStatsinShop(HologramUI ObjectDisplay);
 	void InitStatsinHolo(HologramUI ObjectDisplay);
+	void BuyCar();
 	CarStats();
 
 	CarStats(float acceleration, float turbo, float fuel, float accelerationupgrade);

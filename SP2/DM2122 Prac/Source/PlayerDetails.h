@@ -13,6 +13,12 @@ public:
 	int currency;
 	int coinCounter;
 	CarSelection car_number;
+	//getters
+	/*int getCurrency();
+	CarStats getall_car_details(int number);
+	int getCarsBought();
+	CarSelection getcar_number();*/
+
 	void Update(CarSelection updatedcar, int updatedcurrency);
 	void Update();
 	void GetData();

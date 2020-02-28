@@ -203,7 +203,7 @@ void SceneSkybox::Init()
 	meshList[GEO_SHOP] = MeshBuilder::GenerateOBJ("shop", "OBJ//shop.obj");
 	meshList[GEO_SHOP]->textureID = LoadTGA("Image//shop.tga");
 	Shop.translate = Vector3(0, 0, -45);
-	Shop.Scale = Vector3(10, 10, 10);
+	Shop.Scale = Vector3(7.5f, 7.5f, 7.5f);
 	Shop.RotateY = Vector4(90, 0, 1, 0);
 	Loadcoord("OBJ//shop.obj", CShop);
 
@@ -434,7 +434,7 @@ void SceneSkybox::Init()
 	}
 
 	allcardetails = AllCarDetails();
-	allcardetails.InitScene(car_Stats[0], car_Stats[1], car_Stats[2], car_Stats[3]);
+	allcardetails.InitScene(car_Stats[0], car_Stats[1], car_Stats[2], car_Stats[3]); //init all car details
 
 	if (playerdetails.IsInit())
 	{
@@ -698,7 +698,7 @@ void SceneSkybox::Update(double dt)
 		}
 	}
 
-	UpdateHologram(ShopUI, car_Stats[ShopUI_Scroll], &Shop, 15.f);
+	UpdateHologram(ShopUI, car_Stats[ShopUI_Scroll], &Shop, 10.f);
 
 	for (int i = 0; i < 4; ++i)
 	{
@@ -716,8 +716,11 @@ void SceneSkybox::Update(double dt)
 		scenechange = true;
 	}
 
+	if (CameraSwitch != 2)
+	{
 	camera.Update(dt, Aplayer);
 	firstpersoncamera.Update(dt, Aplayer);
+	}
 
 	++framespersecond;
 	currentTime = GetTickCount() * 0.001f;
@@ -881,6 +884,7 @@ void SceneSkybox::Render()
 		modelStack.Translate(1.f, (3.f / 7.f) * CarHologram[carnumber].lengthY, 0.f);
 		modelStack.PopMatrix();
 		//			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 		if (!hologramcamera_leave) RenderObj(meshList[GEO_PLATFORM], Platform[carnumber], false, false);
 
 		RenderCar(carnumber);
@@ -1099,42 +1103,34 @@ void SceneSkybox::UpdateHologram(HologramUI& UI, CarStats& car_Stats, TRS* Objec
 		else hologramcamera_leave = true;
 		BounceTime = GetTickCount() + 500.f;
 	}
+
 	if (DistanceCheck(Aplayer.translate, ObjectDisplay->translate))
 	{
-
-
 		if (ObjectDisplay != &Shop && car_Stats.lock) BuyText = "Cost:500"; //if at platform and car is not bought
 		else if (ObjectDisplay != &Shop && !car_Stats.lock) BuyText = "Bought"; //if at platform and car is bought
-		else if (ObjectDisplay == &Shop && car_Stats.lock) BuyText = "Car:500, CarUpgrade:250, Total:750"; //if at shop and car is not bought
-		else if (ObjectDisplay == &Shop && !car_Stats.lock) BuyText = "Car:Bought, CarUpgrade:250, Total:250"; //if at shop and car is bought
+		else if (ObjectDisplay == &Shop && car_Stats.lock) BuyText = "Car:500, CarUpgrade:250"; //if at shop and car is not bought
+		else if (ObjectDisplay == &Shop && !car_Stats.lock) BuyText = "Car:Bought, CarUpgrade:250"; //if at shop and car is bought
 
 		if (Application::IsKeyPressed(VK_RETURN) && BounceTime <= GetTickCount())
 		{
-			if (playerdetails.currency >= car_Stats.cost)
+			if (playerdetails.currency >= car_Stats.cost && car_Stats.lock)
 			{
-				if (ObjectDisplay != &Shop && car_Stats.lock)
-				{
-					car_Stats.lock = false;
-					playerdetails.currency -= car_Stats.cost;
-					BuyText = "Bought";
-				}
-				else
-				{
-					if (car_Stats.lock)
-					{
-						playerdetails.currency -= car_Stats.cost;
-						car_Stats.lock = false;
-					}
-					else if (car_Stats.current_upgrade < 5 && ObjectDisplay == &Shop && !car_Stats.lock)
-					{
-						car_Stats.UpgradeOnce();
-						playerdetails.currency -= car_Stats.cost_upgrade;
-						BuyText = "Car:Bought, CarUpgrade:250";
-						++car_Stats.current_upgrade;
-						if (playerdetails.car_number.SelectedCar.current_upgrade == 4) BuyText = "Car:Bought, CarUpgrade:0";
-					}
-				}
+				
+				car_Stats.BuyCar();
+				playerdetails.currency -= car_Stats.cost;
+				if (ObjectDisplay != &Shop) BuyText = "Bought";
+				
 			}
+			else if (car_Stats.current_upgrade < 5 && ObjectDisplay == &Shop && !car_Stats.lock && playerdetails.currency >= car_Stats.cost_upgrade)
+			{
+				car_Stats.UpgradeOnce();
+				playerdetails.currency -= car_Stats.cost_upgrade;
+				BuyText = "Car:Bought, CarUpgrade:250";
+				++car_Stats.current_upgrade;
+				if (playerdetails.car_number.SelectedCar.current_upgrade == 4) BuyText = "Car:Bought, CarUpgrade:0";
+			}
+				
+			
 			
 			BounceTime = GetTickCount() + 500.f;
 		}
@@ -1148,7 +1144,7 @@ void SceneSkybox::UpdateHologram(HologramUI& UI, CarStats& car_Stats, TRS* Objec
 			if (car_Stats.StatTRS[i].Scale.x < (car_Stats.StatLevel[i] / 14.f) * UI.lengthX) car_Stats.StatTRS[i].Scale.x += 0.05f;
 			else if (car_Stats.StatUpgrade.Scale.x < 1.f / 14.f * UI.lengthX) car_Stats.StatUpgrade.Scale.x += 0.03f;
 		}
-	}
+	} //end distance check
 
 	else 
 	{
@@ -1160,12 +1156,16 @@ void SceneSkybox::UpdateHologram(HologramUI& UI, CarStats& car_Stats, TRS* Objec
 }
 
 void SceneSkybox::UpdateEquippedCar()
-{
+{	 	
+	++EquippedCar_Scroll;
+	if (EquippedCar_Scroll == 4) EquippedCar_Scroll = 0;
 
-	if (!car_Stats[0].lock && EquippedCar_Scroll == 3) EquippedCar_Scroll = 0;
-	else if (!car_Stats[1].lock && EquippedCar_Scroll != 1) EquippedCar_Scroll = 1;
-	else if (!car_Stats[2].lock && EquippedCar_Scroll != 2) EquippedCar_Scroll = 2;
-	else if (!car_Stats[3].lock && EquippedCar_Scroll != 3) EquippedCar_Scroll = 3;
+	while (car_Stats[EquippedCar_Scroll].lock)
+	{
+		++EquippedCar_Scroll;
+	if (EquippedCar_Scroll == 4) EquippedCar_Scroll = 0;
+	}
+	
 	playerdetails.car_number.EquipCar(car_Stats[EquippedCar_Scroll], EquippedCar_Scroll);
 }
 

@@ -11,7 +11,7 @@ public:
 	CarStats getCarStats(int number);
 	void SaveData(CarStats storage1, CarStats storage2, CarStats storage3, CarStats storage4);
 	void UpdateFile();
-	void InitScene(CarStats& carstat0, CarStats& carstat1, CarStats& carstat2, CarStats carstat3);
+	void InitScene(CarStats& carstat0, CarStats& carstat1, CarStats& carstat2, CarStats& carstat3);
 	bool IsInit();
 	void GetData();
 };
