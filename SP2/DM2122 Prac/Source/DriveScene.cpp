@@ -282,7 +282,6 @@ void DriveScene::Init()
 	meshList[GEO_SPIKE]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_SPIKE]->material.kShininess = 1.f;
 	Loadcoord("OBJ//spike.obj", CSpike);
-	TRS Spike;
 	Spike.translate.Set(-172, -4, 178);
 	Spike.Scale.Set(3, 1, 3);
 	spikelist.addItem(Spike);
@@ -307,6 +306,7 @@ void DriveScene::Init()
 	Spike.translate.Set(-236, -4, -174);
 	spikelist.addItem(Spike);
 
+	coingeneratearray = true;
 	Generatecoinposition();
 	meshList[GEO_COIN] = MeshBuilder::GenerateOBJ("coin", "OBJ//coin.obj");
 	meshList[GEO_COIN]->textureID = LoadTGA("Image//coin.tga");
@@ -315,111 +315,11 @@ void DriveScene::Init()
 	meshList[GEO_COIN]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_COIN]->material.kShininess = 1.f;
 	Loadcoord("OBJ//coin.obj", CCoin);
-	TRS coin;
 	coin.Scale.Set(3, 3, 3);
-	for (int i = 0; i < 10; i++)
-	{
-		if (coinarray[i] == 0)
-		{
-			coin.translate.Set(-108, 6, 178);
-			coinlist.addItem(coin);
-		}
-		if (coinarray[i] == 1)
-		{
-			coin.translate.Set(-236, 6, 82);
-			coinlist.addItem(coin);
-		}
-		if (coinarray[i] == 2)
-		{
-			coin.translate.Set(-236, 6, -238);
-			coinlist.addItem(coin);
-		}
-		if (coinarray[i] == 3)
-		{
-			coin.translate.Set(-172, 6, -174);
-			coinlist.addItem(coin);
-		}
-		if (coinarray[i] == 4)
-		{
-			coin.translate.Set(-172, 6, 50);
-			coinlist.addItem(coin);
-		}
-		if (coinarray[i] == 5)
-		{
-			coin.translate.Set(-76, 6, -14);
-			coinlist.addItem(coin);
-		}
-		if (coinarray[i] == 6)
-		{
-			coin.translate.Set(-76, 6, -110);
-			coinlist.addItem(coin);
-		}
-		if (coinarray[i] == 7)
-		{
-			coin.translate.Set(-12, 6, -110);
-			coinlist.addItem(coin);
-		}
-		if (coinarray[i] == 8)
-		{
-			coin.translate.Set(-12, 6, -14);
-			coinlist.addItem(coin);
-		}
-		if (coinarray[i] == 9)
-		{
-			coin.translate.Set(52, 6, 50);
-			coinlist.addItem(coin);
-		}
-		if (coinarray[i] == 10)
-		{
-			coin.translate.Set(-12, 6, 114);
-			coinlist.addItem(coin);
-		}
-		if (coinarray[i] == 11)
-		{
-			coin.translate.Set(20, 6, 210);
-			coinlist.addItem(coin);
-		}
-		if (coinarray[i] == 12)
-		{
-			coin.translate.Set(84, 6, 242);
-			coinlist.addItem(coin);
-		}
-		if (coinarray[i] == 13)
-		{
-			coin.translate.Set(116, 6, 146);
-			coinlist.addItem(coin);
-		}
-		if (coinarray[i] == 14)
-		{
-			coin.translate.Set(240, 6, 146);
-			coinlist.addItem(coin);
-		}
-		if (coinarray[i] == 15)
-		{
-			coin.translate.Set(148, 6, -174);
-			coinlist.addItem(coin);
-		}
-		if (coinarray[i] == 16)
-		{
-			coin.translate.Set(240, 6, -142);
-			coinlist.addItem(coin);
-		}
-		if (coinarray[i] == 17)
-		{
-			coin.translate.Set(116, 6, -110);
-			coinlist.addItem(coin);
-		}
-		if (coinarray[i] == 18)
-		{
-			coin.translate.Set(116, 6, -46);
-			coinlist.addItem(coin);
-		}
-		if (coinarray[i] == 19)
-		{
-			coin.translate.Set(52, 6, -174);
-			coinlist.addItem(coin);
-		}
-	}
+	CoinpositionSelector(coingeneratearray);
+	coingeneratearray = false;
+	coinchecker = 0;
+	randomcoin = 0;
 
 	meshList[GEO_BOX] = MeshBuilder::GenerateOBJ("box", "OBJ//box.obj");
 	meshList[GEO_BOX]->textureID = LoadTGA("Image//box.tga");
@@ -428,8 +328,6 @@ void DriveScene::Init()
 	meshList[GEO_BOX]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_BOX]->material.kShininess = 1.f;
 	Loadcoord("OBJ//box.obj", CBox);
-
-	TRS Box;
 	Box.translate.Set(-204, 10, 210);
 	Box.Scale.Set(3, 3, 3);
 	boxlist.addItem(Box);
@@ -609,7 +507,6 @@ void DriveScene::Init()
 	meshList[GEO_BOOSTPAD]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_BOOSTPAD]->material.kShininess = 1.f;
 	Loadcoord("OBJ//boostpad.obj", CBoostpad);
-	TRS Boostpad;
 	Boostpad.translate.Set(-44, -4, 178);
 	Boostpad.Scale.Set(3, 1, 3);
 	boostpadlist.addItem(Boostpad);
@@ -627,19 +524,6 @@ void DriveScene::Init()
 	boostpadlist.addItem(Boostpad);
 	Boostpad.translate.Set(-204, -4, -14);
 	boostpadlist.addItem(Boostpad);
-
-	meshList[GEO_FIRE] = MeshBuilder::GenerateOBJ("fire", "OBJ//fire.obj");
-	meshList[GEO_FIRE]->textureID = LoadTGA("Image//fire.tga");
-	meshList[GEO_FIRE]->material.kAmbient.Set(0.7f, 0.7f, 0.7f);
-	meshList[GEO_FIRE]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	meshList[GEO_FIRE]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[GEO_FIRE]->material.kShininess = 1.f;
-	AFire[0].translate = Vector3(1, 0.1, -2);
-	AFire[1].translate = Vector3(0, 0.1, 0);
-	AFire[2].translate = Vector3(0.5, 0.1, 2);
-	AFire[0].Scale = Vector3(0.5, 0.5, 0.5);
-	AFire[1].Scale = Vector3(0.5, 0.5, 0.5);
-	AFire[2].Scale = Vector3(0.5, 0.5, 0.5);
 
 	Generatepowerposition();
 	meshList[GEO_GHOSTCOIN] = MeshBuilder::GenerateOBJ("coin", "OBJ//ghostpowerup.obj");
@@ -715,21 +599,22 @@ void DriveScene::Init()
 	carTurningSpeed = 135.f;
 	carAcceleration = playerdetails.car_number.SelectedCar.StatLevel[0] * 10.f;
 	friction = 10.f;
-	boostbar = 30;
 	boostVelocity = 0.f;
-	boostAcceleration = playerdetails.car_number.SelectedCar.StatLevel[2] * 10.f;
-	fuel = playerdetails.car_number.SelectedCar.StatLevel[4] * 10000.f;
+	boostAcceleration = playerdetails.car_number.SelectedCar.StatLevel[2];
+	fuel = playerdetails.car_number.SelectedCar.StatLevel[4] * 1000.f;
 	car_ismoving = false;
 
 	countDown = 50;
 	carcanmove = true;
 
-	SwitchCD = 0.f;
-	CameraSwitch = 0;
-	test.Init(ACarBody.translate + Vector3(0, 5, 20), ACarBody.translate + Vector3(0, 5, 0), Vector3(0, 1, 0));
-	firstpersoncamera.Init(ACarBody.translate + Vector3(0, 2, 0), Vector3(ACarBody.translate.x, ACarBody.translate.y + 2, 0), Vector3(0, 1, 0));
+	//SwitchCD = 0.f;
+	//CameraSwitch = 0;
+	test.Init(ACarBody.translate + Vector3(0, 5, 30), ACarBody.translate + Vector3(0, 5, 0), Vector3(0, 1, 0));
+	//firstpersoncamera.Init(ACarBody.translate + Vector3(0, 2, -5), Vector3(ACarBody.translate.x, ACarBody.translate.y + 2, 0), Vector3(0, 1, 0));
 
+	showcointexttime = 0;
 	showtext = GetTickCount() + 3000;
+	coinrespawned = "A coin has respawned!";
 	startingtext = "Collect all 10 coins around the field~without destroying your car ~  or running out of fuel";
 
 	playerdetails.coinCounter = 0;
@@ -768,7 +653,7 @@ void DriveScene::Update(double dt)
 			// If car was moving backwards and player wants to move forward
 			if (carVelocity < 0)
 			{
-				carVelocity += (1.5 * ((carAcceleration * dt) + (friction * dt)));
+				carVelocity += (2 * ((carAcceleration * dt) + (friction * dt)));
 				car_ismoving = true;
 			}
 			// Move forward normally
@@ -793,7 +678,7 @@ void DriveScene::Update(double dt)
 			// If car was moving forwards and player wants to move backward
 			if (carVelocity > 0)
 			{
-				carVelocity -= (1.5 * ((carAcceleration * dt) + (friction * dt)));
+				carVelocity -= (2 * ((carAcceleration * dt) + (friction * dt)));
 				car_ismoving = true;
 			}
 			// Move backward normally
@@ -805,7 +690,6 @@ void DriveScene::Update(double dt)
 					car_ismoving = true;
 				}
 			}
-
 			// Animation for car wheel
 			for (int i = 0; i < 2; i++)
 			{
@@ -837,13 +721,18 @@ void DriveScene::Update(double dt)
 			car_ismoving = true;
 		}
 		//Nitro booster
-		if (Application::IsKeyPressed(VK_SPACE) && boostbar > 0 && carVelocity < maxvelocity)
+		if (Application::IsKeyPressed(VK_SPACE))
 		{
-			carVelocity += (5 * ((carAcceleration * dt) + (friction * dt)));
-			fuel -= dt * 25;
+			if (carVelocity < (maxvelocity * 1.5f))
+			{
+				boostVelocity += boostAcceleration;
+				carVelocity += boostVelocity;
+			}
+			fuel -= dt * 150;
 		}
 		if (!Application::IsKeyPressed(VK_SPACE) && boostVelocity > 0)
 		{
+			carVelocity -= boostVelocity;
 			boostVelocity = 0;
 		}
 		// If car is moving without key inputs, increase/decrease car velocity to being the car to a stop
@@ -879,23 +768,20 @@ void DriveScene::Update(double dt)
 		}
 		//Fuel decreasing
 		if (car_ismoving)
-			fuel -= 15 * dt;
+		{
+			if (maxvelocity < carVelocity)
+			{
+				fuel -= dt * 150;
+			}
+			else
+			{
+				fuel -= 15 * dt;
+			}
+		}
 
 		//Car Moving
 		carMovement(ACarBody, carVelocity, dt);
 	}
-
-	if (playerdetails.coinCounter == 10)
-	{
-		carcanmove = false;
-		countDown -= dt * 10;
-		if (countDown == 0)
-		{
-			scenenumber = 3;
-			scenechange = true;
-		}
-	}
-
 	if (health <= 0)
 	{
 		carcanmove = false;
@@ -907,19 +793,33 @@ void DriveScene::Update(double dt)
 		}
 		//end driving
 	}
-	if (Application::IsKeyPressed(VK_TAB) && SwitchCD <= GetTickCount())
+	if (fuel <= 0)
 	{
-		if (CameraSwitch == 0)
+		carcanmove = false;
+		countDown -= dt * 10;
+		if (countDown == 0)
 		{
-			CameraSwitch = 1;
+			scenenumber = 3;
+			scenechange = true;
 		}
-		else
-		{
-			CameraSwitch = 0;
-		}
-		SwitchCD = GetTickCount() + 3000;
+		//end driving
 	}
-	firstpersoncamera.FPCCar(dt, ACarBody);
+
+	CoinRespawn();
+	
+	//if (Application::IsKeyPressed(VK_TAB) && SwitchCD <= GetTickCount())
+	//{
+	//	if (CameraSwitch == 0)
+	//	{
+	//		CameraSwitch = 1;
+	//	}
+	//	else
+	//	{
+	//		CameraSwitch = 0;
+	//	}
+	//	SwitchCD = GetTickCount() + 1000;
+	//}
+	//firstpersoncamera.FPCCar(dt, ACarBody);
 	test.CarUpdate(dt, ACarBody);
 	playerdetails.Update();
 }
@@ -930,14 +830,14 @@ void DriveScene::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	viewStack.LoadIdentity();
-	if (CameraSwitch == 0)
-	{
+	//if (CameraSwitch == 0)
+	//{
 		viewStack.LookAt(test.position.x, test.position.y, test.position.z, test.target.x, test.target.y, test.target.z, test.up.x, test.up.y, test.up.z);
-	}
-	else
-	{
-		viewStack.LookAt(firstpersoncamera.position.x, firstpersoncamera.position.y, firstpersoncamera.position.z, firstpersoncamera.target.x, firstpersoncamera.target.y, firstpersoncamera.target.z, firstpersoncamera.up.x, firstpersoncamera.up.y, firstpersoncamera.up.z);
-	}
+	//}
+	//else
+	//{
+	//	viewStack.LookAt(firstpersoncamera.position.x, firstpersoncamera.position.y, firstpersoncamera.position.z, firstpersoncamera.target.x, firstpersoncamera.target.y, firstpersoncamera.target.z, firstpersoncamera.up.x, firstpersoncamera.up.y, firstpersoncamera.up.z);
+	//}
 	modelStack.LoadIdentity();
 
 	// passing the light direction if it is a direction light
@@ -996,18 +896,6 @@ void DriveScene::Render()
 	{
 		RenderObj(meshList[GEO_SHIELD], Shieldparticle[shieldnum], true, false);
 	}
-	if (health <= 7)
-	{
-		RenderObj(meshList[GEO_FIRE], AFire[0], true, false);
-	}
-	if (health <= 4)
-	{
-		RenderObj(meshList[GEO_FIRE], AFire[1], true, false);
-	}
-	if (health <= 1)
-	{
-		RenderObj(meshList[GEO_FIRE], AFire[2], true, false);
-	}
 	modelStack.PopMatrix();
 
 	for (CNode* current = boxlist.gethead(); current != nullptr; current = current->getnext())
@@ -1033,10 +921,13 @@ void DriveScene::Render()
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], startingtext, Color(0, 1, 0), 3, 0, 15);
 	}
+	if (GetTickCount() < showcointexttime)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], coinrespawned, Color(0, 1, 0), 3, 2, 10);
+	}
 
 	RenderTextOnScreen(meshList[GEO_TEXT], "  x" + std::to_string(playerdetails.coinCounter), Color(0, 1, 0), 2, 0, 4); //coins
 	RenderMeshOnScreen(meshList[GEO_COIN], 8, 45, 3, 3, 0, 0);
-	RenderTextOnScreen(meshList[GEO_TEXT], "Nitro left: " + std::to_string((int)boostbar), Color(0, 1, 0), 2, 0, 3); //fuel
 	RenderTextOnScreen(meshList[GEO_TEXT], "Health: " + std::to_string(health), Color(0, 1, 0), 2, 0, 2); //health
 	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string((int)carVelocity) + " kmph", Color(0, 1, 0), 2, 0, 1); //speed
 	RenderTextOnScreen(meshList[GEO_TEXT], "Fuel left: " + std::to_string((int)fuel), Color(0, 1, 0), 2, 0, 0); //fuel
@@ -1316,14 +1207,214 @@ void DriveScene::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int siz
 
 void DriveScene::Generatecoinposition()
 {
-	while (count < 10)
+	if (count < 10)
 	{
-		int randomcoin = rand() % 20;
-
-		if (check[randomcoin] == 0)
+		while (count < 10)
 		{
-			check[randomcoin] = 1;
-			coinarray[count++] = randomcoin;
+			randomcoin = rand() % 20;
+
+			if (check[randomcoin] == 0)
+			{
+				check[randomcoin] = 1;
+				coinarray[count++] = randomcoin;
+			}
+		}
+	}
+	else
+	{
+		randomcoin = rand() % 20;
+	}
+}
+
+void DriveScene::CoinpositionSelector(bool generatearray)
+{
+	if (generatearray == true)
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			if (coinarray[i] == 0)
+			{
+				coin.translate.Set(-108, 6, 178);
+				coinlist.addItem(coin);
+			}
+			if (coinarray[i] == 1)
+			{
+				coin.translate.Set(-236, 6, 82);
+				coinlist.addItem(coin);
+			}
+			if (coinarray[i] == 2)
+			{
+				coin.translate.Set(-236, 6, -238);
+				coinlist.addItem(coin);
+			}
+			if (coinarray[i] == 3)
+			{
+				coin.translate.Set(-172, 6, -174);
+				coinlist.addItem(coin);
+			}
+			if (coinarray[i] == 4)
+			{
+				coin.translate.Set(-172, 6, 50);
+				coinlist.addItem(coin);
+			}
+			if (coinarray[i] == 5)
+			{
+				coin.translate.Set(-76, 6, -14);
+				coinlist.addItem(coin);
+			}
+			if (coinarray[i] == 6)
+			{
+				coin.translate.Set(-76, 6, -110);
+				coinlist.addItem(coin);
+			}
+			if (coinarray[i] == 7)
+			{
+				coin.translate.Set(-12, 6, -110);
+				coinlist.addItem(coin);
+			}
+			if (coinarray[i] == 8)
+			{
+				coin.translate.Set(-12, 6, -14);
+				coinlist.addItem(coin);
+			}
+			if (coinarray[i] == 9)
+			{
+				coin.translate.Set(52, 6, 50);
+				coinlist.addItem(coin);
+			}
+			if (coinarray[i] == 10)
+			{
+				coin.translate.Set(-12, 6, 114);
+				coinlist.addItem(coin);
+			}
+			if (coinarray[i] == 11)
+			{
+				coin.translate.Set(20, 6, 210);
+				coinlist.addItem(coin);
+			}
+			if (coinarray[i] == 12)
+			{
+				coin.translate.Set(84, 6, 242);
+				coinlist.addItem(coin);
+			}
+			if (coinarray[i] == 13)
+			{
+				coin.translate.Set(116, 6, 146);
+				coinlist.addItem(coin);
+			}
+			if (coinarray[i] == 14)
+			{
+				coin.translate.Set(240, 6, 146);
+				coinlist.addItem(coin);
+			}
+			if (coinarray[i] == 15)
+			{
+				coin.translate.Set(148, 6, -174);
+				coinlist.addItem(coin);
+			}
+			if (coinarray[i] == 16)
+			{
+				coin.translate.Set(240, 6, -142);
+				coinlist.addItem(coin);
+			}
+			if (coinarray[i] == 17)
+			{
+				coin.translate.Set(116, 6, -110);
+				coinlist.addItem(coin);
+			}
+			if (coinarray[i] == 18)
+			{
+				coin.translate.Set(116, 6, -46);
+				coinlist.addItem(coin);
+			}
+			if (coinarray[i] == 19)
+			{
+				coin.translate.Set(52, 6, -174);
+				coinlist.addItem(coin);
+			}
+		}
+	}
+	else
+	{
+		if (randomcoin == 0)
+		{
+			coin.translate.Set(-108, 6, 178);
+		}
+		else if (randomcoin == 1)
+		{
+			coin.translate.Set(-236, 6, 82);
+		}
+		else if (randomcoin == 2)
+		{
+			coin.translate.Set(-236, 6, -238);
+		}
+		else if (randomcoin == 3)
+		{
+			coin.translate.Set(-172, 6, -174);
+		}
+		else if (randomcoin == 4)
+		{
+			coin.translate.Set(-172, 6, 50);
+		}
+		else if (randomcoin == 5)
+		{
+			coin.translate.Set(-76, 6, -14);
+		}
+		else if (randomcoin == 6)
+		{
+			coin.translate.Set(-76, 6, -110);
+		}
+		else if (randomcoin == 7)
+		{
+			coin.translate.Set(-12, 6, -110);
+		}
+		else if (randomcoin == 8)
+		{
+			coin.translate.Set(-12, 6, -14);
+		}
+		else if (randomcoin == 9)
+		{
+			coin.translate.Set(52, 6, 50);
+		}
+		else if (randomcoin == 10)
+		{
+			coin.translate.Set(-12, 6, 114);
+		}
+		else if (randomcoin == 11)
+		{
+			coin.translate.Set(20, 6, 210);
+		}
+		else if (randomcoin == 12)
+		{
+			coin.translate.Set(84, 6, 242);
+		}
+		else if (randomcoin == 13)
+		{
+			coin.translate.Set(116, 6, 146);
+		}
+		else if (randomcoin == 14)
+		{
+			coin.translate.Set(240, 6, 146);
+		}
+		else if (randomcoin == 15)
+		{
+			coin.translate.Set(148, 6, -174);
+		}
+		else if (randomcoin == 16)
+		{
+			coin.translate.Set(240, 6, -142);
+		}
+		else if (randomcoin == 17)
+		{
+			coin.translate.Set(116, 6, -110);
+		}
+		else if (randomcoin == 18)
+		{
+			coin.translate.Set(116, 6, -46);
+		}
+		else if (randomcoin == 19)
+		{
+			coin.translate.Set(52, 6, -174);
 		}
 	}
 }
@@ -1333,3 +1424,36 @@ void DriveScene::Generatepowerposition()
 	randompower = rand() % 5;
 }
 
+void DriveScene::CoinRespawn()
+{
+	if (timetorespawncoin < GetTickCount())
+	{
+		for (CNode* current = coinlist.gethead(); current != nullptr; current = current->getnext())
+		{
+			if (coinlist.gethead() != nullptr)
+			{
+				coinchecker++;
+			}
+		}
+		if (coinchecker != 10)
+		{
+			Generatecoinposition();
+			CoinpositionSelector(coingeneratearray);
+
+			for (CNode* current = coinlist.gethead(); current != nullptr; current = current->getnext())
+			{
+				if (coinlist.gethead() != nullptr)
+				{
+					if (coin.translate != coinlist.gethead()->transformation.translate)
+					{
+						coinlist.addItem(coin);
+						showcointexttime = GetTickCount() + 3000;
+						timetorespawncoin = GetTickCount() + 10000;
+						break;
+					}
+				}
+			}
+		}
+	}
+	coinchecker = 0;
+}
