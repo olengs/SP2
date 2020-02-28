@@ -125,6 +125,7 @@ private:
 	float boostbar;
 	float boostAcceleration;
 	float boostVelocity;
+	float maxvelocity;
 	float fuel;
 	bool car_ismoving;
 
