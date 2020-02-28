@@ -66,10 +66,12 @@ void Camera2::CarUpdate(double dt, TRS ACar)
 	Vector3 right = view.Cross(up);
 	right.y = 0;
 	Vector3 actualup = Vector3(0, 1, 0);
+
 	up = right.Cross(view).Normalized();
 	float yaw = (float)(ROTATE_SPEED * dt);
 	rotation.SetToRotation(ACar.RotateY.degree, 0, 1, 0);
-	target = ACar.translate;
-	position = ACar.translate + Vector3(0, 200, 1);
+	target = ACar.translate + Vector3(0, 5, 0);
+	position = ACar.translate + Vector3(magnitude * sin(Math::DegreeToRadian(ACar.RotateY.degree)),
+		8, magnitude * cos(Math::DegreeToRadian(ACar.RotateY.degree)));
 	view = (target - position).Normalized();
 }
