@@ -432,6 +432,8 @@ void SceneSkybox::Init()
 	PetrolStationUI.UI.translate = Vector3(-20.f, 0.f, -43.f);
 	meshList[GEO_HOLO_PETROLSTATION] = MeshBuilder::GenerateQuad("petrol station UI", Color(0.f, 0.f, 1.f), PetrolStationUI.lengthX, PetrolStationUI.lengthY);
 
+	InitPetrolStationCar();
+
 	for (int i = 0; i < 4; ++i)
 	{
 		CarHologram[i].lengthX = 5.f;
@@ -898,7 +900,7 @@ void SceneSkybox::Render()
 
 		if (!hologramcamera_leave) RenderObj(meshList[GEO_PLATFORM], Platform[carnumber], false, false);
 
-		RenderCar(carnumber);
+		RenderCar(carnumber, Cars[carnumber]);
 		//modelStack.PopMatrix();
 		modelStack.PopMatrix();
 	}
@@ -1108,11 +1110,8 @@ void SceneSkybox::RenderSlotImage(Mesh* mesh, TRS& trs, int image)
 
 void SceneSkybox::RenderPetrolStation()
 {
-	RenderObj(meshList[GEO_PETROLSTATION], PetrolStation, false, false);
-	modelStack.Translate(-6.f, 0.f, 5.f);
-	RenderCar(EquippedCar_Scroll);
-	modelStack.Translate(6.f, 0.f, -5.f);
-	modelStack.PopMatrix();
+	RenderObj(meshList[GEO_PETROLSTATION], PetrolStation, true, false);
+	RenderCar(EquippedCar_Scroll, PetrolStationCar[EquippedCar_Scroll]);
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 	RenderObj(meshList[GEO_HOLO_PETROLSTATION], PetrolStationUI.UI, false, false);
@@ -1208,10 +1207,20 @@ void SceneSkybox::UpdateEquippedCar()
 	playerdetails.car_number.EquipCar(car_Stats[EquippedCar_Scroll], EquippedCar_Scroll);
 }
 
-void SceneSkybox::RenderCar(int carnumber)
+void SceneSkybox::InitPetrolStationCar()
+{
+	for (int i = 0; i < 4; ++i)
+	{
+		PetrolStationCar[i] = Cars[i];
+		PetrolStationCar[i].translate = PetrolStation.translate + Vector3(-6.f, 0.f, 5.f) + Vector3(0.f,Cars[i].translate.y,0.f);
+
+	}
+}
+
+void SceneSkybox::RenderCar(int carnumber, TRS Car)
 {
 
-	RenderObj(getCarmeshList(carnumber), Cars[carnumber], false, false);
+	RenderObj(getCarmeshList(carnumber), Car, false, false);
 
 	for (int carnumwheel = 0; carnumwheel < 4; carnumwheel++)
 	{
@@ -1293,7 +1302,7 @@ void SceneSkybox::RenderShopUI()
 		modelStack.PushMatrix();
 		modelStack.Rotate(90, 0, 1, 0);
 		modelStack.Scale(0.4f, 0.4f, 0.4f);
-		RenderCar(ShopUI_Scroll);
+		RenderCar(ShopUI_Scroll, Cars[ShopUI_Scroll]);
 		modelStack.Scale(2.5f, 2.5f, 2.5f);
 		modelStack.Rotate(-90, 0, 1, 0);
 		modelStack.PopMatrix();
