@@ -24,10 +24,10 @@ CarStats AllCarDetails::getCarStats(int number)
 void AllCarDetails::InitCarStats()
 {
 	
-	car_Stats[0] = CarStats(3.f, 1.5f, 1.f, 1.f); //guangtheng car
-	car_Stats[1] = CarStats(2.f, 2.f, 1.5f, 1.5f); //ryan car
-	car_Stats[2] = CarStats(1.5f, 2.5f, 1.f, 1.f); //junchen car
-	car_Stats[3] = CarStats(2.5f, 2.f, 1.5f, 1.5f); //jianfeng car
+	car_Stats[0] = CarStats(4.f, 3.f, 3.f, 2.f); //guangtheng car
+	car_Stats[1] = CarStats(2.f, 3.f, 3.f, 4.f); //ryan car
+	car_Stats[2] = CarStats(2.f, 2.f, 2.f, 2.f); //junchen car
+	car_Stats[3] = CarStats(3.f, 4.f, 2.f, 3.f); //jianfeng car
 
 }
 
@@ -36,22 +36,24 @@ void AllCarDetails::InitCarStat(int carnumber)
 	switch (carnumber)
 	{
 	case 0:
-		car_Stats[0] = CarStats(3.f, 1.5f, 1.f, 1.f); //guangtheng car
+	car_Stats[0] = CarStats(4.f, 3.f, 3.f, 2.f); //guangtheng car
 		break;
 	case 1:
-		car_Stats[1] = CarStats(2.f, 2.f, 1.5f, 1.5f); //ryan car
+	car_Stats[1] = CarStats(2.f, 3.f, 3.f, 4.f); //ryan car
 		break;
 	case 2:
-		car_Stats[2] = CarStats(1.5f, 2.5f, 1.f, 1.f); //junchen car
+	car_Stats[2] = CarStats(2.f, 2.f, 2.f, 2.f); //junchen car
 		break;
 	case 3:
-		car_Stats[3] = CarStats(2.5f, 2.f, 1.5f, 1.5f); //jianfeng car
+	car_Stats[3] = CarStats(3.f, 4.f, 2.f, 3.f); //jianfeng car
 		break;
 	default: 
 		InitCarStats();
 		break; 
 
 	}
+
+
 }
 
 void AllCarDetails::SaveData(CarStats storage1, CarStats storage2, CarStats storage3, CarStats storage4)

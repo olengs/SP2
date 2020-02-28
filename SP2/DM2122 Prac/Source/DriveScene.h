@@ -94,10 +94,10 @@ private:
 	MS modelStack, viewStack, projectionStack;
 	Light light[2];
 
-	FirstPersonCamera firstpersoncamera;
+	//FirstPersonCamera firstpersoncamera;
 	Camera2 test;
-	int CameraSwitch;
-	float SwitchCD;
+	//int CameraSwitch;
+	//float SwitchCD;
 	CarStats car_Stats;
 	CItemList boxlist;
 	CItemList spikelist;
@@ -137,21 +137,23 @@ private:
 	float iFrames;
 
 	std::string startingtext;
+	std::string coinrespawned;
 	float showtext;
-
+	float showcointexttime;
+	float timetorespawncoin;
+	bool coingeneratearray;
 	const float playerMovementSpeed = 10.f;
 	const float playerTurningSpeed = 135.f;
 
 	TRS ABuilding[4];
-	TRS ASpike;
+	TRS Spike;
 	cornercoord CSpike;
-	TRS ACoin;
+	TRS coin;
 	cornercoord CCoin;
-	TRS ABox;
+	TRS Box;
 	cornercoord CBox;
-	TRS ABoostpad;
+	TRS Boostpad;
 	cornercoord CBoostpad;
-	TRS AFire[3];
 	// 0 = Ghost, 1 = Shield
 	TRS Powerups[2];
 	cornercoord CGhost;
@@ -173,7 +175,11 @@ private:
 
 	//coin random generator
 	void Generatecoinposition();
+	void CoinpositionSelector(bool);
 	void Generatepowerposition();
+	void CoinRespawn();
+	int coinchecker;
+	int randomcoin;
 
 public:
 	DriveScene();

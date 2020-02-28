@@ -186,6 +186,7 @@ private:
 	TRS DoorScreen;
 	TRS FakeScreen;
 	cornercoord CdoorScreen;
+	cornercoord CDoor;
 
 	//slot machine
 	TRS Aslot_body;

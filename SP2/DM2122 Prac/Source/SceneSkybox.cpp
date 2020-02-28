@@ -329,6 +329,7 @@ void SceneSkybox::Init()
 	meshList[GEO_DOOR]->material.kDiffuse.Set(1.f, 1.f, 1.f);
 	meshList[GEO_DOOR]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_DOOR]->material.kShininess = 1.f;
+	Loadcoord("OBJ//door.obj", CDoor);
 	Door.translate = Vector3(45, 4, 35);
 	Door.RotateY.degree = 270;
 	Door.Scale = Vector3(1.5, 1.5, 1.5);
@@ -350,7 +351,7 @@ void SceneSkybox::Init()
 	meshList[GEO_FAKEDOORSCREEN]->material.kDiffuse.Set(1.f, 1.f, 1.f);
 	meshList[GEO_FAKEDOORSCREEN]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_FAKEDOORSCREEN]->material.kShininess = 1.f;
-	FakeScreen.translate = Vector3(45, 4, 35);
+	FakeScreen.translate = Vector3(40, 4, 35);
 	FakeScreen.RotateY.degree = 90;
 	FakeScreen.Scale = Vector3(2, 2, 2);
 	Loadcoord("OBJ//doorscreen.obj", CdoorScreen);
@@ -456,7 +457,7 @@ void SceneSkybox::Init()
 
 	hologramcamera_leave = true;
 	camera.Init(Aplayer.translate + Vector3(0, 8, 15), Vector3(Aplayer.translate) + Vector3(0, 5, 0), Vector3(0, 1, 0));
-	firstpersoncamera.Init(Vector3(Aplayer.translate.x, Aplayer.translate.y + 2, Aplayer.translate.z), Vector3(0, Aplayer.translate.y + 2, 0), Vector3(0, 1, 0));
+	firstpersoncamera.Init(Vector3(Aplayer.translate.x, Aplayer.translate.y + 2, Aplayer.translate.z + 5), Vector3(0, Aplayer.translate.y + 2, 0), Vector3(0, 1, 0));
 	hologramcamera.Init(Aplayer.translate + Vector3(0, 5, 0), Vector3(ShopUI.UI.translate) + Vector3(0, 5, 0), Vector3(0, 1, 0));
 	CameraSwitch = 0;
 
@@ -1334,6 +1335,11 @@ void SceneSkybox::PlayerMoveUp(double dt)
 		Aplayer.translate.z -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
+	if (collision_detector(Aplayer, Cplayer, Door, CDoor, true)) {
+		Aplayer.translate.z -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+		Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+	}
+	//player animation
 	if (Aplayerleftarm.RotateX.degree > -30 && rotatebodyparts == false)
 	{
 		Aplayerleftarm.RotateX.degree--;
@@ -1403,6 +1409,12 @@ void SceneSkybox::PlayerMoveDown(double dt)
 		Aplayer.translate.z += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
+	if (collision_detector(Aplayer, Cplayer, Door, CDoor, true)) {
+		Aplayer.translate.z += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+		Aplayer.translate.x += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+	}
+
+	//player animation
 	if (Aplayerleftarm.RotateX.degree > -30 && rotatebodyparts == false)
 	{
 		Aplayerleftarm.RotateX.degree--;
@@ -1472,6 +1484,10 @@ void SceneSkybox::PlayerMoveRight(double dt)
 		Aplayer.translate.z -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
+	if (collision_detector(Aplayer, Cplayer, Door, CDoor, true)) {
+		Aplayer.translate.z -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+		Aplayer.translate.x += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+	}
 }
 
 void SceneSkybox::PlayerMoveLeft(double dt)
@@ -1504,6 +1520,10 @@ void SceneSkybox::PlayerMoveLeft(double dt)
 		Aplayer.translate.x -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
 	if (collision_detector(Aplayer, Cplayer, Arandbox, Crandbox, true) && godmode) {
+		Aplayer.translate.z += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+		Aplayer.translate.x -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+	}
+	if (collision_detector(Aplayer, Cplayer, Door, CDoor, true)) {
 		Aplayer.translate.z += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
