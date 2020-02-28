@@ -175,7 +175,7 @@ void SceneSkybox::Init()
 	carnum = 5;
 	textnum = 0;
 	NPCtext = "";
-	
+
 	meshList[GEO_PLAYERBODY] = MeshBuilder::GenerateOBJ("playerbody", "OBJ//playerbody.obj");
 	meshList[GEO_PLAYERBODY]->textureID = LoadTGA("Image//player.tga");
 	Aplayer.translate = Vector3(0, 5.5, 5);
@@ -215,10 +215,10 @@ void SceneSkybox::Init()
 	ShopUI.lengthX = 10.f;
 	ShopUI.lengthY = 10.f;
 	ShopUI_Scroll = 0;
-	
+
 	meshList[GEO_CAR_STAT] = MeshBuilder::GenerateQuad("car_stat", Color(1, 0, 0), 1.f, 1.f);
 	meshList[GEO_CAR_STAT_UPGRADE] = MeshBuilder::GenerateQuad("car_stat_upgrade", Color(0, 1, 0), 1.f, 1.f);
-	 	
+
 	BounceTime = 0;
 
 	meshList[GEO_PLATFORM] = MeshBuilder::GenerateOBJ("Platform", "OBJ//Platform.obj");
@@ -344,7 +344,7 @@ void SceneSkybox::Init()
 	meshList[GEO_DOORSCREEN]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_DOORSCREEN]->material.kShininess = 1.f;
 	DoorScreen.translate = Vector3(0, -0.2, 2);
-	DoorScreen.Scale = Vector3(1, 1, 1);	
+	DoorScreen.Scale = Vector3(1, 1, 1);
 	DoorCheck = Door + DoorScreen;
 
 	meshList[GEO_FAKEDOORSCREEN] = MeshBuilder::GenerateOBJ("doorscreen", "OBJ//doorscreen.obj");
@@ -390,7 +390,7 @@ void SceneSkybox::Init()
 	}
 	slot_images[0] = slot_images[1] = slot_images[2] = 4;
 	slot_images[3] = slot_images[4] = slot_images[5] = 0;
-	slot_images[6] = slot_images[7] = slot_images[8] = 1;  
+	slot_images[6] = slot_images[7] = slot_images[8] = 1;
 	int tempfill[15] = { 10,11,12,13,14,5,6,7,8,9,0,1,2,3,4 };
 	for (int i = 0; i < 5; ++i) {
 		slot_rotation_lower[i] = tempfill[i];
@@ -416,6 +416,14 @@ void SceneSkybox::Init()
 	meshList[GEO_COIN]->textureID = LoadTGA("Image//coin.tga");
 
 
+	meshList[GEO_RAND_BOX] = MeshBuilder::GenerateOBJ("box", "OBJ//box.obj");
+	meshList[GEO_RAND_BOX]->textureID = LoadTGA("image//box.tga");
+	Loadcoord("obj//box.obj", Crandbox);
+	Arandbox.translate = Vector3(0, 0, -20);
+	Arandbox.Scale = Vector3(2, 2, 2);
+	Arandbox.RotateY.degree = 45;
+	godmode = 0;
+	godmodelasttime = 0;
 
 	for (int i = 0; i < 4; ++i)
 	{
@@ -438,14 +446,14 @@ void SceneSkybox::Init()
 
 	if (playerdetails.IsInit())
 	{
-		playerdetails.GetData();		
+		playerdetails.GetData();
 		EquippedCar_Scroll = playerdetails.car_number.cartype;
 	}
 
 	else
 	{
-	playerdetails = PlayerDetails(CarSelection(allcardetails.getCarStats(EquippedCar_Scroll),2), 5000);
-	EquippedCar_Scroll = 2;
+		playerdetails = PlayerDetails(CarSelection(allcardetails.getCarStats(EquippedCar_Scroll), 2), 5000);
+		EquippedCar_Scroll = 2;
 	}
 
 	hologramcamera_leave = true;
@@ -470,7 +478,7 @@ void SceneSkybox::Update(double dt)
 	else if (Application::IsKeyPressed(0x32))
 	{
 		glEnable(GL_CULL_FACE);
-	} 
+	}
 	else if (Application::IsKeyPressed(0x33))
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -534,7 +542,7 @@ void SceneSkybox::Update(double dt)
 				Aplayerrightarm.RotateX.degree = 0;
 			}
 		}
-	}	
+	}
 	//NPC
 	if ((ANPC.translate - Aplayer.translate).Length() > 8) {
 		for (int i = 0; i < 4; ++i) {
@@ -554,7 +562,7 @@ void SceneSkybox::Update(double dt)
 		}
 	}
 	else if ((ANPC.translate - Aplayer.translate).Length() < 8) {
-		if (GetTickCount() * 0.001f - textLasttime > 0.08f && textnum < NPCSpeech[carnum].length() && carnum !=5) {
+		if (GetTickCount() * 0.001f - textLasttime > 0.08f && textnum < NPCSpeech[carnum].length() && carnum != 5) {
 			NPCtext.insert(NPCtext.end(), NPCSpeech[carnum][textnum++]);
 			if (NPCSpeech[carnum][textnum] == ' ') {
 				textLasttime = GetTickCount() * 0.001f + 0.15f;
@@ -588,6 +596,20 @@ void SceneSkybox::Update(double dt)
 	{
 		UpdateEquippedCar();
 		BounceTime = GetTickCount() + 500.f;
+	}
+
+	if (Application::IsKeyPressed('G') && GetTickCount() * 0.001f - godmodelasttime > 1.0f) {
+		godmodelasttime = GetTickCount() * 0.001f;
+		if (godmode)
+			godmode = 0;
+		else
+			godmode = 1;
+	}
+	if (godmode && Application::IsKeyPressed('N')) {
+		Arandbox.RotateY.degree += (float)(playerTurningSpeed * dt);
+	}
+	if (godmode && Application::IsKeyPressed('M')) {
+		Arandbox.RotateY.degree -= (float)(playerTurningSpeed * dt);
 	}
 
 	// Rotate platform
@@ -628,7 +650,7 @@ void SceneSkybox::Update(double dt)
 		}
 	}
 	//slot machine
-	if ((GetTickCount() * 0.001f - slot_stop_lasttime )> 0.5f &&
+	if ((GetTickCount() * 0.001f - slot_stop_lasttime) > 0.5f &&
 		Application::IsKeyPressed('O') && (Aslot_body.translate - Aplayer.translate).Length() < 10) {
 		if (activate_slot_machine) {
 			++stop_machine;
@@ -642,7 +664,7 @@ void SceneSkybox::Update(double dt)
 		}
 	}
 	if (activate_slot_machine == 1) {
-		if (GetTickCount()*0.001f - row1_lastTime > (0.2f) && stop_machine <= 0) {
+		if (GetTickCount() * 0.001f - row1_lastTime > (0.2f) && stop_machine <= 0) {
 			++slot_images[0];
 			++slot_images[3];
 			++slot_images[6];
@@ -661,7 +683,7 @@ void SceneSkybox::Update(double dt)
 			row3_lastTime = GetTickCount() * 0.001f;
 		}
 		if (stop_machine > 2) {
-			if (slot_images[3]%5 == slot_images[4]%5 && slot_images[3]%5 == slot_images[5]%5) {
+			if (slot_images[3] % 5 == slot_images[4] % 5 && slot_images[3] % 5 == slot_images[5] % 5) {
 				int num = slot_images[3] % 5;
 				switch (num) {
 				case 0:
@@ -730,7 +752,7 @@ void SceneSkybox::Update(double dt)
 		framespersecond = 0;
 	}
 	playerdetails.Update();
-	allcardetails.SaveData(car_Stats[0],car_Stats[1],car_Stats[2],car_Stats[3]);
+	allcardetails.SaveData(car_Stats[0], car_Stats[1], car_Stats[2], car_Stats[3]);
 }
 
 void SceneSkybox::Render()
@@ -794,7 +816,10 @@ void SceneSkybox::Render()
 		Position lightPosition_cameraspace = viewStack.Top() * light[0].position;
 		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightPosition_cameraspace.x);
 	}
-
+	//rand box
+	if (godmode) {
+		RenderObj(meshList[GEO_RAND_BOX], Arandbox, true, false);
+	}
 	//slots machine
 	RenderObj(meshList[GEO_SLOT_BODY], Aslot_body, false, false);
 	RenderObj(meshList[GEO_SLOT_ARM], Aslot_arm, true, false);
@@ -891,7 +916,7 @@ void SceneSkybox::Render()
 		modelStack.PopMatrix();
 		modelStack.PopMatrix();
 	}
-	
+
 	RenderObj(meshList[GEO_DOOR], Door, false, false);
 	RenderObj(meshList[GEO_DOORSCREEN], DoorScreen, true, false);
 	modelStack.PopMatrix();
@@ -939,7 +964,7 @@ Mesh* SceneSkybox::getCarmeshList(int carNumber)
 	case 3:
 		return meshList[GEO_CAR4BODY];
 		break;
-	default: 
+	default:
 		return meshList[GEO_CAR1BODY];
 		break;
 	}
@@ -973,63 +998,64 @@ void SceneSkybox::RenderMesh(Mesh* mesh, bool enableLight)
 		glUniform1i(m_parameters[U_LIGHTENABLED], 0);
 	}
 
-	if(mesh->textureID > 0){ 
+	if (mesh->textureID > 0) {
 		glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 1);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, mesh->textureID);
-		glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);} 
-	else { 
+		glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);
+	}
+	else {
 		glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 0);
-	} 
+	}
 	mesh->Render(); //this line should only be called once in the whole function
 
-	if(mesh->textureID > 0) glBindTexture(GL_TEXTURE_2D, 0);
+	if (mesh->textureID > 0) glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void SceneSkybox::RenderSkybox()
 {
 	modelStack.PushMatrix();
-		///scale, translate, rotate 
-		modelStack.Translate(-50.f, 0.f, 0.f);
-		modelStack.Scale(103.f, 103.f, 103.f);
-		modelStack.Rotate(90.f, 0.f, 1.f, 0.f);
-		RenderMesh(meshList[GEO_LEFT], false);
+	///scale, translate, rotate 
+	modelStack.Translate(-50.f, 0.f, 0.f);
+	modelStack.Scale(103.f, 103.f, 103.f);
+	modelStack.Rotate(90.f, 0.f, 1.f, 0.f);
+	RenderMesh(meshList[GEO_LEFT], false);
 	modelStack.PopMatrix();
 	modelStack.PushMatrix();
-		///scale, translate, rotate 
-		modelStack.Translate(50.f, 0.f, 0.f);
-		modelStack.Scale(103.f, 103.f, 103.f);
-		modelStack.Rotate(-90.f, 0.f, 1.f, 0.f);
-		RenderMesh(meshList[GEO_RIGHT], false);
+	///scale, translate, rotate 
+	modelStack.Translate(50.f, 0.f, 0.f);
+	modelStack.Scale(103.f, 103.f, 103.f);
+	modelStack.Rotate(-90.f, 0.f, 1.f, 0.f);
+	RenderMesh(meshList[GEO_RIGHT], false);
 	modelStack.PopMatrix();
 	modelStack.PushMatrix();
-		///scale, translate, rotate 
-		modelStack.Translate(0.f, 50.f, 1.f);
-		modelStack.Scale(103.f, 103.f, 103.f);
-		modelStack.Rotate(90.f, 1.f, 0.f, 0.f);
-			modelStack.Rotate(0.f, 0.f, 0.f, 1.f);
-			RenderMesh(meshList[GEO_TOP], false);
+	///scale, translate, rotate 
+	modelStack.Translate(0.f, 50.f, 1.f);
+	modelStack.Scale(103.f, 103.f, 103.f);
+	modelStack.Rotate(90.f, 1.f, 0.f, 0.f);
+	modelStack.Rotate(0.f, 0.f, 0.f, 1.f);
+	RenderMesh(meshList[GEO_TOP], false);
 	modelStack.PopMatrix();
 	modelStack.PushMatrix();
-		///scale, translate, rotate 
-		modelStack.Translate(0.f, -50.f, 0.f);
-		modelStack.Scale(103.f, 103.f, 103.f);
-		modelStack.Rotate(-90.f, 1.f, 0.f, 0.f);
-		modelStack.Rotate(90.f, 0.f, 0.f, 1.f);
-		RenderMesh(meshList[GEO_BOTTOM], false);
-		modelStack.PopMatrix();
-	modelStack.PushMatrix();
-		///scale, translate, rotate 
-		modelStack.Translate(0.f, 0.f, -50.f);
-		modelStack.Scale(103.f, 103.f, 103.f);
-		RenderMesh(meshList[GEO_FRONT], false);
+	///scale, translate, rotate 
+	modelStack.Translate(0.f, -50.f, 0.f);
+	modelStack.Scale(103.f, 103.f, 103.f);
+	modelStack.Rotate(-90.f, 1.f, 0.f, 0.f);
+	modelStack.Rotate(90.f, 0.f, 0.f, 1.f);
+	RenderMesh(meshList[GEO_BOTTOM], false);
 	modelStack.PopMatrix();
 	modelStack.PushMatrix();
-		///scale, translate, rotate 
-		modelStack.Translate(0.f, 0.f, 50.f);
-		modelStack.Scale(103.f, 103.f, 103.f);
-		modelStack.Rotate(180.f, 0.f, 1.f, 0.f);
-		RenderMesh(meshList[GEO_BACK], false);
+	///scale, translate, rotate 
+	modelStack.Translate(0.f, 0.f, -50.f);
+	modelStack.Scale(103.f, 103.f, 103.f);
+	RenderMesh(meshList[GEO_FRONT], false);
+	modelStack.PopMatrix();
+	modelStack.PushMatrix();
+	///scale, translate, rotate 
+	modelStack.Translate(0.f, 0.f, 50.f);
+	modelStack.Scale(103.f, 103.f, 103.f);
+	modelStack.Rotate(180.f, 0.f, 1.f, 0.f);
+	RenderMesh(meshList[GEO_BACK], false);
 	modelStack.PopMatrix();
 }
 
@@ -1057,7 +1083,7 @@ void SceneSkybox::RenderText(Mesh* mesh, std::string text, Color color)
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
 	glEnable(GL_DEPTH_TEST);
-	
+
 }
 
 void SceneSkybox::RenderSlotImage(Mesh* mesh, TRS& trs, int image)
@@ -1131,7 +1157,8 @@ void SceneSkybox::UpdateHologram(HologramUI& UI, CarStats& car_Stats, TRS* Objec
 			}
 				
 			
-			
+		
+
 			BounceTime = GetTickCount() + 500.f;
 		}
 
@@ -1146,13 +1173,13 @@ void SceneSkybox::UpdateHologram(HologramUI& UI, CarStats& car_Stats, TRS* Objec
 		}
 	} //end distance check
 
-	else 
+	else
 	{
 		if (UI.UI.translate.y > 0.f) UI.UI.translate.y -= (targetY / 20.f);
 		if (UI.UI.Scale.x > 0.f) UI.UI.Scale.x -= 0.05f;
 	}
 
-	
+
 }
 
 void SceneSkybox::UpdateEquippedCar()
@@ -1171,9 +1198,9 @@ void SceneSkybox::UpdateEquippedCar()
 
 void SceneSkybox::RenderCar(int carnumber)
 {
-	
+
 	RenderObj(getCarmeshList(carnumber), Cars[carnumber], false, false);
-	
+
 	for (int carnumwheel = 0; carnumwheel < 4; carnumwheel++)
 	{
 		if (carnumber == 0)
@@ -1218,7 +1245,7 @@ void SceneSkybox::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int si
 	modelStack.PopMatrix();
 	viewStack.PopMatrix();
 	projectionStack.PopMatrix();
-	
+
 	glEnable(GL_DEPTH_TEST);
 
 }
@@ -1231,14 +1258,14 @@ void SceneSkybox::RenderShopText()
 
 	modelStack.Translate(0.f, -1.f / 14.f * ShopUI.lengthY, 0.f);
 	RenderText(meshList[GEO_TEXT], "CurrentUpgrade:" + std::to_string(car_Stats[ShopUI_Scroll].current_upgrade), Color(0, 1, 0));
-	
+
 	//if (EquippedCar.SelectedCar == car_Stats[ShopUI_Scroll])
 	//{
 	//modelStack.Translate(0.f, -1.f/14.f * ShopUI.lengthY, 0.f);
 	//RenderText(meshList[GEO_TEXT], "Equipped", Color(0, 1, 0));
 	//modelStack.Translate(0.f, 1.f / 14.f * ShopUI.lengthY,  0.f);
 	//}
-	
+
 	modelStack.Translate(0.f, 1.f / 14.f * ShopUI.lengthY, 0.f);
 
 	modelStack.Scale(2.f, 1.f, 1.f);
@@ -1281,7 +1308,7 @@ void SceneSkybox::PlayerMoveUp(double dt)
 		Aplayer.translate.z -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
-	if (collision_detector(Aplayer, Cplayer, Aslot_body, Cslot_body,true)) {
+	if (collision_detector(Aplayer, Cplayer, Aslot_body, Cslot_body, true)) {
 		Aplayer.translate.z -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
@@ -1301,7 +1328,10 @@ void SceneSkybox::PlayerMoveUp(double dt)
 			Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		}
 	}
-	
+	if (collision_detector(Aplayer, Cplayer, Arandbox, Crandbox, true) && godmode) {
+		Aplayer.translate.z -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+		Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+	}
 	if (Aplayerleftarm.RotateX.degree > -30 && rotatebodyparts == false)
 	{
 		Aplayerleftarm.RotateX.degree--;
@@ -1311,7 +1341,7 @@ void SceneSkybox::PlayerMoveUp(double dt)
 			rotatebodyparts = true;
 		}
 	}
-	else if(Aplayerleftarm.RotateX.degree < 30 && rotatebodyparts == true)
+	else if (Aplayerleftarm.RotateX.degree < 30 && rotatebodyparts == true)
 	{
 		Aplayerleftarm.RotateX.degree++;
 		if (Aplayerleftarm.RotateX.degree >= 30)
@@ -1343,11 +1373,11 @@ void SceneSkybox::PlayerMoveDown(double dt)
 	Aplayer.translate.z -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 
-	if (!(Aplayer.translate.x > -48 && Aplayer.translate.x < 48 && Aplayer.translate.z > -48 && Aplayer.translate.z < 48)){
+	if (!(Aplayer.translate.x > -48 && Aplayer.translate.x < 48 && Aplayer.translate.z > -48 && Aplayer.translate.z < 48)) {
 		Aplayer.translate.z += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
-	if (collision_detector(Aplayer, Cplayer, Aslot_body, Cslot_body)) {
+	if (collision_detector(Aplayer, Cplayer, Aslot_body, Cslot_body, true)) {
 		Aplayer.translate.z += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
@@ -1364,6 +1394,10 @@ void SceneSkybox::PlayerMoveDown(double dt)
 		Aplayer.translate.x += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
 	if (collision_detector(Aplayer, Cplayer, Shop, CShop, true)) {
+		Aplayer.translate.z += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+		Aplayer.translate.x += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+	}
+	if (collision_detector(Aplayer, Cplayer, Arandbox, Crandbox, true) && godmode) {
 		Aplayer.translate.z += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
@@ -1432,6 +1466,10 @@ void SceneSkybox::PlayerMoveRight(double dt)
 		Aplayer.translate.z -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
+	if (collision_detector(Aplayer, Cplayer, Arandbox, Crandbox, true) && godmode) {
+		Aplayer.translate.z -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+		Aplayer.translate.x += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+	}
 }
 
 void SceneSkybox::PlayerMoveLeft(double dt)
@@ -1460,6 +1498,10 @@ void SceneSkybox::PlayerMoveLeft(double dt)
 		Aplayer.translate.x -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
 	if (collision_detector(Aplayer, Cplayer, Shop, CShop, true)) {
+		Aplayer.translate.z += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+		Aplayer.translate.x -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+	}
+	if (collision_detector(Aplayer, Cplayer, Arandbox, Crandbox, true) && godmode) {
 		Aplayer.translate.z += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
@@ -1563,7 +1605,7 @@ void SceneSkybox::RenderShopStats(CarStats& car_Stats)
 
 		if (car_Stats.current_upgrade < 5)
 		{
-			for (int i = 0; i < 5; ++i) 
+			for (int i = 0; i < 5; ++i)
 			{
 				car_Stats.StatUpgrade.Scale.y = 0.25f / 14.f * ShopUI.lengthY;
 				car_Stats.StatUpgrade.translate = Vector3(car_Stats.StatTRS[i].translate.x + (((1.f + car_Stats.StatLevel[i]) / 28.f) * ShopUI.lengthX), car_Stats.StatTRS[i].translate.y, 0.1f);

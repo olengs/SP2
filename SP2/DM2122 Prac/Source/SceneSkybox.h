@@ -21,11 +21,11 @@ class SceneSkybox : public Scene
 	enum GEOMETRY_TYPE
 	{
 		GEO_AXES = 0,
-		GEO_LEFT, 
-		GEO_RIGHT, 
-		GEO_TOP, 
-		GEO_BOTTOM, 
-		GEO_FRONT, 
+		GEO_LEFT,
+		GEO_RIGHT,
+		GEO_TOP,
+		GEO_BOTTOM,
+		GEO_FRONT,
 		GEO_BACK,
 		GEO_CHAR,
 		GEO_DICE,
@@ -59,6 +59,7 @@ class SceneSkybox : public Scene
 		GEO_PLAYERBODY,
 		GEO_PLAYERLEFTLEG,
 		GEO_PLAYERRIGHTLEG,
+		GEO_RAND_BOX,
 		NUM_GEOMETRY,
 	};
 
@@ -189,7 +190,7 @@ private:
 	//slot_images - top left , top middle , top right
 //				middle left, middle middle, middle right
 //				bottom left, bottom middle, bottom right
-	int slot_images[9]; 
+	int slot_images[9];
 
 	int slot_rotation_whole[5];
 	int slot_rotation_upper[5];
@@ -201,12 +202,18 @@ private:
 	int stop_machine;
 	float slot_stop_lasttime;
 
-	std::string BuyText;	
+	//random box
+	TRS Arandbox;
+	cornercoord Crandbox;
+	bool godmode;
+	float godmodelasttime;
+
+	std::string BuyText;
 	HologramUI CarHologram[4];
 
-	
+
 	bool DistanceCheck(Vector3 Object1, Vector3 Object2);
-	
+
 	//RenderFunctions
 	void RenderMesh(Mesh* mesh, bool enableLight);
 	void RenderSkybox();
