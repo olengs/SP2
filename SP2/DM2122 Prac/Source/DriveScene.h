@@ -10,7 +10,7 @@
 #include "FirstPersonCamera.h"
 #include "Loadcornercoord.h"
 #include "Collision_detector.h"
-
+#include "CarStats.h"
 
 class DriveScene : public Scene
 {
@@ -88,7 +88,7 @@ private:
 	unsigned m_programID;
 	/*unsigned m_indexBuffer;*/
 	Mesh* meshList[NUM_GEOMETRY];
-
+	void InitCarStats(int carnumber);
 	unsigned m_parameters[U_TOTAL];
 
 	MS modelStack, viewStack, projectionStack;
@@ -98,7 +98,7 @@ private:
 	Camera2 test;
 	int CameraSwitch;
 	float SwitchCD;
-
+	CarStats car_Stats;
 	CItemList boxlist;
 	CItemList spikelist;
 	CItemList boostpadlist;

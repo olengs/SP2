@@ -4,10 +4,7 @@ AllCarDetails::AllCarDetails()
 
 	if (!IsInit())
 	{
-		car_Stats[0] = CarStats(1.f, 0.5f, 1.f, 1.f); //guangtheng car
-		car_Stats[1] = CarStats(1.f, 1.f, 0.5f, 1.f); //ryan car
-		car_Stats[2] = CarStats(0.5f, 0.5f, 0.5f, 1.f); //junchen car
-		car_Stats[3] = CarStats(0.5f, 1.f, 1.f, 1.f); //jianfeng car
+		InitCarStats();
 
 		car_Stats[2].lock = false;
 
@@ -22,6 +19,14 @@ AllCarDetails::AllCarDetails()
 CarStats AllCarDetails::getCarStats(int number)
 {
 	return car_Stats[number];
+}
+
+void AllCarDetails::InitCarStats()
+{
+	car_Stats[0] = CarStats(3.f, 1.5f, 1.f, 1.f); //guangtheng car
+	car_Stats[1] = CarStats(2.f, 2.f, 1.5f, 1.5f); //ryan car
+	car_Stats[2] = CarStats(1.5f, 2.5f, 1.f, 1.f); //junchen car
+	car_Stats[3] = CarStats(2.5f, 2.f, 1.5f, 1.5f); //jianfeng car
 }
 
 void AllCarDetails::SaveData(CarStats storage1, CarStats storage2, CarStats storage3, CarStats storage4)
@@ -87,7 +92,7 @@ void AllCarDetails::GetData()
 
 		std::getline(data, line);
 		std::getline(data, line);
-		car_Stats[1].current_upgrade = stoi(line);
+		car_Stats[1].current_upgrade = std::stof(line);
 		car_Stats[1].UpgradeFromStart();
 		std::getline(data, line);
 		car_Stats[1].lock = stoi(line);

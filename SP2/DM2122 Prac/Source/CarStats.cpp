@@ -43,6 +43,24 @@ void CarStats::BuyCar()
 	lock = false;
 }
 
+void CarStats::ResettoBase()
+{
+	if (current_upgrade == 0) return;
+	else
+	{
+		for (int i = current_upgrade;i > 0;--i)
+		{
+			for (int j = 0;j < 5;++j)
+			{
+				--StatLevel[j];
+			}
+		}
+
+	}
+}
+
+
+
 CarStats::CarStats() //set default to 1
 {
 	for (int i = 0; i < 5; ++i)

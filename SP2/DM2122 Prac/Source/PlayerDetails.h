@@ -4,15 +4,16 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-
+#include "AllCarDetails.h"
 class PlayerDetails
 {
 
 public:
-	CarStats all_car_Details[4];
 	int currency;
 	int coinCounter;
 	CarSelection car_number;
+	AllCarDetails allcardetails;
+
 	//getters
 	/*int getCurrency();
 	CarStats getall_car_details(int number);
@@ -23,6 +24,7 @@ public:
 	void Update();
 	void GetData();
 	bool IsInit();
+	void InitCarStats(int carnumber);
 
 	PlayerDetails(CarSelection car, int currency);
 	PlayerDetails();
