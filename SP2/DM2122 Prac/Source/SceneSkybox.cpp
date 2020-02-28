@@ -752,7 +752,7 @@ void SceneSkybox::Update(double dt)
 		fps = (int)framespersecond;
 		framespersecond = 0;
 	}
-	playerdetails.Update();
+	playerdetails.Update(CarSelection(car_Stats[EquippedCar_Scroll],EquippedCar_Scroll), playerdetails.currency);
 	allcardetails.SaveData(car_Stats[0], car_Stats[1], car_Stats[2], car_Stats[3]);
 }
 

@@ -27,11 +27,9 @@ void PlayerDetails::Update(CarSelection updatedcar, int updatedcurrency)
 	if (data.is_open())
 	{
 		data.clear();
-		data << updatedcurrency << std::endl;
-		data << updatedcar.SelectedCar.StatLevel[0] << std::endl
-			<< updatedcar.SelectedCar.StatLevel[1] << std::endl
-			<< updatedcar.SelectedCar.StatLevel[2] << std::endl
-			<< updatedcar.cartype << std::endl;
+		data << updatedcurrency << " - Currency " << std::endl;
+		data << updatedcar.cartype << " - Equipped Car Choice" << std::endl;
+		data << updatedcar.SelectedCar.current_upgrade << " - Equipped Car Upgrade Level" << std::endl;
 		data.close();
 	}
 	car_number = updatedcar;
@@ -63,6 +61,7 @@ void PlayerDetails::GetData()
 		std::getline(data, line);
 		car_number.cartype = std::stoi(line);
 		std::getline(data, line);
+		InitCarStats(car_number.cartype);
 		car_number.SelectedCar.current_upgrade = std::stoi(line);
 		car_number.SelectedCar.UpgradeFromStart();
 		
@@ -72,6 +71,13 @@ void PlayerDetails::GetData()
 	else return;
 }
 
+void PlayerDetails::InitCarStats(int carnumber)
+{
+	allcardetails.InitCarStats();
+
+	car_number.SelectedCar = allcardetails.getCarStats(carnumber);
+	
+}
 
 bool PlayerDetails::IsInit()
 {
@@ -116,4 +122,5 @@ PlayerDetails::PlayerDetails(CarSelection car, int currency)
 
 PlayerDetails::PlayerDetails()
 {
+	
 }

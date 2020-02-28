@@ -839,11 +839,8 @@ void DriveScene::Update(double dt)
 		//Nitro booster
 		if (Application::IsKeyPressed(VK_SPACE) && boostbar > 0 && carVelocity < maxvelocity)
 		{
-
-			boostVelocity += 5 * dt;
-			carVelocity += boostVelocity;
-			boostbar -= dt * 10;
-
+			carVelocity += (5 * ((carAcceleration * dt) + (friction * dt)));
+			fuel -= dt * 25;
 		}
 		if (!Application::IsKeyPressed(VK_SPACE) && boostVelocity > 0)
 		{
@@ -881,7 +878,8 @@ void DriveScene::Update(double dt)
 			car_ismoving = false;
 		}
 		//Fuel decreasing
-		if (car_ismoving) --fuel;
+		if (car_ismoving)
+			fuel -= 15 * dt;
 
 		//Car Moving
 		carMovement(ACarBody, carVelocity, dt);
@@ -1056,6 +1054,7 @@ void DriveScene::Exit()
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
 }
+
 
 void DriveScene::RenderMesh(Mesh* mesh, bool enableLight)
 {
