@@ -7,6 +7,7 @@
 #include "Mesh.h"
 #include "Light.h"
 #include "CItemList.h"
+#include "FirstPersonCamera.h"
 #include "Loadcornercoord.h"
 #include "Collision_detector.h"
 
@@ -31,7 +32,9 @@ class DriveScene : public Scene
 		GEO_SPIKE,
 		GEO_BOX,
 		GEO_FIRE,
-		GEO_EXPLOSION,
+		GEO_GHOSTCOIN,
+		GEO_SHIELDCOIN,
+		GEO_SHIELD,
 		NUM_GEOMETRY,
 	};
 
@@ -91,9 +94,10 @@ private:
 	MS modelStack, viewStack, projectionStack;
 	Light light[2];
 
-	Camera2 camera;
-	Camera2 firstpersoncamera;
+	FirstPersonCamera firstpersoncamera;
 	Camera2 test;
+	int CameraSwitch;
+	float SwitchCD;
 
 	CItemList boxlist;
 	CItemList spikelist;
@@ -104,6 +108,9 @@ private:
 	int check[20] = { 0 };
 	int coinarray[10] = { 0 };
 	int count = 0;
+
+	//powerup randomizer
+	int randompower;
 
 	int fps;
 	float framespersecond;
@@ -139,12 +146,16 @@ private:
 	cornercoord CSpike;
 	TRS ACoin;
 	cornercoord CCoin;
-	TRS ABox[40];
+	TRS ABox;
 	cornercoord CBox;
 	TRS ABoostpad;
 	cornercoord CBoostpad;
 	TRS AFire[3];
-	TRS AExplosion;
+	// 0 = Ghost, 1 = Shield
+	TRS Powerups[2];
+	cornercoord CGhost;
+	cornercoord CShield;
+	TRS Shieldparticle[4];
 
 	//cars
 	TRS ACarBody;
@@ -161,6 +172,7 @@ private:
 
 	//coin random generator
 	void Generatecoinposition();
+	void Generatepowerposition();
 
 public:
 	DriveScene();
