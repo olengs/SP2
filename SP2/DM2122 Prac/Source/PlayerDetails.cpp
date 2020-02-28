@@ -20,7 +20,7 @@
 //	return car_number;
 //}
 
-void PlayerDetails::Update(CarSelection updatedcar, int updatedcurrency)
+void PlayerDetails::Update(CarSelection updatedcar, int updatedcurrency) //update in skybox scene
 {
 	std::ofstream data;
 	data.open("PlayerDetails.txt");
@@ -30,14 +30,24 @@ void PlayerDetails::Update(CarSelection updatedcar, int updatedcurrency)
 		data << updatedcurrency << " - Currency " << std::endl;
 		data << updatedcar.cartype << " - Equipped Car Choice" << std::endl;
 		data << updatedcar.SelectedCar.current_upgrade << " - Equipped Car Upgrade Level" << std::endl;
+		data << updatedcar.SelectedCar.StatLevel[4] << " - Equipped Car Fuel Level" << std::endl;
 		data.close();
 	}
+
 	car_number = updatedcar;
 	
 	currency = updatedcurrency;
+
+	allcardetails.UpdateFile();
 }
 
-void PlayerDetails::Update()
+void PlayerDetails::Update(float fuelLevel) //update in drive scene
+{
+	car_number.SelectedCar.StatLevel[4] = fuelLevel;
+	UpdateFile();
+}
+
+void PlayerDetails::UpdateFile() //update file
 {
 	std::ofstream data;
 	data.open("PlayerDetails.txt");
@@ -46,8 +56,17 @@ void PlayerDetails::Update()
 		data << currency << " - Currency " << std::endl;
 		data << car_number.cartype << " - Equipped Car Choice" << std::endl;
 		data << car_number.SelectedCar.current_upgrade << " - Equipped Car Upgrade Level" << std::endl;
+		data << car_number.SelectedCar.StatLevel[4] << " - equipped car fuel level" << std::endl;
 		data.close();
 	}
+
+	allcardetails.UpdateCarStat(car_number);
+
+}
+
+void PlayerDetails::UpdateAllCarDetails()
+{
+	
 }
 
 void PlayerDetails::GetData()
@@ -57,23 +76,24 @@ void PlayerDetails::GetData()
 	{
 		std::string line;
 		std::getline(data, line);
-		currency = std::stoi(line);
+		currency = std::stof(line);
 		std::getline(data, line);
-		car_number.cartype = std::stoi(line);
+		car_number.cartype = std::stof(line);
 		std::getline(data, line);
-		InitCarStats(car_number.cartype);
-		car_number.SelectedCar.current_upgrade = std::stoi(line);
+		InitCarStat(car_number.cartype);
+		car_number.SelectedCar.current_upgrade = std::stof(line);
 		car_number.SelectedCar.UpgradeFromStart();
-		
+		std::getline(data, line);
+		car_number.SelectedCar.StatLevel[4] = std::stof(line);
 		data.close();
 		car_number.SelectedCar.lock = false;
 	}
 	else return;
 }
 
-void PlayerDetails::InitCarStats(int carnumber)
+void PlayerDetails::InitCarStat(int carnumber)
 {
-	allcardetails.InitCarStats();
+	allcardetails.InitCarStat(carnumber);
 
 	car_number.SelectedCar = allcardetails.getCarStats(carnumber);
 	

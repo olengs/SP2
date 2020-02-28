@@ -3,10 +3,10 @@
 
 struct HologramUI
 {
-	TRS UI, UI_Back;
+	TRS UI;
 	float lengthX, lengthY;
-	int HologramTexture;
 
 	HologramUI();
+	HologramUI(float lengthX, float lengthY);
 
 };

@@ -33,7 +33,7 @@ class SceneSkybox : public Scene
 		GEO_TEXT,
 		GEO_NPC,
 		GEO_SHOP,
-		GEO_SHOP_UI,
+		GEO_HOLO_SHOP,
 		GEO_SHOP_NPC,
 		GEO_CAR_STAT,
 		GEO_CAR_STAT_UPGRADE,
@@ -52,7 +52,9 @@ class SceneSkybox : public Scene
 		GEO_DOOR,
 		GEO_DOORSCREEN,
 		GEO_FAKEDOORSCREEN,
-		GEO_HOLO,
+		GEO_PETROLSTATION,
+		GEO_HOLO_PETROLSTATION,
+		GEO_HOLO_PLATFORM,
 		GEO_COIN,
 		GEO_PLAYERLEFTARM,
 		GEO_PLAYERRIGHTARM,
@@ -149,6 +151,9 @@ private:
 	//player movement
 	const float playerMovementSpeed = 10.f;
 	const float playerTurningSpeed = 135.f;
+	//petrol station
+	TRS PetrolStation;
+	HologramUI PetrolStationUI;
 	//shop
 	TRS Shop;
 	cornercoord CShop;
@@ -224,10 +229,12 @@ private:
 	void RenderStats(HologramUI UI, CarStats& car_Stats);
 	void RenderShopStats(CarStats& car_Stats);
 	void RenderSlotImage(Mesh* mesh, TRS& trs, int image);
+	void RenderPetrolStation();
 	void RenderCar(int carnumber);
 	void RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey, float rotateX, float rotateY);
 	void RenderShopText();
 	void RenderShopUI();
+
 	//Update Functions
 	void UpdateHologram(HologramUI& UI, CarStats& car_Stats, TRS* ObjectDisplay, float targetY);
 	void UpdateEquippedCar();

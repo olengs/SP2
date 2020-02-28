@@ -59,6 +59,19 @@ void CarStats::ResettoBase()
 	}
 }
 
+void CarStats::RechargeCarFuel()
+{
+	StatLevel[4] = StatLevel[3];
+}
+
+bool CarStats::isRecharged()
+{
+	if (StatLevel[4] >= StatLevel[3]) return true;
+	
+	else return false;
+}
+
+
 
 
 CarStats::CarStats() //set default to 1
@@ -75,14 +88,14 @@ CarStats::CarStats() //set default to 1
 	lock = true;
 }
 
-
-CarStats::CarStats::CarStats(float acceleration, float speed, float turbo, float fuel)
+CarStats::CarStats(float acceleration, float speed, float turbo,float fuel)
 {
 	//StatLevel[0]: acceleration, StatLevel[1]: speed, StatLevel[2]: turbo, StatLevel[3]: fuel max
 	//StatLevel[4]: fuel current
 	StatLevel[0] = acceleration; StatLevel[1] = speed; StatLevel[2] = turbo;
 	StatLevel[3] = fuel;
 	StatLevel[4] = StatLevel[3];
+	
 	StatUpgrade.Scale = Vector3(0.f, 1.f, 1.f);
 
 	for (int i = 0; i < 5; ++i) {
@@ -93,3 +106,27 @@ CarStats::CarStats::CarStats(float acceleration, float speed, float turbo, float
 	current_upgrade = 0;
 	lock = true;
 }
+
+CarStats::CarStats(float acceleration, float speed, float turbo, float fuel, float fuelcurrent)
+{
+	//StatLevel[0]: acceleration, StatLevel[1]: speed, StatLevel[2]: turbo, StatLevel[3]: fuel max
+		//StatLevel[4]: fuel current
+	StatLevel[0] = acceleration; StatLevel[1] = speed; StatLevel[2] = turbo;
+	StatLevel[3] = fuel;
+	StatLevel[4] = fuelcurrent;
+
+	StatUpgrade.Scale = Vector3(0.f, 1.f, 1.f);
+
+	for (int i = 0; i < 5; ++i) {
+		StatTRS[i].Scale = Vector3(0.f, 1.f, 1.f);
+	}
+	cost = 500;
+	cost_upgrade = 250;
+	current_upgrade = 0;
+	lock = true;
+}
+
+
+
+
+

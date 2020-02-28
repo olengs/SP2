@@ -14,9 +14,11 @@ struct CarStats
 	void InitStatsinHolo(HologramUI ObjectDisplay);
 	void BuyCar();
 	void ResettoBase();
-	void InitCarStats(int carnumber);
-
+	void RechargeCarFuel();
+	bool isRecharged();
 	CarStats();
 
-	CarStats(float acceleration, float turbo, float fuel, float accelerationupgrade);
+	CarStats(float acceleration, float speed, float turbo, float fuel);
+	CarStats(float acceleration, float speed, float turbo, float fuel, float fuelcurrent);
+
 };
