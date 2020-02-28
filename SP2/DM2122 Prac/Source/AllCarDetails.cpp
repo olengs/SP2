@@ -99,7 +99,7 @@ void AllCarDetails::GetData()
 		std::getline(data, line);
 		car_Stats[2].lock = stoi(line);
 	
-		//std::getline(data, line);
+		std::getline(data, line);
 		std::getline(data, line);
 		car_Stats[3].current_upgrade = stoi(line);
 		car_Stats[3].UpgradeFromStart();

@@ -410,6 +410,7 @@ void SceneSkybox::Init()
 
 	//Holograms
 	meshList[GEO_HOLO] = MeshBuilder::GenerateQuad("holo0", Color(0, 0, 1.f), 5.f, 6.f);
+
 	meshList[GEO_HOLO]->textureID = LoadTGA("Image//carstatsUI.tga");
 
 	meshList[GEO_COIN] = MeshBuilder::GenerateOBJ("coin", "obj//coin.obj");
@@ -898,7 +899,6 @@ void SceneSkybox::Render()
 		}
 		else CarHologram[carnumber].UI.RotateY.degree = 0.f;
 
-		//			glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 		RenderObj(meshList[GEO_HOLO], CarHologram[carnumber].UI, false, false);
 		RenderStats(CarHologram[carnumber], car_Stats[carnumber]);
 		modelStack.Translate(-2.5f, -(3.f / 7.f) * CarHologram[carnumber].lengthY, 0.f);
