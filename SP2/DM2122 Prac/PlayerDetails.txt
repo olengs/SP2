@@ -1,3 +1,0 @@
-1000 - Currency 
-1 - Equipped Car Choice
-5 - Equipped Car Upgrade Level
