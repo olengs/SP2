@@ -459,7 +459,7 @@ void SceneSkybox::Init()
 
 	hologramcamera_leave = true;
 	camera.Init(Aplayer.translate + Vector3(0, 8, 15), Vector3(Aplayer.translate) + Vector3(0, 5, 0), Vector3(0, 1, 0));
-	firstpersoncamera.Init(Vector3(Aplayer.translate.x, Aplayer.translate.y + 2, Aplayer.translate.z), Vector3(0, Aplayer.translate.y + 2, 0), Vector3(0, 1, 0));
+	firstpersoncamera.Init(Vector3(Aplayer.translate.x, Aplayer.translate.y + 2, Aplayer.translate.z + 5), Vector3(0, Aplayer.translate.y + 2, 0), Vector3(0, 1, 0));
 	hologramcamera.Init(Aplayer.translate + Vector3(0, 5, 0), Vector3(ShopUI.UI.translate) + Vector3(0, 5, 0), Vector3(0, 1, 0));
 	CameraSwitch = 0;
 
