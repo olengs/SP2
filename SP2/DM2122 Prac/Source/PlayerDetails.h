@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include "AllCarDetails.h"
+
 class PlayerDetails
 {
 
@@ -21,11 +22,13 @@ public:
 	CarSelection getcar_number();*/
 
 	void Update(CarSelection updatedcar, int updatedcurrency);
-	void Update();
+	void Update(float fuelLevel);
+	void UpdateFile();
+	void UpdateAllCarDetails();
 	void GetData();
 	bool IsInit();
-	void InitCarStats(int carnumber);
-
+	void InitCarStat(int carnumber);
+	
 	PlayerDetails(CarSelection car, int currency);
 	PlayerDetails();
 
