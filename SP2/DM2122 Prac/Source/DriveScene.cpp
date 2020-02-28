@@ -29,6 +29,8 @@ DriveScene::~DriveScene()
 
 void DriveScene::Init()
 {
+	srand(time(NULL));
+
 	scenechange = false;
 
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
@@ -639,6 +641,73 @@ void DriveScene::Init()
 	AFire[1].Scale = Vector3(0.5, 0.5, 0.5);
 	AFire[2].Scale = Vector3(0.5, 0.5, 0.5);
 
+	Generatepowerposition();
+	meshList[GEO_GHOSTCOIN] = MeshBuilder::GenerateOBJ("coin", "OBJ//ghostpowerup.obj");
+	meshList[GEO_GHOSTCOIN]->textureID = LoadTGA("Image//ghostpowerup.tga");
+	meshList[GEO_GHOSTCOIN]->material.kAmbient.Set(0.7f, 0.7f, 0.7f);
+	meshList[GEO_GHOSTCOIN]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[GEO_GHOSTCOIN]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_GHOSTCOIN]->material.kShininess = 1.f;
+	Loadcoord("OBJ//ghostpowerup.obj", CGhost);
+	if (randompower == 0)
+	{
+		Powerups[0].translate.Set(-140, 6, 114);
+	}
+	if (randompower == 1)
+	{
+		Powerups[0].translate.Set(-204, 6, -110);
+	}
+	if (randompower == 2)
+	{
+		Powerups[0].translate.Set(20, 6, -46);
+	}
+	if (randompower == 3)
+	{
+		Powerups[0].translate.Set(84, 6, 82);
+	}
+	if (randompower == 4)
+	{
+		Powerups[0].translate.Set(180, 6, 210);
+	}
+	Powerups[0].Scale.Set(3, 3, 3);
+
+	Generatepowerposition();
+	meshList[GEO_SHIELDCOIN] = MeshBuilder::GenerateOBJ("shield", "OBJ//shieldpowerup.obj");
+	meshList[GEO_SHIELDCOIN]->textureID = LoadTGA("Image//shieldpower.tga");
+	meshList[GEO_SHIELDCOIN]->material.kAmbient.Set(0.7f, 0.7f, 0.7f);
+	meshList[GEO_SHIELDCOIN]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[GEO_SHIELDCOIN]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_SHIELDCOIN]->material.kShininess = 1.f;
+	Loadcoord("OBJ//shieldpowerup.obj", CShield);
+	if (randompower == 0)
+	{
+		Powerups[1].translate.Set(-172, 10, 210);
+	}
+	if (randompower == 1)
+	{
+		Powerups[1].translate.Set(20, 10, 178);
+	}
+	if (randompower == 2)
+	{
+		Powerups[1].translate.Set(240, 10, 114);
+	}
+	if (randompower == 3)
+	{
+		Powerups[1].translate.Set(180, 10, -110);
+	}
+	if (randompower == 4)
+	{
+		Powerups[1].translate.Set(-44, 10, -142);
+	}
+	Powerups[1].Scale.Set(3, 3, 3);
+
+	meshList[GEO_SHIELD] = MeshBuilder::GenerateOBJ("shieldparticle", "OBJ//shieldparticle.obj");
+	meshList[GEO_SHIELD]->textureID = LoadTGA("Image//coin.tga");
+	meshList[GEO_SHIELD]->material.kAmbient.Set(0.7f, 0.7f, 0.7f);
+	meshList[GEO_SHIELD]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[GEO_SHIELD]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_SHIELD]->material.kShininess = 1.f;
+	Shieldparticle[0].translate = Vector3(0, 0, 0);
 
 	//StatLevel[0]: acceleration, [1]: Max speed, [2]: Turbo, [3]: Max Fuel, [4]: Current Fuel
 	carVelocity = 0.f;
@@ -924,6 +993,10 @@ void DriveScene::Render()
 	{
 		RenderObj(meshList[GEO_CARWHEEL], ACarWheel[carnumwheel], true, false);
 	}
+	for (int shieldnum = 0; shieldnum < 1; shieldnum++)
+	{
+		RenderObj(meshList[GEO_SHIELD], Shieldparticle[shieldnum], true, false);
+	}
 	if (health <= 7)
 	{
 		RenderObj(meshList[GEO_FIRE], AFire[0], true, false);
@@ -954,6 +1027,8 @@ void DriveScene::Render()
 	{
 		RenderObj(meshList[GEO_COIN], current->transformation, true, false);
 	}
+	RenderObj(meshList[GEO_GHOSTCOIN], Powerups[0], true, false);
+	RenderObj(meshList[GEO_SHIELDCOIN], Powerups[1], true, false);
 
 	if (showtext > GetTickCount())
 	{
@@ -1241,7 +1316,6 @@ void DriveScene::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int siz
 
 void DriveScene::Generatecoinposition()
 {
-	srand(time(NULL));
 	while (count < 10)
 	{
 		int randomcoin = rand() % 20;
@@ -1253,3 +1327,9 @@ void DriveScene::Generatecoinposition()
 		}
 	}
 }
+
+void DriveScene::Generatepowerposition()
+{
+	randompower = rand() % 5;
+}
+

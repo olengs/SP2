@@ -32,7 +32,9 @@ class DriveScene : public Scene
 		GEO_SPIKE,
 		GEO_BOX,
 		GEO_FIRE,
-		GEO_EXPLOSION,
+		GEO_GHOSTCOIN,
+		GEO_SHIELDCOIN,
+		GEO_SHIELD,
 		NUM_GEOMETRY,
 	};
 
@@ -107,6 +109,9 @@ private:
 	int coinarray[10] = { 0 };
 	int count = 0;
 
+	//powerup randomizer
+	int randompower;
+
 	int fps;
 	float framespersecond;
 	float lastTime;
@@ -141,11 +146,16 @@ private:
 	cornercoord CSpike;
 	TRS ACoin;
 	cornercoord CCoin;
-	TRS ABox[40];
+	TRS ABox;
 	cornercoord CBox;
 	TRS ABoostpad;
 	cornercoord CBoostpad;
 	TRS AFire[3];
+	// 0 = Ghost, 1 = Shield
+	TRS Powerups[2];
+	cornercoord CGhost;
+	cornercoord CShield;
+	TRS Shieldparticle[4];
 
 	//cars
 	TRS ACarBody;
@@ -162,6 +172,7 @@ private:
 
 	//coin random generator
 	void Generatecoinposition();
+	void Generatepowerposition();
 
 public:
 	DriveScene();
