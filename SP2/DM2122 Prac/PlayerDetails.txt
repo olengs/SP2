@@ -1,9 +1,0 @@
-<<<<<<< Updated upstream
-1000 - Currency 
-1 - Equipped Car Choice
-5 - Equipped Car Upgrade Level
-=======
-3500 - Currency 
-2 - Equipped Car Choice
-2 - Equipped Car Upgrade Level
->>>>>>> Stashed changes

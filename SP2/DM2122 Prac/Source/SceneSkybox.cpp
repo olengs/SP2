@@ -882,11 +882,8 @@ void SceneSkybox::Render()
 		modelStack.Scale(1, 2.f, 1);
 		modelStack.Translate(1.f, (3.f / 7.f) * CarHologram[carnumber].lengthY, 0.f);
 		modelStack.PopMatrix();
-<<<<<<< Updated upstream
 		//			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-=======
->>>>>>> Stashed changes
 		if (!hologramcamera_leave) RenderObj(meshList[GEO_PLATFORM], Platform[carnumber], false, false);
 
 		RenderCar(carnumber);
