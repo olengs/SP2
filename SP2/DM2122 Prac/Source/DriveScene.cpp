@@ -710,13 +710,14 @@ void DriveScene::Init()
 	Shieldparticle[0].translate = Vector3(0, 0, 0);
 
 	//StatLevel[0]: acceleration, [1]: Max speed, [2]: Turbo, [3]: Max Fuel, [4]: Current Fuel
+	maxvelocity = playerdetails.car_number.SelectedCar.StatLevel[1] * 20.f;
 	carVelocity = 0.f;
 	carTurningSpeed = 135.f;
 	carAcceleration = playerdetails.car_number.SelectedCar.StatLevel[0] * 10.f;
 	friction = 10.f;
 	boostbar = 30;
 	boostVelocity = 0.f;
-	boostAcceleration = playerdetails.car_number.SelectedCar.StatLevel[1] * 10.f;
+	boostAcceleration = playerdetails.car_number.SelectedCar.StatLevel[2] * 10.f;
 	fuel = playerdetails.car_number.SelectedCar.StatLevel[4] * 10000.f;
 	car_ismoving = false;
 
@@ -773,7 +774,7 @@ void DriveScene::Update(double dt)
 			// Move forward normally
 			else
 			{
-				if (carVelocity < 80)
+				if (carVelocity < maxvelocity)
 				{
 					carVelocity += (carAcceleration * dt);
 					car_ismoving = true;
@@ -798,7 +799,7 @@ void DriveScene::Update(double dt)
 			// Move backward normally
 			else
 			{
-				if (carVelocity > -80)
+				if (carVelocity > -maxvelocity)
 				{
 					carVelocity -= (carAcceleration * dt);
 					car_ismoving = true;
@@ -836,7 +837,7 @@ void DriveScene::Update(double dt)
 			car_ismoving = true;
 		}
 		//Nitro booster
-		if (Application::IsKeyPressed(VK_SPACE) && boostbar > 0 && carVelocity < 120)
+		if (Application::IsKeyPressed(VK_SPACE) && boostbar > 0 && carVelocity < maxvelocity)
 		{
 
 			boostVelocity += 5 * dt;
@@ -1264,7 +1265,7 @@ void DriveScene::carMovement(TRS carbody, float& velocity, double dt)
 		for (CNode* current = boostpadlist.gethead(); current != nullptr; current = current->getnext())
 		{
 			if (collision_detector(ACarBody, CCarBody, current->transformation, CBoostpad, true)) {
-				carVelocity += 0.2;
+				carVelocity += 0.1;
 			}
 
 		}
