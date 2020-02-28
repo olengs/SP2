@@ -154,6 +154,8 @@ private:
 	//petrol station
 	TRS PetrolStation;
 	HologramUI PetrolStationUI;
+	TRS PetrolStationCar[4];
+
 	//shop
 	TRS Shop;
 	cornercoord CShop;
@@ -230,7 +232,7 @@ private:
 	void RenderShopStats(CarStats& car_Stats);
 	void RenderSlotImage(Mesh* mesh, TRS& trs, int image);
 	void RenderPetrolStation();
-	void RenderCar(int carnumber);
+	void RenderCar(int carnumber, TRS Car);
 	void RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey, float rotateX, float rotateY);
 	void RenderShopText();
 	void RenderShopUI();
@@ -238,6 +240,7 @@ private:
 	//Update Functions
 	void UpdateHologram(HologramUI& UI, CarStats& car_Stats, TRS* ObjectDisplay, float targetY);
 	void UpdateEquippedCar();
+	void InitPetrolStationCar();
 
 	//player movement
 	void PlayerMoveUp(double dt);
