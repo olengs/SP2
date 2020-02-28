@@ -410,7 +410,7 @@ void SceneSkybox::Init()
 
 	//Holograms
 	meshList[GEO_HOLO] = MeshBuilder::GenerateQuad("holo0", Color(0, 0, 1.f), 5.f, 6.f);
-	meshList[GEO_HOLO]->textureID = LoadTGA("Image//carStatsUI.tga");
+	meshList[GEO_HOLO]->textureID = LoadTGA("Image//carstatsUI.tga");
 
 	meshList[GEO_COIN] = MeshBuilder::GenerateOBJ("coin", "obj//coin.obj");
 	meshList[GEO_COIN]->textureID = LoadTGA("Image//coin.tga");
@@ -1125,9 +1125,14 @@ void SceneSkybox::UpdateHologram(HologramUI& UI, CarStats& car_Stats, TRS* Objec
 
 	if (Application::IsKeyPressed('V') && BounceTime <= GetTickCount())
 	{
+		if (DistanceCheck(Aplayer.translate, Shop.translate) || DistanceCheck(Aplayer.translate, Platform[0].translate)
+			|| DistanceCheck(Aplayer.translate, Platform[1].translate) || DistanceCheck(Aplayer.translate, Platform[2].translate)
+			|| DistanceCheck(Aplayer.translate, Platform[3].translate))
+		{
 		if (hologramcamera_leave) hologramcamera_leave = false;
 		else hologramcamera_leave = true;
 		BounceTime = GetTickCount() + 500.f;
+		}
 	}
 
 	if (DistanceCheck(Aplayer.translate, ObjectDisplay->translate))
@@ -1155,9 +1160,6 @@ void SceneSkybox::UpdateHologram(HologramUI& UI, CarStats& car_Stats, TRS* Objec
 				++car_Stats.current_upgrade;
 				if (playerdetails.car_number.SelectedCar.current_upgrade == 4) BuyText = "Car:Bought, CarUpgrade:0";
 			}
-				
-			
-		
 
 			BounceTime = GetTickCount() + 500.f;
 		}
@@ -1259,13 +1261,6 @@ void SceneSkybox::RenderShopText()
 	modelStack.Translate(0.f, -1.f / 14.f * ShopUI.lengthY, 0.f);
 	RenderText(meshList[GEO_TEXT], "CurrentUpgrade:" + std::to_string(car_Stats[ShopUI_Scroll].current_upgrade), Color(0, 1, 0));
 
-	//if (EquippedCar.SelectedCar == car_Stats[ShopUI_Scroll])
-	//{
-	//modelStack.Translate(0.f, -1.f/14.f * ShopUI.lengthY, 0.f);
-	//RenderText(meshList[GEO_TEXT], "Equipped", Color(0, 1, 0));
-	//modelStack.Translate(0.f, 1.f / 14.f * ShopUI.lengthY,  0.f);
-	//}
-
 	modelStack.Translate(0.f, 1.f / 14.f * ShopUI.lengthY, 0.f);
 
 	modelStack.Scale(2.f, 1.f, 1.f);
@@ -1280,7 +1275,6 @@ void SceneSkybox::RenderShopUI()
 
 	if (DistanceCheck(Aplayer.translate, Shop.translate))
 	{
-		//	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 		RenderObj(meshList[GEO_SHOP_UI], ShopUI.UI, false, false);
 		RenderShopStats(car_Stats[ShopUI_Scroll]);
 		RenderShopText();
@@ -1296,7 +1290,6 @@ void SceneSkybox::RenderShopUI()
 		modelStack.PopMatrix(); //car
 		modelStack.PopMatrix(); //shop
 	}
-	//	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void SceneSkybox::PlayerMoveUp(double dt)
