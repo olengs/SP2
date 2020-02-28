@@ -7,6 +7,7 @@
 #include "Mesh.h"
 #include "Light.h"
 #include "CItemList.h"
+#include "FirstPersonCamera.h"
 #include "Loadcornercoord.h"
 #include "Collision_detector.h"
 
@@ -91,9 +92,10 @@ private:
 	MS modelStack, viewStack, projectionStack;
 	Light light[2];
 
-	Camera2 camera;
-	Camera2 firstpersoncamera;
+	FirstPersonCamera firstpersoncamera;
 	Camera2 test;
+	int CameraSwitch;
+	float SwitchCD;
 
 	CItemList boxlist;
 	CItemList spikelist;
@@ -144,7 +146,6 @@ private:
 	TRS ABoostpad;
 	cornercoord CBoostpad;
 	TRS AFire[3];
-	TRS AExplosion;
 
 	//cars
 	TRS ACarBody;

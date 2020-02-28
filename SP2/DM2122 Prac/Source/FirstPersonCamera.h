@@ -19,6 +19,7 @@ public:
 	virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
 	virtual void Update(double dt, TRS player);
 	virtual void Reset();
+	void FPCCar(double dt, TRS Car);
 };
 
 #endif

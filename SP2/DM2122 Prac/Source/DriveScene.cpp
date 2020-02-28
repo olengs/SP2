@@ -315,107 +315,106 @@ void DriveScene::Init()
 	Loadcoord("OBJ//coin.obj", CCoin);
 	TRS coin;
 	coin.Scale.Set(3, 3, 3);
-	coin.RotateX.degree = 90.f;
 	for (int i = 0; i < 10; i++)
 	{
 		if (coinarray[i] == 0)
 		{
-			coin.translate.Set(-108, 5, 178);
+			coin.translate.Set(-108, 6, 178);
 			coinlist.addItem(coin);
 		}
 		if (coinarray[i] == 1)
 		{
-			coin.translate.Set(-236, 5, 82);
+			coin.translate.Set(-236, 6, 82);
 			coinlist.addItem(coin);
 		}
 		if (coinarray[i] == 2)
 		{
-			coin.translate.Set(-236, 5, -238);
+			coin.translate.Set(-236, 6, -238);
 			coinlist.addItem(coin);
 		}
 		if (coinarray[i] == 3)
 		{
-			coin.translate.Set(-172, 5, -174);
+			coin.translate.Set(-172, 6, -174);
 			coinlist.addItem(coin);
 		}
 		if (coinarray[i] == 4)
 		{
-			coin.translate.Set(-172, 5, 50);
+			coin.translate.Set(-172, 6, 50);
 			coinlist.addItem(coin);
 		}
 		if (coinarray[i] == 5)
 		{
-			coin.translate.Set(-76, 5, -14);
+			coin.translate.Set(-76, 6, -14);
 			coinlist.addItem(coin);
 		}
 		if (coinarray[i] == 6)
 		{
-			coin.translate.Set(-76, 5, -110);
+			coin.translate.Set(-76, 6, -110);
 			coinlist.addItem(coin);
 		}
 		if (coinarray[i] == 7)
 		{
-			coin.translate.Set(-12, 5, -110);
+			coin.translate.Set(-12, 6, -110);
 			coinlist.addItem(coin);
 		}
 		if (coinarray[i] == 8)
 		{
-			coin.translate.Set(-12, 5, -14);
+			coin.translate.Set(-12, 6, -14);
 			coinlist.addItem(coin);
 		}
 		if (coinarray[i] == 9)
 		{
-			coin.translate.Set(52, 5, 50);
+			coin.translate.Set(52, 6, 50);
 			coinlist.addItem(coin);
 		}
 		if (coinarray[i] == 10)
 		{
-			coin.translate.Set(-12, 5, 114);
+			coin.translate.Set(-12, 6, 114);
 			coinlist.addItem(coin);
 		}
 		if (coinarray[i] == 11)
 		{
-			coin.translate.Set(20, 5, 210);
+			coin.translate.Set(20, 6, 210);
 			coinlist.addItem(coin);
 		}
 		if (coinarray[i] == 12)
 		{
-			coin.translate.Set(84, 5, 242);
+			coin.translate.Set(84, 6, 242);
 			coinlist.addItem(coin);
 		}
 		if (coinarray[i] == 13)
 		{
-			coin.translate.Set(116, 5, 146);
+			coin.translate.Set(116, 6, 146);
 			coinlist.addItem(coin);
 		}
 		if (coinarray[i] == 14)
 		{
-			coin.translate.Set(240, 5, 146);
+			coin.translate.Set(240, 6, 146);
 			coinlist.addItem(coin);
 		}
 		if (coinarray[i] == 15)
 		{
-			coin.translate.Set(148, 5, -174);
+			coin.translate.Set(148, 6, -174);
 			coinlist.addItem(coin);
 		}
 		if (coinarray[i] == 16)
 		{
-			coin.translate.Set(240, 5, -142);
+			coin.translate.Set(240, 6, -142);
 			coinlist.addItem(coin);
 		}
 		if (coinarray[i] == 17)
 		{
-			coin.translate.Set(116, 5, -110);
+			coin.translate.Set(116, 6, -110);
 			coinlist.addItem(coin);
 		}
 		if (coinarray[i] == 18)
 		{
-			coin.translate.Set(116, 5, -46);
+			coin.translate.Set(116, 6, -46);
 			coinlist.addItem(coin);
 		}
 		if (coinarray[i] == 19)
 		{
-			coin.translate.Set(52, 5, -174);
+			coin.translate.Set(52, 6, -174);
 			coinlist.addItem(coin);
 		}
 	}
@@ -429,176 +428,176 @@ void DriveScene::Init()
 	Loadcoord("OBJ//box.obj", CBox);
 
 	TRS Box;
-	Box.translate.Set(-204, 5, 210);
-	Box.Scale.Set(3, 1, 3);
+	Box.translate.Set(-204, 10, 210);
+	Box.Scale.Set(3, 3, 3);
 	boxlist.addItem(Box);
-	Box.translate.Set(-204, 5, 178);
-	boxlist.addItem(Box);
-
-	Box.translate.Set(-140, 5, 145);
-	boxlist.addItem(Box);
-	Box.translate.Set(-140, 5, 177);
-	boxlist.addItem(Box);
-	Box.translate.Set(-140, 5, 210);
-	boxlist.addItem(Box);
-	Box.translate.Set(-108, 5, 210);
-	boxlist.addItem(Box);
-	Box.translate.Set(-76, 5, 210);
-	boxlist.addItem(Box);
-	Box.translate.Set(-44, 5, 210);
-	boxlist.addItem(Box);
-	Box.translate.Set(-12, 5, 210);
+	Box.translate.Set(-204, 10, 178);
 	boxlist.addItem(Box);
 
-	Box.translate.Set(84, 5, 210);
+	Box.translate.Set(-140, 10, 145);
+	boxlist.addItem(Box);	
+	Box.translate.Set(-140, 10, 177);
+	boxlist.addItem(Box);	
+	Box.translate.Set(-140, 10, 210);
+	boxlist.addItem(Box);	
+	Box.translate.Set(-108, 10, 210);
 	boxlist.addItem(Box);
-	Box.translate.Set(116, 5, 210);
+	Box.translate.Set(-76, 10, 210);
 	boxlist.addItem(Box);
-	Box.translate.Set(148, 5, 210);
+	Box.translate.Set(-44, 10, 210);
 	boxlist.addItem(Box);
-	Box.translate.Set(212, 5, 210);
-	boxlist.addItem(Box);
-
-	Box.translate.Set(212, 5, 178);
-	boxlist.addItem(Box);
-	Box.translate.Set(212, 5, 146);
-	boxlist.addItem(Box);
-	Box.translate.Set(212, 5, 114);
-	boxlist.addItem(Box);
-	Box.translate.Set(212, 5, 82);
-	boxlist.addItem(Box);
-	Box.translate.Set(212, 5, -14);
-	boxlist.addItem(Box);
-	Box.translate.Set(212, 5, -110);
-	boxlist.addItem(Box);
-	Box.translate.Set(212, 5, -142);
-	boxlist.addItem(Box);
-	Box.translate.Set(212, 5, -174);
-	boxlist.addItem(Box);
-	Box.translate.Set(212, 5, -206);
+	Box.translate.Set(-12, 10, 210);
 	boxlist.addItem(Box);
 
-	Box.translate.Set(148, 5, -206);
+	Box.translate.Set(84, 10, 210);
 	boxlist.addItem(Box);
-	Box.translate.Set(116, 5, -206);
+	Box.translate.Set(116, 10, 210);
 	boxlist.addItem(Box);
-	Box.translate.Set(84, 5, -206);
+	Box.translate.Set(148, 10, 210);
 	boxlist.addItem(Box);
-	Box.translate.Set(52, 5, -206);
-	boxlist.addItem(Box);
-	Box.translate.Set(20, 5, -206);
-	boxlist.addItem(Box);
-	Box.translate.Set(-76, 5, -206);
-	boxlist.addItem(Box);
-	Box.translate.Set(-108, 5, -206);
-	boxlist.addItem(Box);
-	Box.translate.Set(-140, 5, -206);
-	boxlist.addItem(Box);
-	Box.translate.Set(-204, 5, -206);
+	Box.translate.Set(212, 10, 210);
 	boxlist.addItem(Box);
 
-	Box.translate.Set(-204, 5, -174);
+	Box.translate.Set(212, 10, 178);
 	boxlist.addItem(Box);
-	Box.translate.Set(-204, 5, -142);
+	Box.translate.Set(212, 10, 146);
 	boxlist.addItem(Box);
-	Box.translate.Set(-204, 5, -78);
+	Box.translate.Set(212, 10, 114);
 	boxlist.addItem(Box);
-	Box.translate.Set(-204, 5, -46);
+	Box.translate.Set(212, 10, 82);
 	boxlist.addItem(Box);
-	Box.translate.Set(-204, 5, 18);
+	Box.translate.Set(212, 10, -14);
 	boxlist.addItem(Box);
-	Box.translate.Set(-204, 5, 50);
+	Box.translate.Set(212, 10, -110);
 	boxlist.addItem(Box);
-	Box.translate.Set(-204, 5, 82);
+	Box.translate.Set(212, 10, -142);
 	boxlist.addItem(Box);
-
-	Box.translate.Set(-172, 5, 18);
+	Box.translate.Set(212, 10, -174);
 	boxlist.addItem(Box);
-	Box.translate.Set(-172, 5, 82);
-	boxlist.addItem(Box);
-	Box.translate.Set(-140, 5, 82);
-	boxlist.addItem(Box);
-	Box.translate.Set(-44, 5, 82);
-	boxlist.addItem(Box);
-	Box.translate.Set(-12, 5, 82);
-	boxlist.addItem(Box);
-	Box.translate.Set(20, 5, 82);
-	boxlist.addItem(Box);
-	Box.translate.Set(52, 5, 82);
-	boxlist.addItem(Box);
-	Box.translate.Set(116, 5, 82);
-	boxlist.addItem(Box);
-	Box.translate.Set(148, 5, 82);
+	Box.translate.Set(212, 10, -206);
 	boxlist.addItem(Box);
 
-	Box.translate.Set(148, 5, -142);
+	Box.translate.Set(148, 10, -206);
 	boxlist.addItem(Box);
-	Box.translate.Set(148, 5, -78);
+	Box.translate.Set(116, 10, -206);
 	boxlist.addItem(Box);
-	Box.translate.Set(148, 5, -46);
+	Box.translate.Set(84, 10, -206);
 	boxlist.addItem(Box);
-	Box.translate.Set(148, 5, 18);
+	Box.translate.Set(52, 10, -206);
 	boxlist.addItem(Box);
-	Box.translate.Set(148, 5, 50);
+	Box.translate.Set(20, 10, -206);
 	boxlist.addItem(Box);
-	Box.translate.Set(148, 5, 114);
+	Box.translate.Set(-76, 10, -206);
 	boxlist.addItem(Box);
-
-	Box.translate.Set(116, 5, -78);
+	Box.translate.Set(-108, 10, -206);
 	boxlist.addItem(Box);
-	Box.translate.Set(84, 5, -78);
+	Box.translate.Set(-140, 10, -206);
 	boxlist.addItem(Box);
-	Box.translate.Set(52, 5, -78);
-	boxlist.addItem(Box);
-	Box.translate.Set(-12, 5, -78);
-	boxlist.addItem(Box);
-	Box.translate.Set(-44, 5, -78);
-	boxlist.addItem(Box);
-	Box.translate.Set(-76, 5, -78);
+	Box.translate.Set(-204, 10, -206);
 	boxlist.addItem(Box);
 
-	Box.translate.Set(-44, 5, -110);
-	boxlist.addItem(Box);
-	Box.translate.Set(-44, 5, -46);
-	boxlist.addItem(Box);
-	Box.translate.Set(-44, 5, -14);
-	boxlist.addItem(Box);
-
-	Box.translate.Set(84, 5, -110);
-	boxlist.addItem(Box);
-	Box.translate.Set(84, 5, -142);
-	boxlist.addItem(Box);
-	Box.translate.Set(84, 5, -46);
-	boxlist.addItem(Box);
-	Box.translate.Set(84, 5, -14);
-	boxlist.addItem(Box);
-
-	Box.translate.Set(-44, 5, 114);
-	boxlist.addItem(Box);
-	Box.translate.Set(-44, 5, 146);
+	Box.translate.Set(-204, 10, -174);
+	boxlist.addItem(Box);	
+	Box.translate.Set(-204, 10, -142);
+	boxlist.addItem(Box);	
+	Box.translate.Set(-204, 10, -78);
+	boxlist.addItem(Box);	
+	Box.translate.Set(-204, 10, -46);
+	boxlist.addItem(Box);	
+	Box.translate.Set(-204, 10, 18);
+	boxlist.addItem(Box);	
+	Box.translate.Set(-204, 10, 50);
+	boxlist.addItem(Box);	
+	Box.translate.Set(-204, 10, 82);
 	boxlist.addItem(Box);
 
-	Box.translate.Set(20, 5, 50);
+	Box.translate.Set(-172,10, 18);
+	boxlist.addItem(Box);  
+	Box.translate.Set(-172,10, 82);
+	boxlist.addItem(Box);  
+	Box.translate.Set(-140,10, 82);
 	boxlist.addItem(Box);
-	Box.translate.Set(20, 5, 18);
+	Box.translate.Set(-44, 10, 82);
+	boxlist.addItem(Box);
+	Box.translate.Set(-12, 10, 82);
+	boxlist.addItem(Box);
+	Box.translate.Set(20, 10, 82);
+	boxlist.addItem(Box);
+	Box.translate.Set(52, 10, 82);
+	boxlist.addItem(Box);
+	Box.translate.Set(116, 10, 82);
+	boxlist.addItem(Box);
+	Box.translate.Set(148, 10, 82);
 	boxlist.addItem(Box);
 
-	Box.translate.Set(20, 5, 146);
+	Box.translate.Set(148, 10, -142);
 	boxlist.addItem(Box);
-	Box.translate.Set(84, 5, 146);
+	Box.translate.Set(148, 10, -78);
 	boxlist.addItem(Box);
-
-	Box.translate.Set(-108, 5, -142);
+	Box.translate.Set(148, 10, -46);
 	boxlist.addItem(Box);
-	Box.translate.Set(-140, 5, -142);
+	Box.translate.Set(148, 10, 18);
 	boxlist.addItem(Box);
-	Box.translate.Set(-140, 5, -110);
+	Box.translate.Set(148, 10, 50);
 	boxlist.addItem(Box);
-
-	Box.translate.Set(20, 5, -174);
+	Box.translate.Set(148, 10, 114);
 	boxlist.addItem(Box);
 
-	Box.translate.Set(-108, 5, -14);
+	Box.translate.Set(116, 10, -78);
+	boxlist.addItem(Box);
+	Box.translate.Set(84, 10, -78);
+	boxlist.addItem(Box);
+	Box.translate.Set(52, 10, -78);
+	boxlist.addItem(Box);
+	Box.translate.Set(-12, 10, -78);
+	boxlist.addItem(Box);
+	Box.translate.Set(-44, 10, -78);
+	boxlist.addItem(Box);
+	Box.translate.Set(-76, 10, -78);
+	boxlist.addItem(Box);
+
+	Box.translate.Set(-44, 10, -110);
+	boxlist.addItem(Box);
+	Box.translate.Set(-44, 10, -46);
+	boxlist.addItem(Box);
+	Box.translate.Set(-44, 10, -14);
+	boxlist.addItem(Box);
+
+	Box.translate.Set(84, 10, -110);
+	boxlist.addItem(Box);
+	Box.translate.Set(84, 10, -142);
+	boxlist.addItem(Box);
+	Box.translate.Set(84, 10, -46);
+	boxlist.addItem(Box);
+	Box.translate.Set(84, 10, -14);
+	boxlist.addItem(Box);
+
+	Box.translate.Set(-44, 10, 114);
+	boxlist.addItem(Box);
+	Box.translate.Set(-44, 10, 146);
+	boxlist.addItem(Box);
+
+	Box.translate.Set(20, 10, 50);
+	boxlist.addItem(Box);
+	Box.translate.Set(20, 10, 18);
+	boxlist.addItem(Box);
+
+	Box.translate.Set(20, 10, 146);
+	boxlist.addItem(Box);
+	Box.translate.Set(84, 10, 146);
+	boxlist.addItem(Box);
+
+	Box.translate.Set(-108, 10, -142);
+	boxlist.addItem(Box);
+	Box.translate.Set(-140, 10, -142);
+	boxlist.addItem(Box);
+	Box.translate.Set(-140, 10, -110);
+	boxlist.addItem(Box);
+
+	Box.translate.Set(20, 10, -174);
+	boxlist.addItem(Box);
+
+	Box.translate.Set(-108, 10, -14);
 	boxlist.addItem(Box);
 
 	meshList[GEO_BOOSTPAD] = MeshBuilder::GenerateOBJ("boost", "OBJ//boostpad.obj");
@@ -633,21 +632,13 @@ void DriveScene::Init()
 	meshList[GEO_FIRE]->material.kDiffuse.Set(1.f, 1.f, 1.f);
 	meshList[GEO_FIRE]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_FIRE]->material.kShininess = 1.f;
-	AFire[0].translate = Vector3(1, 3, -2);
-	AFire[1].translate = Vector3(0, 3, 0);
-	AFire[2].translate = Vector3(0.5, 3, 2);
+	AFire[0].translate = Vector3(1, 0.1, -2);
+	AFire[1].translate = Vector3(0, 0.1, 0);
+	AFire[2].translate = Vector3(0.5, 0.1, 2);
 	AFire[0].Scale = Vector3(0.5, 0.5, 0.5);
 	AFire[1].Scale = Vector3(0.5, 0.5, 0.5);
 	AFire[2].Scale = Vector3(0.5, 0.5, 0.5);
 
-	meshList[GEO_EXPLOSION] = MeshBuilder::GenerateOBJ("explosion", "OBJ//explosion.obj");
-	meshList[GEO_EXPLOSION]->textureID = LoadTGA("Image//explosion.tga");
-	meshList[GEO_EXPLOSION]->material.kAmbient.Set(0.7f, 0.7f, 0.7f);
-	meshList[GEO_EXPLOSION]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	meshList[GEO_EXPLOSION]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[GEO_EXPLOSION]->material.kShininess = 1.f;
-	AExplosion.translate = Vector3(0, 4, 0);
-	AExplosion.Scale = Vector3(3, 3, 3);
 
 	//StatLevel[0]: acceleration, [1]: Max speed, [2]: Turbo, [3]: Max Fuel, [4]: Current Fuel
 	carVelocity = 0.f;
@@ -657,16 +648,19 @@ void DriveScene::Init()
 	boostbar = 30;
 	boostVelocity = 0.f;
 	boostAcceleration = playerdetails.car_number.SelectedCar.StatLevel[1] * 10.f;
-	fuel = playerdetails.car_number.SelectedCar.StatLevel[4] * 1000.f;
+	fuel = playerdetails.car_number.SelectedCar.StatLevel[4] * 10000.f;
 	car_ismoving = false;
 
 	countDown = 50;
 	carcanmove = true;
 
-	test.Init(ACarBody.translate + Vector3(0, 150, 1), ACarBody.translate, Vector3(0, 1, 0));
+	SwitchCD = 0.f;
+	CameraSwitch = 0;
+	test.Init(ACarBody.translate + Vector3(0, 5, 20), ACarBody.translate + Vector3(0, 5, 0), Vector3(0, 1, 0));
+	firstpersoncamera.Init(ACarBody.translate + Vector3(0, 2, 0), Vector3(ACarBody.translate.x, ACarBody.translate.y + 2, 0), Vector3(0, 1, 0));
 
 	showtext = GetTickCount() + 3000;
-	startingtext = "Collect all 10 coins around the field~without destroying your car ~/ running out fuel";
+	startingtext = "Collect all 10 coins around the field~without destroying your car ~  or running out of fuel";
 
 	playerdetails.coinCounter = 0;
 
@@ -845,6 +839,19 @@ void DriveScene::Update(double dt)
 		}
 		//end driving
 	}
+	if (Application::IsKeyPressed(VK_TAB) && SwitchCD <= GetTickCount())
+	{
+		if (CameraSwitch == 0)
+		{
+			CameraSwitch = 1;
+		}
+		else
+		{
+			CameraSwitch = 0;
+		}
+		SwitchCD = GetTickCount() + 3000;
+	}
+	firstpersoncamera.FPCCar(dt, ACarBody);
 	test.CarUpdate(dt, ACarBody);
 	playerdetails.Update();
 }
@@ -855,7 +862,14 @@ void DriveScene::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	viewStack.LoadIdentity();
-	viewStack.LookAt(test.position.x, test.position.y, test.position.z, test.target.x, test.target.y, test.target.z, test.up.x, test.up.y, test.up.z);
+	if (CameraSwitch == 0)
+	{
+		viewStack.LookAt(test.position.x, test.position.y, test.position.z, test.target.x, test.target.y, test.target.z, test.up.x, test.up.y, test.up.z);
+	}
+	else
+	{
+		viewStack.LookAt(firstpersoncamera.position.x, firstpersoncamera.position.y, firstpersoncamera.position.z, firstpersoncamera.target.x, firstpersoncamera.target.y, firstpersoncamera.target.z, firstpersoncamera.up.x, firstpersoncamera.up.y, firstpersoncamera.up.z);
+	}
 	modelStack.LoadIdentity();
 
 	// passing the light direction if it is a direction light
@@ -921,10 +935,6 @@ void DriveScene::Render()
 	if (health <= 1)
 	{
 		RenderObj(meshList[GEO_FIRE], AFire[2], true, false);
-	}
-	if (health <= 0)
-	{
-		RenderObj(meshList[GEO_EXPLOSION], AExplosion, true, false);
 	}
 	modelStack.PopMatrix();
 
