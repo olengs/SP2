@@ -1,5 +1,6 @@
 0 - Car Choice
 0 - Car Upgrade
+<<<<<<< Updated upstream
 1 - Car Lock
 1 - Car Choice
 5 - Car Upgrade
@@ -10,3 +11,15 @@
 3 - Car Choice
 3 - Car Upgrade
 1 - Car Lock
+=======
+0 - Car Lock
+1 - Car Choice
+0 - Car Upgrade
+1 - Car Lock
+2 - Car Choice
+2 - Car Upgrade
+0 - Car Lock
+3 - Car Choice
+0 - Car Upgrade
+0 - Car Lock
+>>>>>>> Stashed changes
