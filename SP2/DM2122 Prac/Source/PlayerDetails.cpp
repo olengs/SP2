@@ -1,5 +1,25 @@
 #include "PlayerDetails.h"
 
+//int PlayerDetails::getCurrency()
+//{
+//	return currency;
+//}
+//
+//CarStats PlayerDetails::getall_car_details(int number)
+//{
+//	return all_car_Details[number];
+//}
+//
+//int PlayerDetails::getCarsBought()
+//{
+//	return CarsBought;
+//}
+//
+//CarSelection PlayerDetails::getcar_number()
+//{
+//	return car_number;
+//}
+
 void PlayerDetails::Update(CarSelection updatedcar, int updatedcurrency)
 {
 	std::ofstream data;
@@ -44,15 +64,14 @@ void PlayerDetails::GetData()
 		car_number.cartype = std::stoi(line);
 		std::getline(data, line);
 		car_number.SelectedCar.current_upgrade = std::stoi(line);
-		for (int i = 0; i < car_number.SelectedCar.current_upgrade; ++i)
-		{
-			car_number.SelectedCar.UpgradeOnce();
-		}
+		car_number.SelectedCar.UpgradeFromStart();
+		
 		data.close();
 		car_number.SelectedCar.lock = false;
 	}
 	else return;
 }
+
 
 bool PlayerDetails::IsInit()
 {
@@ -69,30 +88,30 @@ bool PlayerDetails::IsInit()
 
 PlayerDetails::PlayerDetails(CarSelection car, int currency)
 {
-
-	all_car_Details[0] = CarStats(2.f, 1.f, 2.f, 1.f); //guangtheng car
-	all_car_Details[1] = CarStats(2.f, 2.f, 1.f, 1.f); //ryan car
-	all_car_Details[2] = car.SelectedCar; //junchen car
-	all_car_Details[3] = CarStats(1.f, 2.f, 2.f, 1.f); //jianfeng car
-
-	std::ofstream data;
-	data.open("PlayerDetails.txt");
-	if (data.is_open())
+	if (!IsInit())
 	{
-		data << currency << " - Currency " << std::endl;
-		data << car.cartype << " - Equipped Car Choice" << std::endl;
-		data << car.SelectedCar.current_upgrade << " - Equipped Car Upgrade Level" << std::endl;
-		data.close();
-	}
-	else std::cout << "unable to open player details file \n";
-	car_number = car;
+		std::ofstream data;
+		data.open("PlayerDetails.txt");
+		if (data.is_open())
+		{
+			data << currency << " - Currency " << std::endl;
+			data << car.cartype << " - Equipped Car Choice" << std::endl;
+			data << car.SelectedCar.current_upgrade << " - Equipped Car Upgrade Level" << std::endl;
+			data.close();
+		}
+		else std::cout << "unable to open player details file \n";
+		car_number = car;
 
-	for (int i = 0; i < car_number.SelectedCar.current_upgrade; ++i)
-	{
-		car_number.SelectedCar.UpgradeOnce();
+		for (int i = 0; i < car_number.SelectedCar.current_upgrade; ++i)
+		{
+			car_number.SelectedCar.UpgradeOnce();
+		}
+
+		this->currency = currency;
 	}
+
+	else GetData();
 	
-	this->currency = currency;
 }
 
 PlayerDetails::PlayerDetails()

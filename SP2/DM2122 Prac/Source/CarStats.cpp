@@ -1,7 +1,7 @@
 #include "CarStats.h"
 void CarStats::UpgradeOnce()
 {
-	for (int i = 0; i < 3; ++i)
+	for (int i = 0; i < 5; ++i)
 	{
 		++StatLevel[i];
 	}
@@ -36,6 +36,11 @@ void CarStats::InitStatsinHolo(HologramUI ObjectDisplay)
 	StatTRS[3].translate = Vector3(-((3.f / 14.f) * ObjectDisplay.lengthX) + (StatLevel[3] / 28.f) * ObjectDisplay.lengthX, -(1.5f / 14.f) * ObjectDisplay.lengthY, 0.1f);
 	StatTRS[4].translate = Vector3(-((3.f / 14.f) * ObjectDisplay.lengthX) + (StatLevel[4] / 28.f) * ObjectDisplay.lengthX, -(4.f / 14.f) * ObjectDisplay.lengthY, 0.1f);
 
+}
+
+void CarStats::BuyCar()
+{
+	lock = false;
 }
 
 CarStats::CarStats() //set default to 1

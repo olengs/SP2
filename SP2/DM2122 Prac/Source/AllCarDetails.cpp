@@ -51,7 +51,7 @@ void AllCarDetails::UpdateFile()
 	}
 }
 
-void AllCarDetails::InitScene(CarStats& carstat0, CarStats& carstat1, CarStats& carstat2, CarStats carstat3)
+void AllCarDetails::InitScene(CarStats& carstat0, CarStats& carstat1, CarStats& carstat2, CarStats& carstat3)
 {
 	carstat0 = car_Stats[0];
 	carstat1 = car_Stats[1];
@@ -76,40 +76,35 @@ void AllCarDetails::GetData()
 {
 	std::ifstream data("AllCarDetails.txt");
 	std::string line;
-	int a;
 	if (data.is_open())
 	{
 		std::getline(data, line);
-		a = std::stoi(line);
 		std::getline(data, line);
-		car_Stats[a].current_upgrade = stoi(line);
-		car_Stats[a].UpgradeFromStart();
+		car_Stats[0].current_upgrade = stoi(line);
+		car_Stats[0].UpgradeFromStart();
 		std::getline(data, line);
-		car_Stats[a].lock = stoi(line);
+		car_Stats[0].lock = stoi(line);
 
 		std::getline(data, line);
-		a = std::stoi(line);
 		std::getline(data, line);
-		car_Stats[a].current_upgrade = stoi(line);
-		car_Stats[a].UpgradeFromStart();
+		car_Stats[1].current_upgrade = stoi(line);
+		car_Stats[1].UpgradeFromStart();
 		std::getline(data, line);
-		car_Stats[a].lock = stoi(line);
+		car_Stats[1].lock = stoi(line);
 
 		std::getline(data, line);
-		a = std::stoi(line);
 		std::getline(data, line);
-		car_Stats[a].current_upgrade = stoi(line);
-		car_Stats[a].UpgradeFromStart();
+		car_Stats[2].current_upgrade = stoi(line);
+		car_Stats[2].UpgradeFromStart();
 		std::getline(data, line);
-		car_Stats[a].lock = stoi(line);
+		car_Stats[2].lock = stoi(line);
 	
+		//std::getline(data, line);
 		std::getline(data, line);
-		a = std::stoi(line);
+		car_Stats[3].current_upgrade = stoi(line);
+		car_Stats[3].UpgradeFromStart();
 		std::getline(data, line);
-		car_Stats[a].current_upgrade = stoi(line);
-		car_Stats[a].UpgradeFromStart();
-		std::getline(data, line);
-		car_Stats[a].lock = stoi(line);
+		car_Stats[3].lock = stoi(line);
 
 		data.close();
 	}
