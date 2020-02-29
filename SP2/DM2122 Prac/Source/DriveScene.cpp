@@ -328,176 +328,176 @@ void DriveScene::Init()
 	meshList[GEO_BOX]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_BOX]->material.kShininess = 1.f;
 	Loadcoord("OBJ//box.obj", CBox);
-	Box.translate.Set(-204, 10, 210);
+	Box.translate.Set(-204, -4, 210);
 	Box.Scale.Set(3, 3, 3);
 	boxlist.addItem(Box);
-	Box.translate.Set(-204, 10, 178);
+	Box.translate.Set(-204,-4, 178);
 	boxlist.addItem(Box);
 
-	Box.translate.Set(-140, 10, 145);
+	Box.translate.Set(-140,-4, 145);
 	boxlist.addItem(Box);	
-	Box.translate.Set(-140, 10, 177);
+	Box.translate.Set(-140,-4, 177);
 	boxlist.addItem(Box);	
-	Box.translate.Set(-140, 10, 210);
+	Box.translate.Set(-140,-4, 210);
 	boxlist.addItem(Box);	
-	Box.translate.Set(-108, 10, 210);
+	Box.translate.Set(-108,-4, 210);
 	boxlist.addItem(Box);
-	Box.translate.Set(-76, 10, 210);
+	Box.translate.Set(-76,-4, 210);
 	boxlist.addItem(Box);
-	Box.translate.Set(-44, 10, 210);
+	Box.translate.Set(-44,-4, 210);
 	boxlist.addItem(Box);
-	Box.translate.Set(-12, 10, 210);
+	Box.translate.Set(-12,-4, 210);
 	boxlist.addItem(Box);
 
-	Box.translate.Set(84, 10, 210);
+	Box.translate.Set(84,-4, 210);
 	boxlist.addItem(Box);
-	Box.translate.Set(116, 10, 210);
+	Box.translate.Set(116,-4, 210);
 	boxlist.addItem(Box);
-	Box.translate.Set(148, 10, 210);
+	Box.translate.Set(148,-4, 210);
 	boxlist.addItem(Box);
-	Box.translate.Set(212, 10, 210);
-	boxlist.addItem(Box);
-
-	Box.translate.Set(212, 10, 178);
-	boxlist.addItem(Box);
-	Box.translate.Set(212, 10, 146);
-	boxlist.addItem(Box);
-	Box.translate.Set(212, 10, 114);
-	boxlist.addItem(Box);
-	Box.translate.Set(212, 10, 82);
-	boxlist.addItem(Box);
-	Box.translate.Set(212, 10, -14);
-	boxlist.addItem(Box);
-	Box.translate.Set(212, 10, -110);
-	boxlist.addItem(Box);
-	Box.translate.Set(212, 10, -142);
-	boxlist.addItem(Box);
-	Box.translate.Set(212, 10, -174);
-	boxlist.addItem(Box);
-	Box.translate.Set(212, 10, -206);
+	Box.translate.Set(212,-4, 210);
 	boxlist.addItem(Box);
 
-	Box.translate.Set(148, 10, -206);
+	Box.translate.Set(212,-4, 178);
 	boxlist.addItem(Box);
-	Box.translate.Set(116, 10, -206);
+	Box.translate.Set(212,-4, 146);
 	boxlist.addItem(Box);
-	Box.translate.Set(84, 10, -206);
+	Box.translate.Set(212,-4, 114);
 	boxlist.addItem(Box);
-	Box.translate.Set(52, 10, -206);
+	Box.translate.Set(212,-4, 82);
 	boxlist.addItem(Box);
-	Box.translate.Set(20, 10, -206);
+	Box.translate.Set(212,-4, -14);
 	boxlist.addItem(Box);
-	Box.translate.Set(-76, 10, -206);
+	Box.translate.Set(212,-4, -110);
 	boxlist.addItem(Box);
-	Box.translate.Set(-108, 10, -206);
+	Box.translate.Set(212,-4, -142);
 	boxlist.addItem(Box);
-	Box.translate.Set(-140, 10, -206);
+	Box.translate.Set(212,-4, -174);
 	boxlist.addItem(Box);
-	Box.translate.Set(-204, 10, -206);
-	boxlist.addItem(Box);
-
-	Box.translate.Set(-204, 10, -174);
-	boxlist.addItem(Box);	
-	Box.translate.Set(-204, 10, -142);
-	boxlist.addItem(Box);	
-	Box.translate.Set(-204, 10, -78);
-	boxlist.addItem(Box);	
-	Box.translate.Set(-204, 10, -46);
-	boxlist.addItem(Box);	
-	Box.translate.Set(-204, 10, 18);
-	boxlist.addItem(Box);	
-	Box.translate.Set(-204, 10, 50);
-	boxlist.addItem(Box);	
-	Box.translate.Set(-204, 10, 82);
+	Box.translate.Set(212,-4, -206);
 	boxlist.addItem(Box);
 
-	Box.translate.Set(-172,10, 18);
+	Box.translate.Set(148,-4, -206);
+	boxlist.addItem(Box);
+	Box.translate.Set(116,-4, -206);
+	boxlist.addItem(Box);
+	Box.translate.Set(84,-4, -206);
+	boxlist.addItem(Box);
+	Box.translate.Set(52,-4, -206);
+	boxlist.addItem(Box);
+	Box.translate.Set(20,-4, -206);
+	boxlist.addItem(Box);
+	Box.translate.Set(-76,-4, -206);
+	boxlist.addItem(Box);
+	Box.translate.Set(-108,-4, -206);
+	boxlist.addItem(Box);
+	Box.translate.Set(-140,-4, -206);
+	boxlist.addItem(Box);
+	Box.translate.Set(-204,-4, -206);
+	boxlist.addItem(Box);
+
+	Box.translate.Set(-204,-4, -174);
+	boxlist.addItem(Box);	
+	Box.translate.Set(-204,-4, -142);
+	boxlist.addItem(Box);	
+	Box.translate.Set(-204,-4, -78);
+	boxlist.addItem(Box);	
+	Box.translate.Set(-204,-4, -46);
+	boxlist.addItem(Box);	
+	Box.translate.Set(-204,-4, 18);
+	boxlist.addItem(Box);	
+	Box.translate.Set(-204,-4, 50);
+	boxlist.addItem(Box);	
+	Box.translate.Set(-204,-4, 82);
+	boxlist.addItem(Box);
+
+	Box.translate.Set(-172,-4, 18);
 	boxlist.addItem(Box);  
-	Box.translate.Set(-172,10, 82);
+	Box.translate.Set(-172,-4, 82);
 	boxlist.addItem(Box);  
-	Box.translate.Set(-140,10, 82);
+	Box.translate.Set(-140,-4, 82);
 	boxlist.addItem(Box);
-	Box.translate.Set(-44, 10, 82);
+	Box.translate.Set(-44,-4, 82);
 	boxlist.addItem(Box);
-	Box.translate.Set(-12, 10, 82);
+	Box.translate.Set(-12,-4, 82);
 	boxlist.addItem(Box);
-	Box.translate.Set(20, 10, 82);
+	Box.translate.Set(20,-4, 82);
 	boxlist.addItem(Box);
-	Box.translate.Set(52, 10, 82);
+	Box.translate.Set(52,-4, 82);
 	boxlist.addItem(Box);
-	Box.translate.Set(116, 10, 82);
+	Box.translate.Set(116,-4, 82);
 	boxlist.addItem(Box);
-	Box.translate.Set(148, 10, 82);
-	boxlist.addItem(Box);
-
-	Box.translate.Set(148, 10, -142);
-	boxlist.addItem(Box);
-	Box.translate.Set(148, 10, -78);
-	boxlist.addItem(Box);
-	Box.translate.Set(148, 10, -46);
-	boxlist.addItem(Box);
-	Box.translate.Set(148, 10, 18);
-	boxlist.addItem(Box);
-	Box.translate.Set(148, 10, 50);
-	boxlist.addItem(Box);
-	Box.translate.Set(148, 10, 114);
+	Box.translate.Set(148,-4, 82);
 	boxlist.addItem(Box);
 
-	Box.translate.Set(116, 10, -78);
+	Box.translate.Set(148,-4, -142);
 	boxlist.addItem(Box);
-	Box.translate.Set(84, 10, -78);
+	Box.translate.Set(148,-4, -78);
 	boxlist.addItem(Box);
-	Box.translate.Set(52, 10, -78);
+	Box.translate.Set(148,-4, -46);
 	boxlist.addItem(Box);
-	Box.translate.Set(-12, 10, -78);
+	Box.translate.Set(148,-4, 18);
 	boxlist.addItem(Box);
-	Box.translate.Set(-44, 10, -78);
+	Box.translate.Set(148,-4, 50);
 	boxlist.addItem(Box);
-	Box.translate.Set(-76, 10, -78);
-	boxlist.addItem(Box);
-
-	Box.translate.Set(-44, 10, -110);
-	boxlist.addItem(Box);
-	Box.translate.Set(-44, 10, -46);
-	boxlist.addItem(Box);
-	Box.translate.Set(-44, 10, -14);
+	Box.translate.Set(148,-4, 114);
 	boxlist.addItem(Box);
 
-	Box.translate.Set(84, 10, -110);
+	Box.translate.Set(116,-4, -78);
 	boxlist.addItem(Box);
-	Box.translate.Set(84, 10, -142);
+	Box.translate.Set(84,-4, -78);
 	boxlist.addItem(Box);
-	Box.translate.Set(84, 10, -46);
+	Box.translate.Set(52,-4, -78);
 	boxlist.addItem(Box);
-	Box.translate.Set(84, 10, -14);
+	Box.translate.Set(-12,-4, -78);
 	boxlist.addItem(Box);
-
-	Box.translate.Set(-44, 10, 114);
+	Box.translate.Set(-44,-4, -78);
 	boxlist.addItem(Box);
-	Box.translate.Set(-44, 10, 146);
-	boxlist.addItem(Box);
-
-	Box.translate.Set(20, 10, 50);
-	boxlist.addItem(Box);
-	Box.translate.Set(20, 10, 18);
+	Box.translate.Set(-76,-4, -78);
 	boxlist.addItem(Box);
 
-	Box.translate.Set(20, 10, 146);
+	Box.translate.Set(-44,-4, -110);
 	boxlist.addItem(Box);
-	Box.translate.Set(84, 10, 146);
+	Box.translate.Set(-44,-4, -46);
 	boxlist.addItem(Box);
-
-	Box.translate.Set(-108, 10, -142);
-	boxlist.addItem(Box);
-	Box.translate.Set(-140, 10, -142);
-	boxlist.addItem(Box);
-	Box.translate.Set(-140, 10, -110);
+	Box.translate.Set(-44,-4, -14);
 	boxlist.addItem(Box);
 
-	Box.translate.Set(20, 10, -174);
+	Box.translate.Set(84,-4, -110);
+	boxlist.addItem(Box);
+	Box.translate.Set(84,-4, -142);
+	boxlist.addItem(Box);
+	Box.translate.Set(84,-4, -46);
+	boxlist.addItem(Box);
+	Box.translate.Set(84,-4, -14);
 	boxlist.addItem(Box);
 
-	Box.translate.Set(-108, 10, -14);
+	Box.translate.Set(-44,-4, 114);
+	boxlist.addItem(Box);
+	Box.translate.Set(-44,-4, 146);
+	boxlist.addItem(Box);
+
+	Box.translate.Set(20,-4, 50);
+	boxlist.addItem(Box);
+	Box.translate.Set(20,-4, 18);
+	boxlist.addItem(Box);
+
+	Box.translate.Set(20,-4, 146);
+	boxlist.addItem(Box);
+	Box.translate.Set(84,-4, 146);
+	boxlist.addItem(Box);
+
+	Box.translate.Set(-108,-4, -142);
+	boxlist.addItem(Box);
+	Box.translate.Set(-140,-4, -142);
+	boxlist.addItem(Box);
+	Box.translate.Set(-140,-4, -110);
+	boxlist.addItem(Box);
+
+	Box.translate.Set(20,-4, -174);
+	boxlist.addItem(Box);
+
+	Box.translate.Set(-108,-4, -14);
 	boxlist.addItem(Box);
 
 	meshList[GEO_BOOSTPAD] = MeshBuilder::GenerateOBJ("boost", "OBJ//boostpad.obj");
@@ -507,6 +507,7 @@ void DriveScene::Init()
 	meshList[GEO_BOOSTPAD]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_BOOSTPAD]->material.kShininess = 1.f;
 	Loadcoord("OBJ//boostpad.obj", CBoostpad);
+
 	Boostpad.translate.Set(-44, -4, 178);
 	Boostpad.Scale.Set(3, 1, 3);
 	boostpadlist.addItem(Boostpad);
@@ -595,6 +596,9 @@ void DriveScene::Init()
 
 	Powerup_onmap[0] = Powerup_onmap[1] = true;
 	Powerup_onplayer[0] = Powerup_onplayer[1] = false;
+	shield_health = 3;
+	ghost_time = 0;
+	collision_in_box_in_frame = 1;
 
 	//StatLevel[0]: acceleration, [1]: Max speed, [2]: Turbo, [3]: Max Fuel, [4]: Current Fuel
 	maxvelocity = playerdetails.car_number.SelectedCar.StatLevel[1] * 20.f;
@@ -619,6 +623,9 @@ void DriveScene::Init()
 	showtext = GetTickCount() + 3000;
 	coinrespawned = "A coin has respawned!";
 	startingtext = "Collect all 10 coins around the field~without destroying your car ~  or running out of fuel";
+
+	Cskybox.Set(-262, 0, -262, 262, 0, 262);
+	Askybox.translate = Vector3(0, 0, 0);
 
 	playerdetails.coinCounter = 0;
 
@@ -764,7 +771,6 @@ void DriveScene::Update(double dt)
 				ACarWheel[i].RotateY.degree = 0;
 			}
 		}
-
 		if (carVelocity == 0)
 		{
 			car_ismoving = false;
@@ -808,14 +814,22 @@ void DriveScene::Update(double dt)
 		//end driving
 	}
 
-	//coin and shield interaction
+	//ghost and shield interaction
 	for (int i = 0; i < 2; ++i) {
 		if (Powerup_onmap[i]) {
 			if (collision_detector(ACarBody, CCarBody, Powerups[i], CPowerups[i], true)) {
 				Powerup_onmap[i] = false;
 				Powerup_onplayer[i] = true;
+				if (i == 0)
+					ghost_time = GetTickCount() * 0.001f;
 			}
 		}
+	}
+	if ((GetTickCount() * 0.001f - ghost_time) > 5.0f) {
+		Powerup_onplayer[0] = 0;
+	}
+	if (shield_health == 0) {
+		Powerup_onplayer[1] = 0;
 	}
 
 	CoinRespawn();
@@ -973,7 +987,6 @@ void DriveScene::RenderMesh(Mesh* mesh, bool enableLight)
 
 	modelView = viewStack.Top() * modelStack.Top();
 	glUniformMatrix4fv(m_parameters[U_MODELVIEW], 1, GL_FALSE, &modelView.a[0]);
-
 
 	if (enableLight)
 	{
@@ -1146,25 +1159,42 @@ void DriveScene::carMovement(TRS carbody, float& velocity, double dt)
 {
 	ACarBody.translate.z -= cos(Math::DegreeToRadian(ACarBody.RotateY.degree)) * (float)(carVelocity * dt);
 	ACarBody.translate.x -= sin(Math::DegreeToRadian(ACarBody.RotateY.degree)) * (float)(carVelocity * dt);
-
+	if (!(collision_detector(ACarBody,CCarBody,Askybox,Cskybox,true))) {
+		ACarBody.translate.z += cos(Math::DegreeToRadian(ACarBody.RotateY.degree)) * (float)(carVelocity * dt);
+		ACarBody.translate.x += sin(Math::DegreeToRadian(ACarBody.RotateY.degree)) * (float)(carVelocity * dt);
+		carVelocity = 0;
+	}
 	for (CNode* current = boxlist.gethead(); current != nullptr; current = current->getnext())
 	{
 		if (collision_detector(ACarBody, CCarBody, current->transformation, CBox, true)) {
-			ACarBody.translate.z += cos(Math::DegreeToRadian(ACarBody.RotateY.degree)) * (float)(carVelocity * dt);
-			ACarBody.translate.x += sin(Math::DegreeToRadian(ACarBody.RotateY.degree)) * (float)(carVelocity * dt);
-			carVelocity = 0;
-			if (GetTickCount() * 0.001f - iFrames > 3.0f) {
-				--health;
-				iFrames = GetTickCount() * 0.001f;
+			if (!Powerup_onplayer[0]) {
+				ACarBody.translate.z += cos(Math::DegreeToRadian(ACarBody.RotateY.degree)) * (float)(carVelocity * dt);
+				ACarBody.translate.x += sin(Math::DegreeToRadian(ACarBody.RotateY.degree)) * (float)(carVelocity * dt);
+				carVelocity = 0;
+				if (GetTickCount() * 0.001f - iFrames > 3.0f) {
+					if (Powerup_onplayer[1])
+						--shield_health;
+					else 
+						--health;
+					iFrames = GetTickCount() * 0.001f;
+				}
 			}
+			else {
+				collision_in_box_in_frame = 1;
+			}
+		}
+		else {
+			collision_in_box_in_frame = 0;
 		}
 	}
 	for (CNode* current = spikelist.gethead(); current != nullptr; current = current->getnext())
 	{
 		if (collision_detector(ACarBody, CCarBody, current->transformation, CSpike, true)) {
 			if (GetTickCount() * 0.001f - iFrames > 3.0f) {
-				if(Powerup_onplayer[0])
-				--health;
+				if (Powerup_onplayer[1] && shield_health > 0)
+					--shield_health;
+				else
+					--health;
 				iFrames = GetTickCount() * 0.001f;
 			}
 		}
