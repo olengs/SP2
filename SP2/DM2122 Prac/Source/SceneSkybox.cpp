@@ -404,10 +404,7 @@ void SceneSkybox::Init()
 	row2_lastTime = 0;
 	row3_lastTime = 0;
 	slot_stop_lasttime = 0;
-	stop_machine = 0;
-
-	//Holograms
-	
+	stop_machine = 0;	
 
 	meshList[GEO_COIN] = MeshBuilder::GenerateOBJ("coin", "obj//coin.obj");
 	meshList[GEO_COIN]->textureID = LoadTGA("Image//coin.tga");
@@ -438,12 +435,12 @@ void SceneSkybox::Init()
 		if (i % 2 != 0)
 		{
 			CarHologram[i].UI.RotateY.degree = -90.f;
-			CarHologram[i].UI.translate = Vector3(-7, 0, 0);
+			CarHologram[i].UI.translate = Vector3(-10, 0, 0) + Platform[i].translate;
 		}
 		else
 		{
 			CarHologram[i].UI.RotateY.degree = 90.f;
-			CarHologram[i].UI.translate = Vector3(7, 0, 0);
+			CarHologram[i].UI.translate = Vector3(10, 0, 0) + Platform[i].translate;
 		}
 	}
 
@@ -884,7 +881,6 @@ void SceneSkybox::Render()
 		{
 			if (carnumber % 2 == 0) CarHologram[carnumber].UI.RotateY.degree = 90.f;
 			else CarHologram[carnumber].UI.RotateY.degree = -90.f;
-			RenderObj(meshList[GEO_PLATFORM], Platform[carnumber], false, false);
 		}
 		else CarHologram[carnumber].UI.RotateY.degree = 0.f;
 
@@ -899,7 +895,7 @@ void SceneSkybox::Render()
 		modelStack.PopMatrix();
 		//			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		if (!hologramcamera_leave) RenderObj(meshList[GEO_PLATFORM], Platform[carnumber], false, false);
+		RenderObj(meshList[GEO_PLATFORM], Platform[carnumber], false, false);
 
 		RenderCar(carnumber, Cars[carnumber]);
 		//modelStack.PopMatrix();
