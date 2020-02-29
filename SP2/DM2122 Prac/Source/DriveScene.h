@@ -155,15 +155,18 @@ private:
 	TRS Boostpad;
 	cornercoord CBoostpad;
 	// 0 = Ghost, 1 = Shield
-	TRS Powerups[2];
-	cornercoord CGhost;
-	cornercoord CShield;
 	TRS Shieldparticle[4];
 
 	//cars
 	TRS ACarBody;
 	cornercoord CCarBody;
 	TRS ACarWheel[4];
+
+	//power-ups
+	TRS Powerups[2];
+	cornercoord CPowerups[2];
+	bool Powerup_onmap[2];
+	bool Powerup_onplayer[2];
 
 	void RenderMesh(Mesh* mesh, bool enableLight);
 	void RenderSkybox();

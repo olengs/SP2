@@ -532,7 +532,7 @@ void DriveScene::Init()
 	meshList[GEO_GHOSTCOIN]->material.kDiffuse.Set(1.f, 1.f, 1.f);
 	meshList[GEO_GHOSTCOIN]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_GHOSTCOIN]->material.kShininess = 1.f;
-	Loadcoord("OBJ//ghostpowerup.obj", CGhost);
+	Loadcoord("OBJ//ghostpowerup.obj", CPowerups[0]);
 	if (randompower == 0)
 	{
 		Powerups[0].translate.Set(-140, 6, 114);
@@ -562,7 +562,7 @@ void DriveScene::Init()
 	meshList[GEO_SHIELDCOIN]->material.kDiffuse.Set(1.f, 1.f, 1.f);
 	meshList[GEO_SHIELDCOIN]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_SHIELDCOIN]->material.kShininess = 1.f;
-	Loadcoord("OBJ//shieldpowerup.obj", CShield);
+	Loadcoord("OBJ//shieldpowerup.obj", CPowerups[1]);
 	if (randompower == 0)
 	{
 		Powerups[1].translate.Set(-172, 10, 210);
@@ -592,6 +592,9 @@ void DriveScene::Init()
 	meshList[GEO_SHIELD]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_SHIELD]->material.kShininess = 1.f;
 	Shieldparticle[0].translate = Vector3(0, 0, 0);
+
+	Powerup_onmap[0] = Powerup_onmap[1] = true;
+	Powerup_onplayer[0] = Powerup_onplayer[1] = false;
 
 	//StatLevel[0]: acceleration, [1]: Max speed, [2]: Turbo, [3]: Max Fuel, [4]: Current Fuel
 	maxvelocity = playerdetails.car_number.SelectedCar.StatLevel[1] * 20.f;
@@ -805,6 +808,16 @@ void DriveScene::Update(double dt)
 		//end driving
 	}
 
+	//coin and shield interaction
+	for (int i = 0; i < 2; ++i) {
+		if (Powerup_onmap[i]) {
+			if (collision_detector(ACarBody, CCarBody, Powerups[i], CPowerups[i], true)) {
+				Powerup_onmap[i] = false;
+				Powerup_onplayer[i] = true;
+			}
+		}
+	}
+
 	CoinRespawn();
 	
 	//if (Application::IsKeyPressed(VK_TAB) && SwitchCD <= GetTickCount())
@@ -914,8 +927,12 @@ void DriveScene::Render()
 	{
 		RenderObj(meshList[GEO_COIN], current->transformation, true, false);
 	}
-	RenderObj(meshList[GEO_GHOSTCOIN], Powerups[0], true, false);
-	RenderObj(meshList[GEO_SHIELDCOIN], Powerups[1], true, false);
+	if (Powerup_onmap[0]) {
+		RenderObj(meshList[GEO_GHOSTCOIN], Powerups[0], true, false);
+	}
+	if (Powerup_onmap[1]) {
+		RenderObj(meshList[GEO_SHIELDCOIN], Powerups[1], true, false);
+	}
 
 	if (showtext > GetTickCount())
 	{
@@ -1139,7 +1156,6 @@ void DriveScene::carMovement(TRS carbody, float& velocity, double dt)
 			if (GetTickCount() * 0.001f - iFrames > 3.0f) {
 				--health;
 				iFrames = GetTickCount() * 0.001f;
-				//std::cout << health << "\n";
 			}
 		}
 	}
@@ -1147,9 +1163,9 @@ void DriveScene::carMovement(TRS carbody, float& velocity, double dt)
 	{
 		if (collision_detector(ACarBody, CCarBody, current->transformation, CSpike, true)) {
 			if (GetTickCount() * 0.001f - iFrames > 3.0f) {
+				if(Powerup_onplayer[0])
 				--health;
 				iFrames = GetTickCount() * 0.001f;
-				//std::cout << health << "\n";
 			}
 		}
 		for (CNode* current = boostpadlist.gethead(); current != nullptr; current = current->getnext())
