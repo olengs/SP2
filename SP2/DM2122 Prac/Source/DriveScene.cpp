@@ -601,8 +601,8 @@ void DriveScene::Init()
 	AShields[2].RotateY.degree = 90;
 	AShields[3].RotateY.degree = 0;
 
-	Powerup_onmap[0] = Powerup_onmap[1] = false;
-	Powerup_onplayer[0] = Powerup_onplayer[1] = true;
+	Powerup_onmap[0] = Powerup_onmap[1] = true;
+	Powerup_onplayer[0] = Powerup_onplayer[1] = false;
 	shield_health = 3;
 	ghost_time = 0;
 	collision_in_box_in_frame = 1;
@@ -819,7 +819,7 @@ void DriveScene::Update(double dt)
 			}
 		}
 	}
-	if ((GetTickCount() * 0.001f - ghost_time) > 5.0f) {
+	if ((GetTickCount() * 0.001f - ghost_time) > 5.0f && !collision_in_box_in_frame) {
 		Powerup_onplayer[0] = 0;
 	}
 	if (shield_health == 0) {
