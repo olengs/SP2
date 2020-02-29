@@ -592,10 +592,17 @@ void DriveScene::Init()
 	meshList[GEO_SHIELD]->material.kDiffuse.Set(1.f, 1.f, 1.f);
 	meshList[GEO_SHIELD]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_SHIELD]->material.kShininess = 1.f;
-	Shieldparticle[0].translate = Vector3(0, 0, 0);
+	AShields[0].translate = Vector3(0, 0, -5);
+	AShields[1].translate = Vector3(-5, 0, 0);
+	AShields[2].translate = Vector3(5, 0, 0);
+	AShields[3].translate = Vector3(0, 0, 5);
+	AShields[0].RotateY.degree = 180;
+	AShields[1].RotateY.degree = 270;
+	AShields[2].RotateY.degree = 90;
+	AShields[3].RotateY.degree = 0;
 
-	Powerup_onmap[0] = Powerup_onmap[1] = true;
-	Powerup_onplayer[0] = Powerup_onplayer[1] = false;
+	Powerup_onmap[0] = Powerup_onmap[1] = false;
+	Powerup_onplayer[0] = Powerup_onplayer[1] = true;
 	shield_health = 3;
 	ghost_time = 0;
 	collision_in_box_in_frame = 1;
@@ -819,6 +826,16 @@ void DriveScene::Update(double dt)
 		Powerup_onplayer[1] = 0;
 	}
 
+	if (Powerup_onplayer[1]) {
+		Mtx44 rotation;
+		float turn = (float)(shield_turning_speed * dt);
+		rotation.SetToRotation(turn, 0, 1, 0);
+		for (int i = 0; i < 4; ++i) {
+			AShields[i].translate = rotation * AShields[i].translate;
+			AShields[i].RotateY += turn;
+		}
+	}
+
 	CoinRespawn();
 	
 	test.CarUpdate(dt, ACarBody);
@@ -845,9 +862,9 @@ void DriveScene::Render()
 	{
 		RenderObj(meshList[GEO_CARWHEEL], ACarWheel[carnumwheel], true, false);
 	}
-	for (int shieldnum = 0; shieldnum < 1; shieldnum++)
+	for (int shieldnum = 0; shieldnum < 4; shieldnum++)
 	{
-		RenderObj(meshList[GEO_SHIELD], Shieldparticle[shieldnum], true, false);
+		RenderObj(meshList[GEO_SHIELD], AShields[shieldnum], true, false);
 	}
 	modelStack.PopMatrix();
 

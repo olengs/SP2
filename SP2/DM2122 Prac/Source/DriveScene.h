@@ -88,7 +88,6 @@ private:
 	unsigned m_programID;
 	/*unsigned m_indexBuffer;*/
 	Mesh* meshList[NUM_GEOMETRY];
-	void InitCarStats(int carnumber);
 	unsigned m_parameters[U_TOTAL];
 
 	MS modelStack, viewStack, projectionStack;
@@ -154,7 +153,6 @@ private:
 	cornercoord CBox;
 	TRS Boostpad;
 	cornercoord CBoostpad;
-	TRS Shieldparticle[4];
 
 	//cars
 	TRS ACarBody;
@@ -165,6 +163,8 @@ private:
 	TRS Askybox;
 
 	//power-ups
+	TRS AShields[4];
+	float shield_turning_speed = 90;
 	TRS Powerups[2];
 	cornercoord CPowerups[2];
 	// 0 = Ghost, 1 = Shield
