@@ -396,10 +396,7 @@ void SceneSkybox::Init()
 	row2_lastTime = 0;
 	row3_lastTime = 0;
 	slot_stop_lasttime = 0;
-	stop_machine = 0;
-
-	//Holograms
-	
+	stop_machine = 0;	
 
 	meshList[GEO_COIN] = MeshBuilder::GenerateOBJ("coin", "obj//coin.obj");
 	meshList[GEO_COIN]->textureID = LoadTGA("Image//coin.tga");
@@ -944,7 +941,7 @@ void SceneSkybox::Render()
 
 		RenderObj(meshList[GEO_PLATFORM], Platform[carnumber], false, true);
 
-		RenderCar(carnumber, Cars[carnumber]);
+    RenderCar(carnumber, Cars[carnumber]);
 		modelStack.PopMatrix();
 	}
 
