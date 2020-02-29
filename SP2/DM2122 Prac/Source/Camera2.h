@@ -22,7 +22,6 @@ public:
 	virtual void Update(double dt, TRS player);
 	virtual void Reset();
 	void CarUpdate(double dt, TRS car);
-
 };
 
 #endif

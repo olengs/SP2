@@ -13,6 +13,11 @@ class GameOverScene : public Scene
 	{
 		GEO_QUAD,
 		GEO_TEXT,
+		GEO_WHEEL1,
+		GEO_WHEEL2,
+		GEO_WHEEL3,
+		GEO_ARROW,
+		GEO_COIN,
 		NUM_GEOMETRY,
 	};
 	enum Scene5_UNIFORM_TYPE
@@ -71,11 +76,14 @@ private:
 
 	void RenderMesh(Mesh* mesh, bool enableLight);
 
-	
+	bool one = false;
+	bool two = true;
+	bool three = true;
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
-	void RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey, float rotateX, float rotateY);
-
-	int countTimer;
+	void RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey, float rotateX, float rotateY, float rotateZ);
+	float bounceTime;
+	int countTimer, tickTimer;
+	float rotationSpeed;
 public:
 	GameOverScene();
 	~GameOverScene();

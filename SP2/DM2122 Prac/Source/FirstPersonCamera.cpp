@@ -20,8 +20,6 @@ void FirstPersonCamera::Init(const Vector3& pos, const Vector3& target, const Ve
 	right.y = 0;
 	right.Normalize();
 	this->up = defaultUp = right.Cross(view).Normalized();
-	magnitude = Math::FAbs(target.z - pos.z);
-
 }
 
 void FirstPersonCamera::Update(double dt, TRS player)
@@ -47,21 +45,3 @@ void FirstPersonCamera::Reset()
 	target = defaultTarget;
 	up = defaultUp;
 }
-
-//void FirstPersonCamera::FPCCar(double dt, TRS Car)
-//{
-//	Mtx44 rotation;
-//	float carheight = Car.translate.y + 2;
-//
-//	Vector3 view = (target - position).Normalized();
-//	Vector3 right = view.Cross(up);
-//	right.y = 0;
-//	up = right.Cross(view).Normalized();
-//	Vector3 actualup = Vector3(0, 1, 0);
-//	rotation.SetToRotation(Car.RotateY.degree, actualup.x, actualup.y, actualup.z);
-//
-//	view = (target - position).Normalized();
-//	position = Vector3(Car.translate.x, carheight, Car.translate.z - 5);
-//	target = position + Vector3(sin(Math::DegreeToRadian(-Car.RotateY.degree)), 0, -cos(Math::DegreeToRadian(Car.RotateY.degree)));
-//
-//}
