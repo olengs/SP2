@@ -407,9 +407,7 @@ void SceneSkybox::Init()
 	stop_machine = 0;
 
 	//Holograms
-	meshList[GEO_HOLO_PLATFORM] = MeshBuilder::GenerateQuad("holo0", Color(0, 0, 1.f), 5.f, 6.f);
-
-	meshList[GEO_HOLO_PLATFORM]->textureID = LoadTGA("Image//carstatsUI.tga");
+	
 
 	meshList[GEO_COIN] = MeshBuilder::GenerateOBJ("coin", "obj//coin.obj");
 	meshList[GEO_COIN]->textureID = LoadTGA("Image//coin.tga");
@@ -436,8 +434,7 @@ void SceneSkybox::Init()
 
 	for (int i = 0; i < 4; ++i)
 	{
-		CarHologram[i].lengthX = 5.f;
-		CarHologram[i].lengthY = 6.f;
+		CarHologram[i] = HologramUI(10.f, 7.f);
 		if (i % 2 != 0)
 		{
 			CarHologram[i].UI.RotateY.degree = -90.f;
@@ -449,6 +446,10 @@ void SceneSkybox::Init()
 			CarHologram[i].UI.translate = Vector3(7, 0, 0);
 		}
 	}
+
+	meshList[GEO_HOLO_PLATFORM] = MeshBuilder::GenerateQuad("holo0", Color(0, 0, 1.f), 10.f, 7.f);
+
+	meshList[GEO_HOLO_PLATFORM]->textureID = LoadTGA("Image//carstatsUI.tga");
 
 	if (playerdetails.IsInit()) EquippedCar_Scroll = playerdetails.car_number.cartype;
 	else EquippedCar_Scroll = 2;
@@ -1150,15 +1151,15 @@ void SceneSkybox::UpdateHologram(HologramUI& UI, CarStats& car_Stats, TRS* Objec
 
 		if (Application::IsKeyPressed(VK_RETURN) && BounceTime <= GetTickCount())
 		{
-			if (playerdetails.currency >= car_Stats.cost && car_Stats.lock)
-			{ //buying cars(anywhere)
+			if (playerdetails.currency >= car_Stats.cost && car_Stats.lock && ObjectDisplay != &PetrolStation)
+			{ //buying cars(anywhere except petrol station)
 				
 				car_Stats.BuyCar();
 				playerdetails.currency -= car_Stats.cost;
 				if (ObjectDisplay != &Shop) BuyText = "Bought";
 				
 			}
-			else if (car_Stats.current_upgrade < 5 && ObjectDisplay == &Shop && !car_Stats.lock && playerdetails.currency >= car_Stats.cost_upgrade)
+			else if (car_Stats.current_upgrade < 5 && ObjectDisplay == &Shop && playerdetails.currency >= car_Stats.cost_upgrade)
 			{ //buying upgrades in shop
 				car_Stats.UpgradeOnce();
 				playerdetails.currency -= car_Stats.cost_upgrade;
@@ -1166,7 +1167,7 @@ void SceneSkybox::UpdateHologram(HologramUI& UI, CarStats& car_Stats, TRS* Objec
 				++car_Stats.current_upgrade;
 				if (playerdetails.car_number.SelectedCar.current_upgrade == 4) BuyText = "Car:Bought, CarUpgrade:0";
 			}
-			else if (ObjectDisplay == &PetrolStation)
+			else if (ObjectDisplay == &PetrolStation && !car_Stats.isRecharged())
 			{
 				car_Stats.RechargeCarFuel();
 			}
@@ -1213,7 +1214,6 @@ void SceneSkybox::InitPetrolStationCar()
 	{
 		PetrolStationCar[i] = Cars[i];
 		PetrolStationCar[i].translate = PetrolStation.translate + Vector3(-6.f, 0.f, 5.f) + Vector3(0.f,Cars[i].translate.y,0.f);
-
 	}
 }
 

@@ -834,7 +834,7 @@ void DriveScene::Update(double dt)
 	//}
 	//firstpersoncamera.FPCCar(dt, ACarBody);
 	test.CarUpdate(dt, ACarBody);
-	playerdetails.Update((float)fuel / 10000.f);
+	playerdetails.Update((float)fuel / 1000.f);
 }
 
 void DriveScene::Render()
