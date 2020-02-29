@@ -10,6 +10,7 @@
 #include <stdio.h>   
 #include <stdlib.h>  
 #include "DriveScene.h"
+#include "PlayerDetails.h"
 #include <time.h>
 
 GameOverScene::GameOverScene()
@@ -107,18 +108,70 @@ void GameOverScene::Init() {
 	// Enable depth test
 	glEnable(GL_DEPTH_TEST);
 
-	countTimer = 100;
 
+
+	meshList[GEO_WHEEL1] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f, 1.f);
+	meshList[GEO_WHEEL1]->textureID = LoadTGA("image//wheel1.tga");
+
+	meshList[GEO_WHEEL2] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f, 1.f);
+	meshList[GEO_WHEEL2]->textureID = LoadTGA("image//wheel2.tga");
+
+	meshList[GEO_WHEEL3] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f, 1.f);
+	meshList[GEO_WHEEL3]->textureID = LoadTGA("image//wheel3.tga");
+
+	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
+	meshList[GEO_TEXT]->textureID = LoadTGA("Image//calibri.tga");
+
+	meshList[GEO_ARROW] = MeshBuilder::GenerateOBJ("arrow", "OBJ//arrow.obj");
+	meshList[GEO_ARROW]->textureID = LoadTGA("Image//Red.tga");
+
+	meshList[GEO_COIN] = MeshBuilder::GenerateOBJ("coin", "OBJ//coin.obj");
+	meshList[GEO_COIN]->textureID = LoadTGA("Image//coin.tga");
+	meshList[GEO_COIN]->material.kAmbient.Set(0.7f, 0.7f, 0.7f);
+	meshList[GEO_COIN]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[GEO_COIN]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_COIN]->material.kShininess = 1.f;
+
+	countTimer = 100;
+	tickTimer = 100;
+	rotationSpeed = 0;
+	playerdetails.coinCounter = 5;
+
+	if (playerdetails.IsInit())
+	{
+		playerdetails.GetData();
+	}
 }
 
 void GameOverScene::Update(double dt)
 {
-	
+	rotationSpeed += (250 * dt);
+	if (bounceTime > 0)
+	{
+		bounceTime -= (float)(1 * dt);
+	}
 
-	countTimer -= dt * 10;
-	if (countTimer <= 0) {
-		scenenumber = 1;
-		scenechange = true;
+	countTimer -= dt * 15;
+	if (GetTickCount() * 0.001f - tickTimer > 1.0f) {
+		tickTimer = GetTickCount() * 0.001f;
+		if (countTimer <= 0 && playerdetails.coinCounter > 0 && playsound == true)
+		{
+			PlaySound(TEXT("Music/coinSound.wav"), NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
+
+			playerdetails.coinCounter--;
+			playerdetails.currency += 10;
+
+		}
+		if (playerdetails.coinCounter <= 0)
+		{
+			tickTimer -= dt * 15;
+
+			if (countTimer <= 0)
+			{
+				scenenumber = 1;
+				scenechange = true;
+			}
+		}
 	}
 }
 
@@ -127,11 +180,12 @@ void GameOverScene::Render()
 	//Clear color & depth buffer every frame
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	//RenderTextOnScreen(meshList[GEO_TEXT], "  x" + std::to_string(DriveScene::coinCounter), Color(0, 1, 0), 2, 0, 4); //coins
-	//RenderTextOnScreen(meshList[GEO_TEXT], "Nitro left: " + std::to_string((int)boostbar), Color(0, 1, 0), 2, 0, 3); //fuel
-	//RenderTextOnScreen(meshList[GEO_TEXT], "Health: " + std::to_string(health), Color(0, 1, 0), 2, 0, 2); //health
-	//RenderTextOnScreen(meshList[GEO_TEXT], std::to_string((int)carVelocity) + " kmph", Color(0, 1, 0), 2, 0, 1); //speed
-	//RenderTextOnScreen(meshList[GEO_TEXT], "Fuel left: " + std::to_string((int)fuel), Color(0, 1, 0), 2, 0, 0); //fuel
+	RenderMeshOnScreen(meshList[GEO_WHEEL1], 220, 220, 50, 50, 0, 0, rotationSpeed);
+	RenderTextOnScreen(meshList[GEO_TEXT], " Game Over", Color(0, 1, 0), 10, 0, 4);
+	RenderMeshOnScreen(meshList[GEO_COIN], 145, 140, 10, 10, 0, rotationSpeed, 0);
+	RenderTextOnScreen(meshList[GEO_TEXT], " x " + std::to_string(playerdetails.coinCounter), Color(0, 1, 0), 5, 6, 5);
+	RenderTextOnScreen(meshList[GEO_TEXT], " Currency: " + std::to_string(playerdetails.currency), Color(0, 1, 0), 3, 5, 5);
+
 }
 
 void GameOverScene::RenderMesh(Mesh* mesh, bool enableLight)
@@ -225,7 +279,7 @@ void GameOverScene::RenderTextOnScreen(Mesh* mesh, std::string text, Color color
 	glEnable(GL_DEPTH_TEST);
 }
 
-void GameOverScene::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey, float rotateX, float rotateY)
+void GameOverScene::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey, float rotateX, float rotateY, float rotateZ)
 {
 	if (!mesh || mesh->textureID <= 0) {
 		return;
@@ -244,6 +298,7 @@ void GameOverScene::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int 
 	modelStack.Scale(sizex, sizey, 1);
 	modelStack.Rotate(rotateX, 1, 0, 0);
 	modelStack.Rotate(rotateY, 0, 1, 0);
+	modelStack.Rotate(rotateZ, 0, 0, 1);
 	RenderMesh(mesh, false);
 	modelStack.PopMatrix();
 	viewStack.PopMatrix();
