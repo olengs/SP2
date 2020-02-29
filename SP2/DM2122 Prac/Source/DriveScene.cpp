@@ -586,8 +586,8 @@ void DriveScene::Init()
 	}
 	Powerups[1].Scale.Set(3, 3, 3);
 
-	meshList[GEO_SHIELD] = MeshBuilder::GenerateOBJ("shieldparticle", "OBJ//shieldparticle.obj");
-	meshList[GEO_SHIELD]->textureID = LoadTGA("Image//coin.tga");
+	meshList[GEO_SHIELD] = MeshBuilder::GenerateOBJ("shieldparticle", "OBJ//shield2.obj");
+	meshList[GEO_SHIELD]->textureID = LoadTGA("Image//shieldtext.tga");
 	meshList[GEO_SHIELD]->material.kAmbient.Set(0.7f, 0.7f, 0.7f);
 	meshList[GEO_SHIELD]->material.kDiffuse.Set(1.f, 1.f, 1.f);
 	meshList[GEO_SHIELD]->material.kSpecular.Set(1.f, 1.f, 1.f);
@@ -596,10 +596,14 @@ void DriveScene::Init()
 	AShields[1].translate = Vector3(-5, 0, 0);
 	AShields[2].translate = Vector3(5, 0, 0);
 	AShields[3].translate = Vector3(0, 0, 5);
-	AShields[0].RotateY.degree = 180;
-	AShields[1].RotateY.degree = 270;
-	AShields[2].RotateY.degree = 90;
-	AShields[3].RotateY.degree = 0;
+	AShields[0].RotateY.degree = 270;
+	AShields[1].RotateY.degree = 0;	
+	AShields[2].RotateY.degree = 180;
+	AShields[3].RotateY.degree = 90;
+	AShields[0].Scale = Vector3(1, 2, 1);
+	AShields[1].Scale = Vector3(1, 2, 1);
+	AShields[2].Scale = Vector3(1, 2, 1);
+	AShields[3].Scale = Vector3(1, 2, 1);
 
 	Powerup_onmap[0] = Powerup_onmap[1] = true;
 	Powerup_onplayer[0] = Powerup_onplayer[1] = false;
