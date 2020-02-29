@@ -1,0 +1,4 @@
+9981550 - Currency 
+3 - Equipped Car Choice
+5 - Equipped Car Upgrade Level
+7.64649 - equipped car fuel level

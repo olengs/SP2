@@ -866,9 +866,12 @@ void DriveScene::Render()
 	{
 		RenderObj(meshList[GEO_CARWHEEL], ACarWheel[carnumwheel], true, false);
 	}
-	for (int shieldnum = 0; shieldnum < 4; shieldnum++)
+	if (Powerup_onplayer[1])
 	{
-		RenderObj(meshList[GEO_SHIELD], AShields[shieldnum], true, false);
+		for (int shieldnum = 0; shieldnum < 4; shieldnum++)
+		{
+			RenderObj(meshList[GEO_SHIELD], AShields[shieldnum], true, false);
+		}
 	}
 	modelStack.PopMatrix();
 

@@ -1,0 +1,16 @@
+0 - Car Choice
+0 - Car Upgrade
+1 - Car Lock
+2 - car fuel level
+1 - Car Choice
+0 - Car Upgrade
+1 - Car Lock
+4 - car fuel level
+2 - Car Choice
+0 - Car Upgrade
+0 - Car Lock
+2 - car fuel level
+3 - Car Choice
+5 - Car Upgrade
+0 - Car Lock
+7.64649 - car fuel level
