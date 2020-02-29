@@ -1,0 +1,4 @@
+100000 - Currency 
+2 - Equipped Car Choice
+0 - Equipped Car Upgrade Level
+2 - Equipped Car Fuel Level

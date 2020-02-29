@@ -54,33 +54,24 @@ void SceneSkybox::Init()
 	m_parameters[U_MATERIAL_DIFFUSE] = glGetUniformLocation(m_programID, "material.kDiffuse");
 	m_parameters[U_MATERIAL_SPECULAR] = glGetUniformLocation(m_programID, "material.kSpecular");
 	m_parameters[U_MATERIAL_SHININESS] = glGetUniformLocation(m_programID, "material.kShininess");
-	m_parameters[U_LIGHT0_POSITION] = glGetUniformLocation(m_programID, "lights[0].position_cameraspace");
-	m_parameters[U_LIGHT0_COLOR] = glGetUniformLocation(m_programID, "lights[0].color");
-	m_parameters[U_LIGHT0_POWER] = glGetUniformLocation(m_programID, "lights[0].power");
-	m_parameters[U_LIGHT0_KC] = glGetUniformLocation(m_programID, "lights[0].kC");
-	m_parameters[U_LIGHT0_KL] = glGetUniformLocation(m_programID, "lights[0].kL");
-	m_parameters[U_LIGHT0_KQ] = glGetUniformLocation(m_programID, "lights[0].kQ");
 	m_parameters[U_LIGHTENABLED] = glGetUniformLocation(m_programID, "lightEnabled");
-	m_parameters[U_LIGHT0_TYPE] = glGetUniformLocation(m_programID, "lights[0].type");
-	m_parameters[U_LIGHT0_SPOTDIRECTION] = glGetUniformLocation(m_programID, "lights[0].spotDirection");
-	m_parameters[U_LIGHT0_COSCUTOFF] = glGetUniformLocation(m_programID, "lights[0].cosCutoff");
-	m_parameters[U_LIGHT0_COSINNER] = glGetUniformLocation(m_programID, "lights[0].cosInner");
-	m_parameters[U_LIGHT0_EXPONENT] = glGetUniformLocation(m_programID, "lights[0].exponent");
-	//light 1
-	m_parameters[U_LIGHT1_POSITION] = glGetUniformLocation(m_programID, "lights[1].position_cameraspace");
-	m_parameters[U_LIGHT1_COLOR] = glGetUniformLocation(m_programID, "lights[1].color");
-	m_parameters[U_LIGHT1_POWER] = glGetUniformLocation(m_programID, "lights[1].power");
-	m_parameters[U_LIGHT1_KC] = glGetUniformLocation(m_programID, "lights[1].kC");
-	m_parameters[U_LIGHT1_KL] = glGetUniformLocation(m_programID, "lights[1].kL");
-	m_parameters[U_LIGHT1_KQ] = glGetUniformLocation(m_programID, "lights[1].kQ");
-	m_parameters[U_LIGHT1ENABLED] = glGetUniformLocation(m_programID, "light1Enabled");
-	m_parameters[U_NUMLIGHTS] = glGetUniformLocation(m_programID, "numLights");
-	m_parameters[U_LIGHT1_TYPE] = glGetUniformLocation(m_programID, "lights[1].type");
-	m_parameters[U_LIGHT1_SPOTDIRECTION] = glGetUniformLocation(m_programID, "lights[1].spotDirection");
-	m_parameters[U_LIGHT1_COSCUTOFF] = glGetUniformLocation(m_programID, "lights[1].cosCutoff");
-	m_parameters[U_LIGHT1_COSINNER] = glGetUniformLocation(m_programID, "lights[1].cosInner");
-	m_parameters[U_LIGHT1_EXPONENT] = glGetUniformLocation(m_programID, "lights[1].exponent");
 
+	for (int i = 0; i < 4; i++)
+	{
+		std::string number = std::to_string(i);
+
+		m_parameters[8 + (i * 11)] = glGetUniformLocation(m_programID, ("lights[" + number + "].position_cameraspace").c_str());
+		m_parameters[9 + (i * 11)] = glGetUniformLocation(m_programID, ("lights[" + number + "].color").c_str());
+		m_parameters[10 + (i * 11)] = glGetUniformLocation(m_programID, ("lights[" + number + "].power").c_str());
+		m_parameters[11 + (i * 11)] = glGetUniformLocation(m_programID, ("lights[" + number + "].kC").c_str());
+		m_parameters[12 + (i * 11)] = glGetUniformLocation(m_programID, ("lights[" + number + "].kL").c_str());
+		m_parameters[13 + (i * 11)] = glGetUniformLocation(m_programID, ("lights[" + number + "].kQ").c_str());
+		m_parameters[14 + (i * 11)] = glGetUniformLocation(m_programID, ("lights[" + number + "].type").c_str());
+		m_parameters[15 + (i * 11)] = glGetUniformLocation(m_programID, ("lights[" + number + "].spotDirection").c_str());
+		m_parameters[16 + (i * 11)] = glGetUniformLocation(m_programID, ("lights[" + number + "].cosCutoff").c_str());
+		m_parameters[17 + (i * 11)] = glGetUniformLocation(m_programID, ("lights[" + number + "].cosInner").c_str());
+		m_parameters[18 + (i * 11)] = glGetUniformLocation(m_programID, ("lights[" + number + "].exponent").c_str());
+	}
 	m_parameters[U_NUMLIGHTS] = glGetUniformLocation(m_programID, "numLights");
 
 	//Get a handle for our "colorTexture" uniform
@@ -94,52 +85,47 @@ void SceneSkybox::Init()
 	// Enable depth test
 	glEnable(GL_DEPTH_TEST);
 
-	light[0].type = Light::LIGHT_DIRECTIONAL;
-	light[0].position.Set(10, 10, 10);
-	light[0].color.Set(0.5f, 0.5f, 0.5f);
-	light[0].power = 1;
-	light[0].kC = 1.f;
-	light[0].kL = 0.01f;
-	light[0].kQ = 0.001f;
-	light[0].cosCutoff = cos(Math::DegreeToRadian(45));
-	light[0].cosInner = cos(Math::DegreeToRadian(30));
-	light[0].exponent = 10.f;
-	light[0].spotDirection.Set(0.f, 1.f, 0.f);
-	//light 1
-	light[1].type = Light::LIGHT_POINT;
-	light[1].position.Set(0, 28, -30);
-	light[1].color.Set(0.5f, 0.5f, 0.5f);
-	light[1].power = 1.f;
-	light[1].kC = 1.f;
-	light[1].kL = 0.01f;
-	light[1].kQ = 0.001f;
-	light[1].cosCutoff = cos(Math::DegreeToRadian(45));
-	light[1].cosInner = cos(Math::DegreeToRadian(30));
-	light[1].exponent = 30.f;
-	light[1].spotDirection.Set(0.f, 1.f, 0.f);
+	for (int i = 0; i < 4; i++)
+	{
+		light[i].type = Light::LIGHT_SPOT;
+		if (i == 0)
+		{
+			light[i].position.Set(-20, 20, 0);
+		}
+		else if (i == 1)
+		{
+			light[i].position.Set(20, 20, 0);
+		}
+		else if (i == 2)
+		{
+			light[i].position.Set(-20, 20, 30);
+		}
+		else if (i == 3)
+		{
+			light[i].position.Set(20, 20, 30);
+		}
+		light[i].color.Set(1.f, 0.f, 0.f);
+		light[i].power = 0.5f;
+		light[i].kC = 1.f;
+		light[i].kL = 0.01f;
+		light[i].kQ = 0.001f;
+		light[i].cosCutoff = cos(Math::DegreeToRadian(45));
+		light[i].cosInner = cos(Math::DegreeToRadian(30));
+		light[i].exponent = 10.f;
+		light[i].spotDirection.Set(0.f, 1.f, 0.f);
 
-	glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
-	glUniform3fv(m_parameters[U_LIGHT0_COLOR], 1, &light[0].color.r);
-	glUniform1f(m_parameters[U_LIGHT0_POWER], light[0].power);
-	glUniform1f(m_parameters[U_LIGHT0_KC], light[0].kC);
-	glUniform1f(m_parameters[U_LIGHT0_KL], light[0].kL);
-	glUniform1f(m_parameters[U_LIGHT0_KQ], light[0].kQ);
-	glUniform3fv(m_parameters[U_LIGHT0_SPOTDIRECTION], 1, &light[0].spotDirection.x);
-	glUniform1f(m_parameters[U_LIGHT0_COSCUTOFF], light[0].cosCutoff);
-	glUniform1f(m_parameters[U_LIGHT0_COSINNER], light[0].cosInner);
-	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], light[0].exponent);
-	//light 1
-	glUniform1i(m_parameters[U_LIGHT1_TYPE], light[1].type);
-	glUniform3fv(m_parameters[U_LIGHT1_COLOR], 1, &light[1].color.r);
-	glUniform1f(m_parameters[U_LIGHT1_POWER], light[1].power);
-	glUniform1f(m_parameters[U_LIGHT1_KC], light[1].kC);
-	glUniform1f(m_parameters[U_LIGHT1_KL], light[1].kL);
-	glUniform1f(m_parameters[U_LIGHT1_KQ], light[1].kQ);
-	glUniform3fv(m_parameters[U_LIGHT1_SPOTDIRECTION], 1, &light[1].spotDirection.x);
-	glUniform1f(m_parameters[U_LIGHT1_COSCUTOFF], light[1].cosCutoff);
-	glUniform1f(m_parameters[U_LIGHT1_COSINNER], light[1].cosInner);
-	glUniform1f(m_parameters[U_LIGHT1_EXPONENT], light[1].exponent);
-	glUniform1i(m_parameters[U_NUMLIGHTS], 2);
+		glUniform3fv(m_parameters[9 + (i * 11)], 1, &light[i].color.r);
+		glUniform1f(m_parameters[10 + (i * 11)], light[i].power);
+		glUniform1f(m_parameters[11 + (i * 11)], light[i].kC);
+		glUniform1f(m_parameters[12 + (i * 11)], light[i].kL);
+		glUniform1f(m_parameters[13 + (i * 11)], light[i].kQ);
+		glUniform1i(m_parameters[14 + (i * 11)], light[i].type);
+		glUniform3fv(m_parameters[15 + (i * 11)], 1, &light[i].spotDirection.x);
+		glUniform1f(m_parameters[16 + (i * 11)], light[i].cosCutoff);
+		glUniform1f(m_parameters[17 + (i * 11)], light[i].cosInner);
+		glUniform1f(m_parameters[18 + (i * 11)], light[i].exponent);
+	}
+	glUniform1i(m_parameters[U_NUMLIGHTS], 5);
 
 	meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_LEFT]->textureID = LoadTGA("Image//left.tga");
@@ -232,6 +218,12 @@ void SceneSkybox::Init()
 	Platform[1].Scale = Vector3(1.2, 1.2, 1.2);
 	Platform[2].Scale = Vector3(1.2, 1.2, 1.2);
 	Platform[3].Scale = Vector3(1.2, 1.2, 1.2);
+
+	lightball[0].translate = Vector3(light[0].position.x, light[0].position.y, light[0].position.z);
+	lightball[1].translate = Vector3(light[1].position.x, light[1].position.y, light[1].position.z);
+	lightball[2].translate = Vector3(light[2].position.x, light[2].position.y, light[2].position.z);
+	lightball[3].translate = Vector3(light[3].position.x, light[3].position.y, light[3].position.z);
+
 	Loadcoord("OBJ//Platform.obj", PlatformR);
 
 	// Car 1
@@ -438,12 +430,12 @@ void SceneSkybox::Init()
 		if (i % 2 != 0)
 		{
 			CarHologram[i].UI.RotateY.degree = -90.f;
-			CarHologram[i].UI.translate = Vector3(-7, 0, 0);
+			CarHologram[i].UI.translate = Vector3(-10, 0, 0) + Platform[i].translate;
 		}
 		else
 		{
 			CarHologram[i].UI.RotateY.degree = 90.f;
-			CarHologram[i].UI.translate = Vector3(7, 0, 0);
+			CarHologram[i].UI.translate = Vector3(10, 0, 0) + Platform[i].translate;
 		}
 	}
 
@@ -454,7 +446,8 @@ void SceneSkybox::Init()
 	if (playerdetails.IsInit()) EquippedCar_Scroll = playerdetails.car_number.cartype;
 	else EquippedCar_Scroll = 2;
 
-	playerdetails = PlayerDetails(CarSelection(playerdetails.allcardetails.getCarStats(EquippedCar_Scroll), 2), 5000);
+	playerdetails = PlayerDetails(CarSelection(playerdetails.allcardetails.getCarStats(EquippedCar_Scroll), 2), 500); 
+
 	playerdetails.allcardetails = AllCarDetails();
 	playerdetails.allcardetails.InitScene(car_Stats[0], car_Stats[1], car_Stats[2], car_Stats[3]);
 
@@ -493,12 +486,82 @@ void SceneSkybox::Update(double dt)
 	//UI Text (for movement) logic
 	if (Application::IsKeyPressed('W') && CameraSwitch != 2) {
 		PlayerMoveUp(dt);
+		//player animation
+		if (Aplayerleftarm.RotateX.degree > -30 && rotatebodyparts == false)
+		{
+			Aplayerleftarm.RotateX.degree--;
+			if (Aplayerleftarm.RotateX.degree <= -30)
+			{
+				Aplayerleftarm.RotateX.degree = -30;
+				rotatebodyparts = true;
+			}
+		}
+		else if (Aplayerleftarm.RotateX.degree < 30 && rotatebodyparts == true)
+		{
+			Aplayerleftarm.RotateX.degree++;
+			if (Aplayerleftarm.RotateX.degree >= 30)
+			{
+				Aplayerleftarm.RotateX.degree = 30;
+				rotatebodyparts = false;
+			}
+		}
+		if (Aplayerrightarm.RotateX.degree < 30 && rotatebodyparts == false)
+		{
+			Aplayerrightarm.RotateX.degree++;
+			if (Aplayerrightarm.RotateX.degree >= 30)
+			{
+				Aplayerrightarm.RotateX.degree = 30;
+			}
+		}
+		else if (Aplayerrightarm.RotateX.degree > -30 && rotatebodyparts == true)
+		{
+			Aplayerrightarm.RotateX.degree--;
+			if (Aplayerrightarm.RotateX.degree <= -30)
+			{
+				Aplayerrightarm.RotateX.degree = -30;
+			}
+		}
 	}
 	if (Application::IsKeyPressed('A') && CameraSwitch != 2) {
 		PlayerMoveLeft(dt);
 	}
 	if (Application::IsKeyPressed('S') && CameraSwitch != 2) {
 		PlayerMoveDown(dt);
+		//player animation
+		if (Aplayerleftarm.RotateX.degree > -30 && rotatebodyparts == false)
+		{
+			Aplayerleftarm.RotateX.degree--;
+			if (Aplayerleftarm.RotateX.degree <= -30)
+			{
+				Aplayerleftarm.RotateX.degree = -30;
+				rotatebodyparts = true;
+			}
+		}
+		else if (Aplayerleftarm.RotateX.degree < 30 && rotatebodyparts == true)
+		{
+			Aplayerleftarm.RotateX.degree++;
+			if (Aplayerleftarm.RotateX.degree >= 30)
+			{
+				Aplayerleftarm.RotateX.degree = 30;
+				rotatebodyparts = false;
+			}
+		}
+		if (Aplayerrightarm.RotateX.degree < 30 && rotatebodyparts == false)
+		{
+			Aplayerrightarm.RotateX.degree++;
+			if (Aplayerrightarm.RotateX.degree >= 30)
+			{
+				Aplayerrightarm.RotateX.degree = 30;
+			}
+		}
+		else if (Aplayerrightarm.RotateX.degree > -30 && rotatebodyparts == true)
+		{
+			Aplayerrightarm.RotateX.degree--;
+			if (Aplayerrightarm.RotateX.degree <= -30)
+			{
+				Aplayerrightarm.RotateX.degree = -30;
+			}
+		}
 	}
 	if (Application::IsKeyPressed('D') && CameraSwitch != 2) {
 		PlayerMoveRight(dt);
@@ -653,7 +716,7 @@ void SceneSkybox::Update(double dt)
 	}
 	//slot machine
 	if ((GetTickCount() * 0.001f - slot_stop_lasttime) > 0.5f &&
-		Application::IsKeyPressed('O') && (Aslot_body.translate - Aplayer.translate).Length() < 10) {
+		Application::IsKeyPressed(VK_SPACE) && (Aslot_body.translate - Aplayer.translate).Length() < 10) {
 		if (activate_slot_machine) {
 			++stop_machine;
 			slot_stop_lasttime = GetTickCount() * 0.001f;
@@ -689,15 +752,15 @@ void SceneSkybox::Update(double dt)
 				int num = slot_images[3] % 5;
 				switch (num) {
 				case 0:
-					playerdetails.currency += 100;
+					playerdetails.currency += 1000;
 				case 1:
-					playerdetails.currency += 20;
+					playerdetails.currency += 200;
 				case 2:
-					playerdetails.currency += 30;
+					playerdetails.currency += 300;
 				case 3:
-					playerdetails.currency += 40;
+					playerdetails.currency += 400;
 				case 4:
-					playerdetails.currency += 50;
+					playerdetails.currency += 500;
 				}
 			}
 			activate_slot_machine = 0;
@@ -758,6 +821,12 @@ void SceneSkybox::Update(double dt)
 		fps = (int)framespersecond;
 		framespersecond = 0;
 	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		UpdateLight(i);
+	}
+
 	playerdetails.Update(CarSelection(car_Stats[EquippedCar_Scroll],EquippedCar_Scroll), playerdetails.currency);
 	playerdetails.allcardetails.SaveData(car_Stats[0], car_Stats[1], car_Stats[2], car_Stats[3]);
 }
@@ -783,46 +852,31 @@ void SceneSkybox::Render()
 	modelStack.LoadIdentity();
 
 	// passing the light direction if it is a direction light
-	if (light[0].type == Light::LIGHT_DIRECTIONAL)
+	for (int i = 0; i < 4; i++)
 	{
-		Vector3 lightDir(light[0].position.x, light[0].position.y, light[0].position.z);
-		Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
-		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightDirection_cameraspace.x);
+		// passing the light direction if it is a direction light
+		if (light[i].type == Light::LIGHT_DIRECTIONAL)
+		{
+			Vector3 lightDir(light[i].position.x, light[i].position.y, light[i].position.z);
+			Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
+			glUniform3fv(m_parameters[8 + (i * 11)], 1, &lightDirection_cameraspace.x);
+		}
+		// if it is spot light, pass in position and direction 
+		else if (light[i].type == Light::LIGHT_SPOT)
+		{
+			Position lightPosition_cameraspace = viewStack.Top() * light[i].position;
+			glUniform3fv(m_parameters[8 + (i * 11)], 1, &lightPosition_cameraspace.x);
+			Vector3 spotDirection_cameraspace = viewStack.Top() * light[i].spotDirection;
+			glUniform3fv(m_parameters[15 + (i * 11)], 1, &spotDirection_cameraspace.x);
+		}
+		else
+		{
+			// default is point light (only position since point light is 360 degrees)
+			Position lightPosition_cameraspace = viewStack.Top() * light[i].position;
+			glUniform3fv(m_parameters[8 + (i * 11)], 1, &lightPosition_cameraspace.x);
+		}
 	}
-	// if it is spot light, pass in position and direction 
-	else if (light[0].type == Light::LIGHT_SPOT)
-	{
-		Position lightPosition_cameraspace = viewStack.Top() * light[0].position;
-		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightPosition_cameraspace.x);
-		Vector3 spotDirection_cameraspace = viewStack.Top() * light[0].spotDirection;
-		glUniform3fv(m_parameters[U_LIGHT0_SPOTDIRECTION], 1, &spotDirection_cameraspace.x);
-	}
-	else
-	{
-		// default is point light (only position since point light is 360 degrees)
-		Position lightPosition_cameraspace = viewStack.Top() * light[0].position;
-		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightPosition_cameraspace.x);
-	}
-	if (light[1].type == Light::LIGHT_DIRECTIONAL)
-	{
-		Vector3 lightDir(light[0].position.x, light[0].position.y, light[0].position.z);
-		Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
-		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightDirection_cameraspace.x);
-	}
-	// if it is spot light, pass in position and direction 
-	else if (light[1].type == Light::LIGHT_SPOT)
-	{
-		Position lightPosition_cameraspace = viewStack.Top() * light[0].position;
-		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightPosition_cameraspace.x);
-		Vector3 spotDirection_cameraspace = viewStack.Top() * light[0].spotDirection;
-		glUniform3fv(m_parameters[U_LIGHT0_SPOTDIRECTION], 1, &spotDirection_cameraspace.x);
-	}
-	else
-	{
-		// default is point light (only position since point light is 360 degrees)
-		Position lightPosition_cameraspace = viewStack.Top() * light[0].position;
-		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightPosition_cameraspace.x);
-	}
+
 	//rand box
 	if (godmode) {
 		RenderObj(meshList[GEO_RAND_BOX], Arandbox, true, false);
@@ -846,27 +900,18 @@ void SceneSkybox::Render()
 	RenderSkybox();
 	modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
-	modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
-	RenderMesh(meshList[GEO_LIGHTSPHERE], false);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(light[1].position.x, light[1].position.y, light[1].position.z);
-	RenderMesh(meshList[GEO_LIGHTSPHERE], false);
-	modelStack.PopMatrix();
-
-	//RenderObj(meshList[GEO_DICE], Aplayer, true, false);
 	RenderObj(meshList[GEO_NPC], ANPC, true, false);
 
 	//player
+	if (CameraSwitch != 2)
+	{
 	RenderObj(meshList[GEO_PLAYERBODY], Aplayer, false, false);
 	RenderObj(meshList[GEO_PLAYERLEFTARM], Aplayerleftarm, true, false);
 	RenderObj(meshList[GEO_PLAYERRIGHTARM], Aplayerrightarm, true, false);
 	RenderObj(meshList[GEO_PLAYERLEFTLEG], Aplayerleftleg, true, false);
 	RenderObj(meshList[GEO_PLAYERRIGHTLEG], Aplayerrightleg, true, false);
 	modelStack.PopMatrix();
-
+	}
 	ShopUI.UI.RotateY.degree = 0.f;
 	RenderObj(meshList[GEO_SHOP], Shop, true, false);
 
@@ -884,7 +929,6 @@ void SceneSkybox::Render()
 		{
 			if (carnumber % 2 == 0) CarHologram[carnumber].UI.RotateY.degree = 90.f;
 			else CarHologram[carnumber].UI.RotateY.degree = -90.f;
-			RenderObj(meshList[GEO_PLATFORM], Platform[carnumber], false, false);
 		}
 		else CarHologram[carnumber].UI.RotateY.degree = 0.f;
 
@@ -897,12 +941,10 @@ void SceneSkybox::Render()
 		modelStack.Scale(1, 2.f, 1);
 		modelStack.Translate(1.f, (3.f / 7.f) * CarHologram[carnumber].lengthY, 0.f);
 		modelStack.PopMatrix();
-		//			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		if (!hologramcamera_leave) RenderObj(meshList[GEO_PLATFORM], Platform[carnumber], false, false);
+		RenderObj(meshList[GEO_PLATFORM], Platform[carnumber], false, true);
 
 		RenderCar(carnumber, Cars[carnumber]);
-		//modelStack.PopMatrix();
 		modelStack.PopMatrix();
 	}
 
@@ -1144,11 +1186,11 @@ void SceneSkybox::UpdateHologram(HologramUI& UI, CarStats& car_Stats, TRS* Objec
 
 	if (DistanceCheck(Aplayer.translate, ObjectDisplay->translate))
 	{
-		if (ObjectDisplay != &Shop && car_Stats.lock) BuyText = "Cost:500"; //if at platform and car is not bought
+		if (ObjectDisplay != &Shop && car_Stats.lock) BuyText = "Cost:" + std::to_string(car_Stats.cost); //if at platform and car is not bought
 		else if (ObjectDisplay != &Shop && !car_Stats.lock) BuyText = "Bought"; //if at platform and car is bought
-		else if (ObjectDisplay == &Shop && car_Stats.lock) BuyText = "Car:500, CarUpgrade:250"; //if at shop and car is not bought
-		else if (ObjectDisplay == &Shop && !car_Stats.lock) BuyText = "Car:Bought, CarUpgrade:250"; //if at shop and car is bought
-
+		else if (ObjectDisplay == &Shop && car_Stats.lock) BuyText = "Car:" + std::to_string(car_Stats.cost) + ", CarUpgrade:" + std::to_string(car_Stats.cost_upgrade); //if at shop and car is not bought
+		else if (ObjectDisplay == &Shop && !car_Stats.lock) BuyText = "Car:Bought, CarUpgrade:" + std::to_string(car_Stats.cost_upgrade); //if at shop and car is bought
+		
 		if (Application::IsKeyPressed(VK_RETURN) && BounceTime <= GetTickCount())
 		{
 			if (playerdetails.currency >= car_Stats.cost && car_Stats.lock && ObjectDisplay != &PetrolStation)
@@ -1166,6 +1208,7 @@ void SceneSkybox::UpdateHologram(HologramUI& UI, CarStats& car_Stats, TRS* Objec
 				BuyText = "Car:Bought, CarUpgrade:250";
 				++car_Stats.current_upgrade;
 				if (playerdetails.car_number.SelectedCar.current_upgrade == 4) BuyText = "Car:Bought, CarUpgrade:0";
+				car_Stats.UpdateUpgradeCost();
 			}
 			else if (ObjectDisplay == &PetrolStation && !car_Stats.isRecharged())
 			{
@@ -1216,6 +1259,16 @@ void SceneSkybox::InitPetrolStationCar()
 		PetrolStationCar[i].translate = PetrolStation.translate + Vector3(-6.f, 0.f, 5.f) + Vector3(0.f,Cars[i].translate.y,0.f);
 	}
 }
+
+void SceneSkybox::UpdateLight(int carnumber)
+{
+	if (car_Stats[carnumber].lock == false)
+	{
+		light[carnumber].color.Set(0.f, 1.f, 0.f);
+		glUniform3fv(m_parameters[9 + (carnumber * 11)], 1, &light[carnumber].color.r);
+	}
+}
+
 
 void SceneSkybox::RenderCar(int carnumber, TRS Car)
 {
@@ -1348,41 +1401,7 @@ void SceneSkybox::PlayerMoveUp(double dt)
 		Aplayer.translate.z -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
-	//player animation
-	if (Aplayerleftarm.RotateX.degree > -30 && rotatebodyparts == false)
-	{
-		Aplayerleftarm.RotateX.degree--;
-		if (Aplayerleftarm.RotateX.degree <= -30)
-		{
-			Aplayerleftarm.RotateX.degree = -30;
-			rotatebodyparts = true;
-		}
-	}
-	else if (Aplayerleftarm.RotateX.degree < 30 && rotatebodyparts == true)
-	{
-		Aplayerleftarm.RotateX.degree++;
-		if (Aplayerleftarm.RotateX.degree >= 30)
-		{
-			Aplayerleftarm.RotateX.degree = 30;
-			rotatebodyparts = false;
-		}
-	}
-	if (Aplayerrightarm.RotateX.degree < 30 && rotatebodyparts == false)
-	{
-		Aplayerrightarm.RotateX.degree++;
-		if (Aplayerrightarm.RotateX.degree >= 30)
-		{
-			Aplayerrightarm.RotateX.degree = 30;
-		}
-	}
-	else if (Aplayerrightarm.RotateX.degree > -30 && rotatebodyparts == true)
-	{
-		Aplayerrightarm.RotateX.degree--;
-		if (Aplayerrightarm.RotateX.degree <= -30)
-		{
-			Aplayerrightarm.RotateX.degree = -30;
-		}
-	}
+	
 }
 
 void SceneSkybox::PlayerMoveDown(double dt)
@@ -1423,41 +1442,7 @@ void SceneSkybox::PlayerMoveDown(double dt)
 		Aplayer.translate.x += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
 
-	//player animation
-	if (Aplayerleftarm.RotateX.degree > -30 && rotatebodyparts == false)
-	{
-		Aplayerleftarm.RotateX.degree--;
-		if (Aplayerleftarm.RotateX.degree <= -30)
-		{
-			Aplayerleftarm.RotateX.degree = -30;
-			rotatebodyparts = true;
-		}
-	}
-	else if (Aplayerleftarm.RotateX.degree < 30 && rotatebodyparts == true)
-	{
-		Aplayerleftarm.RotateX.degree++;
-		if (Aplayerleftarm.RotateX.degree >= 30)
-		{
-			Aplayerleftarm.RotateX.degree = 30;
-			rotatebodyparts = false;
-		}
-	}
-	if (Aplayerrightarm.RotateX.degree < 30 && rotatebodyparts == false)
-	{
-		Aplayerrightarm.RotateX.degree++;
-		if (Aplayerrightarm.RotateX.degree >= 30)
-		{
-			Aplayerrightarm.RotateX.degree = 30;
-		}
-	}
-	else if (Aplayerrightarm.RotateX.degree > -30 && rotatebodyparts == true)
-	{
-		Aplayerrightarm.RotateX.degree--;
-		if (Aplayerrightarm.RotateX.degree <= -30)
-		{
-			Aplayerrightarm.RotateX.degree = -30;
-		}
-	}
+
 }
 
 void SceneSkybox::PlayerMoveRight(double dt)

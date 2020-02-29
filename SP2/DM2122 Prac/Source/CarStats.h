@@ -16,9 +16,11 @@ struct CarStats
 	void ResettoBase();
 	void RechargeCarFuel();
 	bool isRecharged();
+	void UpdateUpgradeCost();
+	void UpdateUpgradeCostFromStart();
 	CarStats();
 
-	CarStats(float acceleration, float speed, float turbo, float fuel);
-	CarStats(float acceleration, float speed, float turbo, float fuel, float fuelcurrent);
+	CarStats(float acceleration, float speed, float turbo, float fuel, int cost);
+
 
 };
