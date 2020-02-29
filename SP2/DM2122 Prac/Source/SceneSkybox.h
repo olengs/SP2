@@ -74,19 +74,21 @@ class SceneSkybox : public Scene
 		U_MATERIAL_DIFFUSE,
 		U_MATERIAL_SPECULAR,
 		U_MATERIAL_SHININESS,
+		U_LIGHTENABLED,
+
+		//Light 0
 		U_LIGHT0_POSITION,
 		U_LIGHT0_COLOR,
 		U_LIGHT0_POWER,
 		U_LIGHT0_KC,
 		U_LIGHT0_KL,
 		U_LIGHT0_KQ,
-		U_LIGHTENABLED,
-		//add these enum in UNIFORM_TYPE before U_TOTAL
 		U_LIGHT0_TYPE,
 		U_LIGHT0_SPOTDIRECTION,
 		U_LIGHT0_COSCUTOFF,
 		U_LIGHT0_COSINNER,
 		U_LIGHT0_EXPONENT,
+
 		// light 1
 		U_LIGHT1_POSITION,
 		U_LIGHT1_COLOR,
@@ -99,7 +101,33 @@ class SceneSkybox : public Scene
 		U_LIGHT1_COSCUTOFF,
 		U_LIGHT1_COSINNER,
 		U_LIGHT1_EXPONENT,
-		U_LIGHT1ENABLED,
+
+		// light 2
+		U_LIGHT2_POSITION,
+		U_LIGHT2_COLOR,
+		U_LIGHT2_POWER,
+		U_LIGHT2_KC,
+		U_LIGHT2_KL,
+		U_LIGHT2_KQ,
+		U_LIGHT2_TYPE,
+		U_LIGHT2_SPOTDIRECTION,
+		U_LIGHT2_COSCUTOFF,
+		U_LIGHT2_COSINNER,
+		U_LIGHT2_EXPONENT,
+
+		// light 3
+		U_LIGHT3_POSITION,
+		U_LIGHT3_COLOR,
+		U_LIGHT3_POWER,
+		U_LIGHT3_KC,
+		U_LIGHT3_KL,
+		U_LIGHT3_KQ,
+		U_LIGHT3_TYPE,
+		U_LIGHT3_SPOTDIRECTION,
+		U_LIGHT3_COSCUTOFF,
+		U_LIGHT3_COSINNER,
+		U_LIGHT3_EXPONENT,
+
 		U_NUMLIGHTS,
 		// add these enum for texture
 		U_COLOR_TEXTURE_ENABLED,
@@ -119,7 +147,8 @@ private:
 	unsigned m_parameters[U_TOTAL];
 
 	MS modelStack, viewStack, projectionStack;
-	Light light[2];
+	Light light[4];
+	TRS lightball[4];
 
 	Camera2 camera;
 	FirstPersonCamera firstpersoncamera;
@@ -241,6 +270,7 @@ private:
 	void UpdateHologram(HologramUI& UI, CarStats& car_Stats, TRS* ObjectDisplay, float targetY);
 	void UpdateEquippedCar();
 	void InitPetrolStationCar();
+	void UpdateLight(int);
 
 	//player movement
 	void PlayerMoveUp(double dt);

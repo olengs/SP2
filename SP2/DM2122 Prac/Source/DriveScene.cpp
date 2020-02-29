@@ -608,16 +608,13 @@ void DriveScene::Init()
 	friction = 10.f;
 	boostVelocity = 0.f;
 	boostAcceleration = playerdetails.car_number.SelectedCar.StatLevel[2];
-	fuel = playerdetails.car_number.SelectedCar.StatLevel[4] * 1000.f;
+	fuel = playerdetails.car_number.SelectedCar.StatLevel[4] * 2000.f;
 	car_ismoving = false;
 
 	countDown = 50;
 	carcanmove = true;
-
-	//SwitchCD = 0.f;
-	//CameraSwitch = 0;
+	
 	test.Init(ACarBody.translate + Vector3(0, 5, 30), ACarBody.translate + Vector3(0, 5, 0), Vector3(0, 1, 0));
-	//firstpersoncamera.Init(ACarBody.translate + Vector3(0, 2, -5), Vector3(ACarBody.translate.x, ACarBody.translate.y + 2, 0), Vector3(0, 1, 0));
 
 	showcointexttime = 0;
 	showtext = GetTickCount() + 3000;
@@ -776,18 +773,8 @@ void DriveScene::Update(double dt)
 			car_ismoving = false;
 		}
 		//Fuel decreasing
-		if (car_ismoving)
-		{
-			if (maxvelocity < carVelocity)
-			{
-				fuel -= dt * 150;
-			}
-			else
-			{
-				fuel -= 15 * dt;
-			}
-		}
-
+		if (car_ismoving) fuel -= 15 * dt;
+		
 		//Car Moving
 		carMovement(ACarBody, carVelocity, dt);
 	}
@@ -834,21 +821,8 @@ void DriveScene::Update(double dt)
 
 	CoinRespawn();
 	
-	//if (Application::IsKeyPressed(VK_TAB) && SwitchCD <= GetTickCount())
-	//{
-	//	if (CameraSwitch == 0)
-	//	{
-	//		CameraSwitch = 1;
-	//	}
-	//	else
-	//	{
-	//		CameraSwitch = 0;
-	//	}
-	//	SwitchCD = GetTickCount() + 1000;
-	//}
-	//firstpersoncamera.FPCCar(dt, ACarBody);
 	test.CarUpdate(dt, ACarBody);
-	playerdetails.Update((float)fuel / 1000.f);
+	playerdetails.Update((float)fuel / 2000.f);
 }
 
 void DriveScene::Render()
@@ -857,57 +831,9 @@ void DriveScene::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	viewStack.LoadIdentity();
-	//if (CameraSwitch == 0)
-	//{
-		viewStack.LookAt(test.position.x, test.position.y, test.position.z, test.target.x, test.target.y, test.target.z, test.up.x, test.up.y, test.up.z);
-	//}
-	//else
-	//{
-	//	viewStack.LookAt(firstpersoncamera.position.x, firstpersoncamera.position.y, firstpersoncamera.position.z, firstpersoncamera.target.x, firstpersoncamera.target.y, firstpersoncamera.target.z, firstpersoncamera.up.x, firstpersoncamera.up.y, firstpersoncamera.up.z);
-	//}
+	viewStack.LookAt(test.position.x, test.position.y, test.position.z, test.target.x, test.target.y, test.target.z, test.up.x, test.up.y, test.up.z);
+	
 	modelStack.LoadIdentity();
-
-	// passing the light direction if it is a direction light
-	if (light[0].type == Light::LIGHT_DIRECTIONAL)
-	{
-		Vector3 lightDir(light[0].position.x, light[0].position.y, light[0].position.z);
-		Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
-		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightDirection_cameraspace.x);
-	}
-	// if it is spot light, pass in position and direction 
-	else if (light[0].type == Light::LIGHT_SPOT)
-	{
-		Position lightPosition_cameraspace = viewStack.Top() * light[0].position;
-		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightPosition_cameraspace.x);
-		Vector3 spotDirection_cameraspace = viewStack.Top() * light[0].spotDirection;
-		glUniform3fv(m_parameters[U_LIGHT0_SPOTDIRECTION], 1, &spotDirection_cameraspace.x);
-	}
-	else
-	{
-		// default is point light (only position since point light is 360 degrees)
-		Position lightPosition_cameraspace = viewStack.Top() * light[0].position;
-		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightPosition_cameraspace.x);
-	}
-	if (light[1].type == Light::LIGHT_DIRECTIONAL)
-	{
-		Vector3 lightDir(light[0].position.x, light[0].position.y, light[0].position.z);
-		Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
-		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightDirection_cameraspace.x);
-	}
-	// if it is spot light, pass in position and direction 
-	else if (light[1].type == Light::LIGHT_SPOT)
-	{
-		Position lightPosition_cameraspace = viewStack.Top() * light[0].position;
-		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightPosition_cameraspace.x);
-		Vector3 spotDirection_cameraspace = viewStack.Top() * light[0].spotDirection;
-		glUniform3fv(m_parameters[U_LIGHT0_SPOTDIRECTION], 1, &spotDirection_cameraspace.x);
-	}
-	else
-	{
-		// default is point light (only position since point light is 360 degrees)
-		Position lightPosition_cameraspace = viewStack.Top() * light[0].position;
-		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightPosition_cameraspace.x);
-	}
 
 	modelStack.PushMatrix();
 	modelStack.Translate(0, 50, 0);
@@ -1210,7 +1136,7 @@ void DriveScene::carMovement(TRS carbody, float& velocity, double dt)
 		{
 			if (collision_detector(ACarBody, CCarBody, current->transformation, CCoin)) {
 				coinlist.removeItem(current);
-				playerdetails.currency += 100;
+				playerdetails.currency += 10;
 				playerdetails.coinCounter++;
 
 				//coin/currency increase code here

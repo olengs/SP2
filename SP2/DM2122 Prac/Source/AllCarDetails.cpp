@@ -24,10 +24,10 @@ CarStats AllCarDetails::getCarStats(int number)
 void AllCarDetails::InitCarStats()
 {
 	
-	car_Stats[0] = CarStats(4.f, 3.f, 3.f, 2.f); //guangtheng car
-	car_Stats[1] = CarStats(2.f, 3.f, 3.f, 4.f); //ryan car
-	car_Stats[2] = CarStats(2.f, 2.f, 2.f, 2.f); //junchen car
-	car_Stats[3] = CarStats(3.f, 4.f, 2.f, 3.f); //jianfeng car
+	car_Stats[0] = CarStats(4.f, 3.f, 3.f, 2.f, 1500); //guangtheng car
+	car_Stats[1] = CarStats(2.f, 3.f, 3.f, 4.f, 500); //ryan car
+	car_Stats[2] = CarStats(2.f, 2.f, 2.f, 2.f, 0); //junchen car
+	car_Stats[3] = CarStats(3.f, 4.f, 2.f, 3.f, 1500); //jianfeng car
 
 }
 
@@ -36,16 +36,16 @@ void AllCarDetails::InitCarStat(int carnumber)
 	switch (carnumber)
 	{
 	case 0:
-	car_Stats[0] = CarStats(4.f, 3.f, 3.f, 2.f); //guangtheng car
+	car_Stats[0] = CarStats(4.f, 3.f, 3.f, 2.f, 1500); //guangtheng car
 		break;
 	case 1:
-	car_Stats[1] = CarStats(2.f, 3.f, 3.f, 4.f); //ryan car
+	car_Stats[1] = CarStats(2.f, 3.f, 3.f, 4.f, 500); //ryan car
 		break;
 	case 2:
-	car_Stats[2] = CarStats(2.f, 2.f, 2.f, 2.f); //junchen car
+	car_Stats[2] = CarStats(2.f, 2.f, 2.f, 2.f, 0); //junchen car
 		break;
 	case 3:
-	car_Stats[3] = CarStats(3.f, 4.f, 2.f, 3.f); //jianfeng car
+	car_Stats[3] = CarStats(3.f, 4.f, 2.f, 3.f, 1500); //jianfeng car
 		break;
 	default: 
 		InitCarStats();
@@ -116,6 +116,7 @@ void AllCarDetails::GetData()
 		std::getline(data, line);
 		std::getline(data, line);
 		car_Stats[0].current_upgrade = stof(line);
+		car_Stats[0].UpdateUpgradeCostFromStart();
 		car_Stats[0].UpgradeFromStart();
 		std::getline(data, line);
 		car_Stats[0].lock = stof(line);
@@ -125,6 +126,7 @@ void AllCarDetails::GetData()
 		std::getline(data, line);
 		std::getline(data, line);
 		car_Stats[1].current_upgrade = std::stof(line);
+		car_Stats[1].UpdateUpgradeCostFromStart();
 		car_Stats[1].UpgradeFromStart();
 		std::getline(data, line);
 		car_Stats[1].lock = stof(line);
@@ -134,6 +136,7 @@ void AllCarDetails::GetData()
 		std::getline(data, line);
 		std::getline(data, line);
 		car_Stats[2].current_upgrade = stof(line);
+		car_Stats[2].UpdateUpgradeCostFromStart();
 		car_Stats[2].UpgradeFromStart();
 		std::getline(data, line);
 		car_Stats[2].lock = stof(line);
@@ -143,6 +146,7 @@ void AllCarDetails::GetData()
 		std::getline(data, line);
 		std::getline(data, line);
 		car_Stats[3].current_upgrade = stof(line);
+		car_Stats[3].UpdateUpgradeCostFromStart();
 		car_Stats[3].UpgradeFromStart();
 		std::getline(data, line);
 		car_Stats[3].lock = stof(line);
