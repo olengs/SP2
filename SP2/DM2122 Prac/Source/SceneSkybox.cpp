@@ -774,6 +774,7 @@ void SceneSkybox::Update(double dt)
 			DoorScreen.translate.x -= 0.25f;
 		}
 	}
+
 	//slot machine
 	if ((GetTickCount() * 0.001f - slot_stop_lasttime) > 0.5f &&
 		Application::IsKeyPressed(VK_SPACE) && (Aslot_body.translate - Aplayer.translate).Length() < 10) {
@@ -1012,13 +1013,32 @@ void SceneSkybox::Render()
 	RenderObj(meshList[GEO_DOORSCREEN], DoorScreen, true, false);
 	modelStack.PopMatrix();
 
-	if ((Aplayer.translate - Platform[0].translate).Length() < 15 || (Aplayer.translate - Platform[1].translate).Length() < 15 || (Aplayer.translate - Platform[2].translate).Length() < 15 || (Aplayer.translate - Platform[3].translate).Length() < 15)
+	for (int i = 0; i < 4; i++)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "N and M to rotate platform", Color(0, 1, 0), 2, 0, 4); // Rotate Text
+		if ((Aplayer.translate - Platform[i].translate).Length() < 15)
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "N and M to rotate platform", Color(0, 1, 0), 2, 0, 3); // Rotate Text
+			RenderTextOnScreen(meshList[GEO_TEXT], "Press V to view stats/exit view", Color(0, 1, 0), 2, 0, 2);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Press Enter to buy", Color(0, 1, 0), 2, 0, 1);
+		}
+	}
+	if ((Aslot_body.translate - Aplayer.translate).Length() < 10)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press Space to use", Color(0, 1, 0), 2, 0, 2); 
+	}
+	if (DistanceCheck(Aplayer.translate, Shop.translate))
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press V to view shop/exit shop", Color(0, 1, 0), 2, 0, 2);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press Enter to buy", Color(0, 1, 0), 2, 0, 1);
+	}
+	if (DistanceCheck(Aplayer.translate, PetrolStation.translate))
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press V to view/exit view", Color(0, 1, 0), 2, 0, 2);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press Enter to recharge", Color(0, 1, 0), 2, 0, 1);
 	}
 
+	RenderTextOnScreen(meshList[GEO_TEXT], "Press E to switch car", Color(0, 1, 0), 2, 0, 4);
 	RenderTextOnScreen(meshList[GEO_TEXT], NPCtext, Color(0, 0, 0), 2, 0, 27);
-	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(fps) + " frames/second", Color(0, 1, 0), 2, 0, 0); //frames
 	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(fps) + " frames/second", Color(0, 1, 0), 2, 0, 0); //frames
 	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(playerdetails.currency), Color(0, 1, 0), 2, 25, 0); //Currency 
 	RenderMeshOnScreen(getCarmeshList(EquippedCar_Scroll), 360, 15, 10, 10, 0, 90);

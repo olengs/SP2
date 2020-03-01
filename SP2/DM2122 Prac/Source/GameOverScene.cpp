@@ -154,7 +154,7 @@ void GameOverScene::Render()
 	RenderMeshOnScreen(meshList[GEO_COIN], 145, 140, 10, 10, 0, rotationSpeed, 0);
 	RenderTextOnScreen(meshList[GEO_TEXT], " x " + std::to_string(playerdetails.coinCounter), Color(0, 1, 0), 5, 6, 5);
 	RenderTextOnScreen(meshList[GEO_TEXT], " Currency: " + std::to_string(playerdetails.currency), Color(0, 1, 0), 3, 5, 5);
-
+	RenderTextOnScreen(meshList[GEO_TEXT], "Press Space to return", Color(0, 1, 0), 5, 0, 2);
 }
 
 void GameOverScene::RenderMesh(Mesh* mesh, bool enableLight)
