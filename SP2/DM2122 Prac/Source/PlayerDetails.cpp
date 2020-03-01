@@ -55,6 +55,7 @@ void PlayerDetails::UpdateFile() //update file
 		data << car_number.cartype << " - Equipped Car Choice" << std::endl;
 		data << car_number.SelectedCar.current_upgrade << " - Equipped Car Upgrade Level" << std::endl;
 		data << car_number.SelectedCar.StatLevel[4] << " - equipped car fuel level" << std::endl;
+		data << coinCounter << " - Coin Counter" << std::endl;
 		data.close();
 	}
 
@@ -83,6 +84,8 @@ void PlayerDetails::GetData()
 		car_number.SelectedCar.UpgradeFromStart();
 		std::getline(data, line);
 		car_number.SelectedCar.StatLevel[4] = std::stof(line);
+		std::getline(data, line);
+		coinCounter = std::stof(line);
 		data.close();
 		car_number.SelectedCar.lock = false;
 	}

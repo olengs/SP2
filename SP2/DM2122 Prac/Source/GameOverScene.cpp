@@ -140,41 +140,19 @@ void GameOverScene::Init() {
 	{
 		playerdetails.GetData();
 	}
+
 }
 
 void GameOverScene::Update(double dt)
 {
-	
 	rotationSpeed += (250 * dt);
-	if (bounceTime > 0)
-	{
-		bounceTime -= (float)(1 * dt);
-	}
-
 	
-	if ( GetTickCount() * 0.001f - tickTimer > 1.0f) {
-		tickTimer = GetTickCount() * 0.001f;
-		if (countTimer <= 0 && playerdetails.coinCounter > 0)
-		{
-			playerdetails.coinCounter--;
-			playerdetails.currency += 10;
-			playerdetails.Update(playerdetails.currency);
-		if (playsound == true)
-			PlaySound(TEXT("Music/coinSound.wav"), NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
-			
-		}
-
-		if (playerdetails.coinCounter <= 0)
-		{
-			tickTimer -= dt * 15;
-
-			if (countTimer <= 0)
-			{
-				scenenumber = 1;
-				scenechange = true;
-			}
-		}
+	if (Application::IsKeyPressed(VK_SPACE))
+	{
+		scenenumber = 1;
+		scenechange = true;
 	}
+		
 }
 
 

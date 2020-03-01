@@ -127,6 +127,7 @@ void Application::Run()
 			thisScene->setCurrSceneID(thisScene->getCurrScene()->scenenumber);
 			thisScene->getCurrScene()->playsound = applicationsound;
 			thisScene->getCurrScene()->Init();
+			
 		}
 		//put condition here
 		thisScene->Update(m_timer.getElapsedTime());
