@@ -188,6 +188,7 @@ void SceneSkybox::Init()
 	Aplayerrightleg.translate = Vector3(-0.3, -3.2, 0.5);
 
 	rotatebodyparts = false;
+	movebodyupdown = false;
 
 	meshList[GEO_SHOP] = MeshBuilder::GenerateOBJ("shop", "OBJ//shop.obj");
 	meshList[GEO_SHOP]->textureID = LoadTGA("Image//shop.tga");
@@ -491,6 +492,7 @@ void SceneSkybox::Update(double dt)
 	//UI Text (for movement) logic
 	if (Application::IsKeyPressed('W') && CameraSwitch != 2) {
 		PlayerMoveUp(dt);
+
 		//player animation
 		if (Aplayerleftarm.RotateX.degree > -30 && rotatebodyparts == false)
 		{
@@ -524,6 +526,24 @@ void SceneSkybox::Update(double dt)
 			if (Aplayerrightarm.RotateX.degree <= -30)
 			{
 				Aplayerrightarm.RotateX.degree = -30;
+			}
+		}
+		if (Aplayer.translate.y < 6 && movebodyupdown == false)
+		{
+			Aplayer.translate.y += 0.05;
+			if (Aplayer.translate.y >= 6)
+			{
+				Aplayer.translate.y = 6;
+				movebodyupdown = true;
+			}
+		}
+		else if (Aplayer.translate.y > 5 && movebodyupdown == true)
+		{
+			Aplayer.translate.y -= 0.05;
+			if (Aplayer.translate.y <= 5)
+			{
+				Aplayer.translate.y = 5;
+				movebodyupdown = false;
 			}
 		}
 	}
@@ -567,7 +587,26 @@ void SceneSkybox::Update(double dt)
 				Aplayerrightarm.RotateX.degree = -30;
 			}
 		}
+		if (Aplayer.translate.y < 6 && movebodyupdown == false)
+		{
+			Aplayer.translate.y += 0.05;
+			if (Aplayer.translate.y >= 6)
+			{
+				Aplayer.translate.y = 6;
+				movebodyupdown = true;
+			}
+		}
+		else if (Aplayer.translate.y > 5 && movebodyupdown == true)
+		{
+			Aplayer.translate.y -= 0.05;
+			if (Aplayer.translate.y <= 5)
+			{
+				Aplayer.translate.y = 5;
+				movebodyupdown = false;
+			}
+		}
 	}
+
 	if (Application::IsKeyPressed('D') && CameraSwitch != 2) {
 		PlayerMoveRight(dt);
 	}
@@ -577,7 +616,7 @@ void SceneSkybox::Update(double dt)
 	if (Application::IsKeyPressed(VK_RIGHT) && CameraSwitch != 2) {
 		Aplayer.RotateY.degree -= (float)(playerTurningSpeed * dt);
 	}
-	// If player is not moving, check whether has the arms rotate back to the original position (if not, rotate the arms back)
+	// If player is not moving, check whether has the arms rotate back to the original position (if not, rotate the arms back) // Check if body is back at original height (if not, translate back)
 	if (!Application::IsKeyPressed('W') && !Application::IsKeyPressed('S'))
 	{
 		if (Aplayerleftarm.RotateX.degree < 0)
@@ -610,6 +649,22 @@ void SceneSkybox::Update(double dt)
 			if (Aplayerrightarm.RotateX.degree < 0)
 			{
 				Aplayerrightarm.RotateX.degree = 0;
+			}
+		}
+		if (Aplayer.translate.y > 5.5)
+		{
+			Aplayer.translate.y -= 0.5;
+			if (Aplayer.translate.y <= 5.5)
+			{
+				Aplayer.translate.y = 5.5;
+			}
+		}
+		else if (Aplayer.translate.y < 5.5)
+		{
+			Aplayer.translate.y += 0.5;
+			if (Aplayer.translate.y >= 5.5)
+			{
+				Aplayer.translate.y = 5.5;
 			}
 		}
 	}
