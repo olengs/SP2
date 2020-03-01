@@ -178,7 +178,7 @@ private:
 	bool rotatebodyparts;
 
 	//player movement
-	const float playerMovementSpeed = 30.f;
+	const float playerMovementSpeed = 15.f;
 	const float playerTurningSpeed = 135.f;
 	//petrol station
 	TRS PetrolStation;

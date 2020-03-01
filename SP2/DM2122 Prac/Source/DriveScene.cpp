@@ -815,7 +815,7 @@ void DriveScene::Update(double dt)
 	//ghost and shield interaction
 	for (int i = 0; i < 2; ++i) {
 		if (Powerup_onmap[i]) {
-			if (collision_detector(ACarBody, CCarBody, Powerups[i], CPowerups[i], true)) {
+			if (collision_detection::collision_detector(ACarBody, CCarBody, Powerups[i], CPowerups[i], true)) {
 				Powerup_onmap[i] = false;
 				Powerup_onplayer[i] = true;
 				if (i == 0)
@@ -1109,14 +1109,14 @@ void DriveScene::carMovement(TRS carbody, float& velocity, double dt)
 {
 	ACarBody.translate.z -= cos(Math::DegreeToRadian(ACarBody.RotateY.degree)) * (float)(carVelocity * dt);
 	ACarBody.translate.x -= sin(Math::DegreeToRadian(ACarBody.RotateY.degree)) * (float)(carVelocity * dt);
-	if (!(collision_detector(ACarBody,CCarBody,Askybox,Cskybox,true))) {
+	if (!(collision_detection::collision_detector(ACarBody,CCarBody,Askybox,Cskybox,true))) {
 		ACarBody.translate.z += cos(Math::DegreeToRadian(ACarBody.RotateY.degree)) * (float)(carVelocity * dt);
 		ACarBody.translate.x += sin(Math::DegreeToRadian(ACarBody.RotateY.degree)) * (float)(carVelocity * dt);
 		carVelocity = 0;
 	}
 	for (CNode* current = boxlist.gethead(); current != nullptr; current = current->getnext())
 	{
-		if (collision_detector(ACarBody, CCarBody, current->transformation, CBox, true)) {
+		if (collision_detection::collision_detector(ACarBody, CCarBody, current->transformation, CBox, true)) {
 			if (!Powerup_onplayer[0]) {
 				ACarBody.translate.z += cos(Math::DegreeToRadian(ACarBody.RotateY.degree)) * (float)(carVelocity * dt);
 				ACarBody.translate.x += sin(Math::DegreeToRadian(ACarBody.RotateY.degree)) * (float)(carVelocity * dt);
@@ -1139,7 +1139,7 @@ void DriveScene::carMovement(TRS carbody, float& velocity, double dt)
 	}
 	for (CNode* current = spikelist.gethead(); current != nullptr; current = current->getnext())
 	{
-		if (collision_detector(ACarBody, CCarBody, current->transformation, CSpike, true)) {
+		if (collision_detection::collision_detector(ACarBody, CCarBody, current->transformation, CSpike, true)) {
 			if (GetTickCount() * 0.001f - iFrames > 3.0f) {
 				if (Powerup_onplayer[1] && shield_health > 0)
 					--shield_health;
@@ -1150,7 +1150,7 @@ void DriveScene::carMovement(TRS carbody, float& velocity, double dt)
 		}
 		for (CNode* current = boostpadlist.gethead(); current != nullptr; current = current->getnext())
 		{
-			if (collision_detector(ACarBody, CCarBody, current->transformation, CBoostpad, true)) {
+			if (collision_detection::collision_detector(ACarBody, CCarBody, current->transformation, CBoostpad, true)) {
 				carVelocity += 0.1;
 			}
 
@@ -1158,7 +1158,7 @@ void DriveScene::carMovement(TRS carbody, float& velocity, double dt)
 		CNode* curr2 = coinlist.gethead();
 		for (CNode* current = coinlist.gethead(); current != nullptr;)
 		{
-			if (collision_detector(ACarBody, CCarBody, current->transformation, CCoin)) {
+			if (collision_detection::collision_detector(ACarBody, CCarBody, current->transformation, CCoin)) {
 				coinlist.removeItem(current);
 				playerdetails.currency += 10;
 				playerdetails.coinCounter++;

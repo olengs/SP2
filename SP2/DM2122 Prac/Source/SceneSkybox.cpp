@@ -608,7 +608,7 @@ void SceneSkybox::Update(double dt)
 	//NPC
 	if ((ANPC.translate - Aplayer.translate).Length() > 8) {
 		for (int i = 0; i < 4; ++i) {
-			if (collision_detector(Aplayer, Cplayer, Platform[i], PlatformR + 2)) {
+			if (collision_detection::collision_detector(Aplayer, Cplayer, Platform[i], PlatformR + 2)) {
 				ANPC.translate.x += ((Aplayer.translate) - ANPC.translate).Normalize().x * (float)(dt * playerMovementSpeed);
 				ANPC.translate.z += ((Aplayer.translate) - ANPC.translate).Normalize().z * (float)(dt * playerMovementSpeed);
 				if (carnum != i) {
@@ -800,7 +800,7 @@ void SceneSkybox::Update(double dt)
 	}
 
 	//change Scene
-	if (collision_detector(FakeScreen, CdoorScreen, Aplayer, Cplayer, true)) {
+	if (collision_detection::collision_detection::collision_detector(FakeScreen, CdoorScreen, Aplayer, Cplayer, true)) {
 		scenenumber = 2;
 		scenechange = true;
 	}
@@ -1374,31 +1374,31 @@ void SceneSkybox::PlayerMoveUp(double dt)
 		Aplayer.translate.z -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
-	if (collision_detector(Aplayer, Cplayer, Aslot_body, Cslot_body, true)) {
+	if (collision_detection::collision_detection::collision_detector(Aplayer, Cplayer, Aslot_body, Cslot_body, true)) {
 		Aplayer.translate.z -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
-	if (collision_detector(Aplayer, Cplayer, ANPC, CNPC, true)) {
+	if (collision_detection::collision_detector(Aplayer, Cplayer, ANPC, CNPC, true)) {
 		Aplayer.translate.z -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
-	if (collision_detector(Aplayer, Cplayer, Shop, CShop, true)) {
+	if (collision_detection::collision_detector(Aplayer, Cplayer, Shop, CShop, true)) {
 		Aplayer.translate.z -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
 	for (int i = 0; i < 4; i++)
 	{
-		if (collision_detector(Aplayer, Cplayer, Platform[i], PlatformR))
+		if (collision_detection::collision_detector(Aplayer, Cplayer, Platform[i], PlatformR))
 		{
 			Aplayer.translate.z -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 			Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		}
 	}
-	if (collision_detector(Aplayer, Cplayer, Arandbox, Crandbox, true) && godmode) {
+	if (collision_detection::collision_detector(Aplayer, Cplayer, Arandbox, Crandbox, true) && godmode) {
 		Aplayer.translate.z -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
-	if (collision_detector(Aplayer, Cplayer, Door, CDoor, true)) {
+	if (collision_detection::collision_detector(Aplayer, Cplayer, Door, CDoor, true)) {
 		Aplayer.translate.z -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
@@ -1414,31 +1414,31 @@ void SceneSkybox::PlayerMoveDown(double dt)
 		Aplayer.translate.z += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
-	if (collision_detector(Aplayer, Cplayer, Aslot_body, Cslot_body, true)) {
+	if (collision_detection::collision_detector(Aplayer, Cplayer, Aslot_body, Cslot_body, true)) {
 		Aplayer.translate.z += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
 	for (int i = 0; i < 4; i++)
 	{
-		if (collision_detector(Aplayer, Cplayer, Platform[i], PlatformR))
+		if (collision_detection::collision_detector(Aplayer, Cplayer, Platform[i], PlatformR))
 		{
 			Aplayer.translate.z += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 			Aplayer.translate.x += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		}
 	}
-	if (collision_detector(Aplayer, Cplayer, ANPC, CNPC, true)) {
+	if (collision_detection::collision_detector(Aplayer, Cplayer, ANPC, CNPC, true)) {
 		Aplayer.translate.z += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
-	if (collision_detector(Aplayer, Cplayer, Shop, CShop, true)) {
+	if (collision_detection::collision_detector(Aplayer, Cplayer, Shop, CShop, true)) {
 		Aplayer.translate.z += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
-	if (collision_detector(Aplayer, Cplayer, Arandbox, Crandbox, true) && godmode) {
+	if (collision_detection::collision_detector(Aplayer, Cplayer, Arandbox, Crandbox, true) && godmode) {
 		Aplayer.translate.z += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
-	if (collision_detector(Aplayer, Cplayer, Door, CDoor, true)) {
+	if (collision_detection::collision_detector(Aplayer, Cplayer, Door, CDoor, true)) {
 		Aplayer.translate.z += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
@@ -1455,31 +1455,31 @@ void SceneSkybox::PlayerMoveRight(double dt)
 		Aplayer.translate.z -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
-	if (collision_detector(Aplayer, Cplayer, Aslot_body, Cslot_body)) {
+	if (collision_detection::collision_detector(Aplayer, Cplayer, Aslot_body, Cslot_body)) {
 		Aplayer.translate.z -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
 	for (int i = 0; i < 4; i++)
 	{
-		if (collision_detector(Aplayer, Cplayer, Platform[i], PlatformR))
+		if (collision_detection::collision_detector(Aplayer, Cplayer, Platform[i], PlatformR))
 		{
 			Aplayer.translate.z -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 			Aplayer.translate.x += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		}
 	}
-	if (collision_detector(Aplayer, Cplayer, ANPC, CNPC, true)) {
+	if (collision_detection::collision_detector(Aplayer, Cplayer, ANPC, CNPC, true)) {
 		Aplayer.translate.z -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
-	if (collision_detector(Aplayer, Cplayer, Shop, CShop, true)) {
+	if (collision_detection::collision_detector(Aplayer, Cplayer, Shop, CShop, true)) {
 		Aplayer.translate.z -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
-	if (collision_detector(Aplayer, Cplayer, Arandbox, Crandbox, true) && godmode) {
+	if (collision_detection::collision_detector(Aplayer, Cplayer, Arandbox, Crandbox, true) && godmode) {
 		Aplayer.translate.z -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
-	if (collision_detector(Aplayer, Cplayer, Door, CDoor, true)) {
+	if (collision_detection::collision_detector(Aplayer, Cplayer, Door, CDoor, true)) {
 		Aplayer.translate.z -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
@@ -1494,31 +1494,31 @@ void SceneSkybox::PlayerMoveLeft(double dt)
 		Aplayer.translate.z += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
-	if (collision_detector(Aplayer, Cplayer, Aslot_body, Cslot_body)) {
+	if (collision_detection::collision_detector(Aplayer, Cplayer, Aslot_body, Cslot_body)) {
 		Aplayer.translate.z += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
 	for (int i = 0; i < 4; i++)
 	{
-		if (collision_detector(Aplayer, Cplayer, Platform[i], PlatformR))
+		if (collision_detection::collision_detector(Aplayer, Cplayer, Platform[i], PlatformR))
 		{
 			Aplayer.translate.z += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 			Aplayer.translate.x -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		}
 	}
-	if (collision_detector(Aplayer, Cplayer, ANPC, CNPC, true)) {
+	if (collision_detection::collision_detector(Aplayer, Cplayer, ANPC, CNPC, true)) {
 		Aplayer.translate.z += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
-	if (collision_detector(Aplayer, Cplayer, Shop, CShop, true)) {
+	if (collision_detection::collision_detector(Aplayer, Cplayer, Shop, CShop, true)) {
 		Aplayer.translate.z += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
-	if (collision_detector(Aplayer, Cplayer, Arandbox, Crandbox, true) && godmode) {
+	if (collision_detection::collision_detector(Aplayer, Cplayer, Arandbox, Crandbox, true) && godmode) {
 		Aplayer.translate.z += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
-	if (collision_detector(Aplayer, Cplayer, Door, CDoor, true)) {
+	if (collision_detection::collision_detector(Aplayer, Cplayer, Door, CDoor, true)) {
 		Aplayer.translate.z += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}

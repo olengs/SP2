@@ -20,8 +20,8 @@ void Loadcoord(const char* file_path, cornercoord& coord)
 		{
 			Vector3 tempcoord;
 			sscanf_s((buf + 2), "%f%f%f", &tempcoord.x, &tempcoord.y, &tempcoord.z);
-			coord.Set(Math::Min(tempcoord.x, coord.minX), Math::Min(tempcoord.y, coord.minY), Math::Min(tempcoord.z, coord.minZ),
-				Math::Max(tempcoord.x, coord.maxX), Math::Max(tempcoord.y, coord.maxY), Math::Max(tempcoord.z, coord.maxZ));
+			coord.Set(Math::Min(tempcoord.x, coord.getminX()), Math::Min(tempcoord.y, coord.getminY()), Math::Min(tempcoord.z, coord.getminZ()),
+				Math::Max(tempcoord.x, coord.getmaxX()), Math::Max(tempcoord.y, coord.getmaxY()), Math::Max(tempcoord.z, coord.getmaxZ()));
 		}
 	}
 }

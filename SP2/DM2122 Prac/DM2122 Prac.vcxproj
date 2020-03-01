@@ -168,6 +168,7 @@
     <ClCompile Include="Source\CItemList.cpp" />
     <ClCompile Include="Source\CNode.cpp" />
     <ClCompile Include="Source\Collision_detector.cpp" />
+    <ClCompile Include="Source\cornercoord.cpp" />
     <ClCompile Include="Source\DriveScene.cpp" />
     <ClCompile Include="Source\FirstPersonCamera.cpp" />
     <ClCompile Include="Source\GameOverScene.cpp" />
