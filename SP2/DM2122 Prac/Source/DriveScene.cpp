@@ -170,6 +170,7 @@ void DriveScene::Init()
 
 	playerdetails.GetData();
 
+	playerdetails.allcardetails = AllCarDetails();
 	Acarnumber = playerdetails.car_number.cartype;
 
 	if (Acarnumber == 0)
@@ -684,7 +685,6 @@ void DriveScene::Update(double dt)
 					car_ismoving = true;
 				}
 			}
-
 			// Animation for car wheel
 			for (int i = 0; i < 2; i++)
 			{
