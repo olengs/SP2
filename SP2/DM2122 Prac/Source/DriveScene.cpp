@@ -272,7 +272,7 @@ void DriveScene::Init()
 		ACarWheel[3].translate = Vector3(-1.77, -1.35, 2.5);
 		ACarWheel[3].Scale = Vector3(1.2, 1.2, 1.2);
 	}
-	health = 10;
+	health = 5;
 	iFrames = 0;
 
 	meshList[GEO_SPIKE] = MeshBuilder::GenerateOBJ("spike", "OBJ//spike.obj");
@@ -641,6 +641,7 @@ void DriveScene::Init()
 	{
 		PlaySound(TEXT("Music/Cycle.wav"), NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
 	}
+
 }
 
 void DriveScene::Update(double dt)

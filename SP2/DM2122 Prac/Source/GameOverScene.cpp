@@ -151,17 +151,19 @@ void GameOverScene::Update(double dt)
 		bounceTime -= (float)(1 * dt);
 	}
 
-	countTimer -= dt * 15;
-	if (GetTickCount() * 0.001f - tickTimer > 1.0f) {
+	
+	if ( GetTickCount() * 0.001f - tickTimer > 1.0f) {
 		tickTimer = GetTickCount() * 0.001f;
-		if (countTimer <= 0 && playerdetails.coinCounter > 0 && playsound == true)
+		if (countTimer <= 0 && playerdetails.coinCounter > 0)
 		{
-			PlaySound(TEXT("Music/coinSound.wav"), NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
-
 			playerdetails.coinCounter--;
 			playerdetails.currency += 10;
 			playerdetails.Update(playerdetails.currency);
+		if (playsound == true)
+			PlaySound(TEXT("Music/coinSound.wav"), NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
+			
 		}
+
 		if (playerdetails.coinCounter <= 0)
 		{
 			tickTimer -= dt * 15;
@@ -173,8 +175,8 @@ void GameOverScene::Update(double dt)
 			}
 		}
 	}
-
 }
+
 
 void GameOverScene::Render()
 {
