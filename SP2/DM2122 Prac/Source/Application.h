@@ -3,6 +3,7 @@
 #define APPLICATION_H
 
 #include "timer.h"
+#include "SceneManager.h"
 
 class Application
 {
@@ -15,10 +16,9 @@ public:
 	static bool IsKeyPressed(unsigned short key);
 
 private:
-
+	SceneManager* thisScene;
 	//Declare a window object
 	StopWatch m_timer;
 	bool applicationsound;
 };
-
 #endif

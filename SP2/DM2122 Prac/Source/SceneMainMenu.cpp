@@ -26,6 +26,9 @@ SceneMainMenu::SceneMainMenu()
 
 SceneMainMenu::~SceneMainMenu()
 {
+	for (int i = 0; i < NUM_GEOMETRY; ++i) {
+		delete meshList[i];
+	}
 }
 
 void SceneMainMenu::Init()
@@ -83,7 +86,6 @@ void SceneMainMenu::Init()
 	// Get a handle for our "textColor" uniform
 	m_parameters[U_TEXT_ENABLED] = glGetUniformLocation(m_programID, "textEnabled");
 	m_parameters[U_TEXT_COLOR] = glGetUniformLocation(m_programID, "textColor");
-
 
 	glUseProgram(m_programID);
 	// Enable depth test

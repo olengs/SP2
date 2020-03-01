@@ -6,7 +6,7 @@ SceneManager::SceneManager() {
 }
 
 SceneManager::~SceneManager() {
-
+	delete this->instance;
 }
 
 SceneManager* SceneManager::getInstance() {
