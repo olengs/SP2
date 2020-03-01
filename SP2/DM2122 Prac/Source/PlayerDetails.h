@@ -23,6 +23,7 @@ public:
 
 	void Update(CarSelection updatedcar, int updatedcurrency);
 	void Update(float fuelLevel);
+	void Update(int updatedcurrency);
 	void UpdateFile();
 	void UpdateAllCarDetails();
 	void GetData();

@@ -39,6 +39,24 @@ void PlayerDetails::Update(CarSelection updatedcar, int updatedcurrency) //updat
 	currency = updatedcurrency;
 
 	allcardetails.UpdateFile();
+
+}
+
+void PlayerDetails::Update(int currency) //update file
+{
+	std::ofstream data;
+	data.open("PlayerDetails.txt");
+	if (data.is_open())
+	{
+		data << currency << " - Currency " << std::endl;
+		data << car_number.cartype << " - Equipped Car Choice" << std::endl;
+		data << car_number.SelectedCar.current_upgrade << " - Equipped Car Upgrade Level" << std::endl;
+		data << car_number.SelectedCar.StatLevel[4] << " - equipped car fuel level" << std::endl;
+		data.close();
+	}
+
+	allcardetails.UpdateCarStat(car_number);
+
 }
 
 void PlayerDetails::Update(float fuelLevel) //update in drive scene

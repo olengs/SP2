@@ -205,7 +205,7 @@ void SceneMainMenu::Update(double dt)
 
 			if (arrowY == -8.7)
 			{
-				glfwTerminate();
+				exit(0);
 			}
 		}
 		

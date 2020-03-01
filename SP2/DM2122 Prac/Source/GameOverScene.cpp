@@ -135,7 +135,6 @@ void GameOverScene::Init() {
 	countTimer = 100;
 	tickTimer = 100;
 	rotationSpeed = 0;
-	playerdetails.coinCounter = 5;
 
 	if (playerdetails.IsInit())
 	{
@@ -145,6 +144,7 @@ void GameOverScene::Init() {
 
 void GameOverScene::Update(double dt)
 {
+	
 	rotationSpeed += (250 * dt);
 	if (bounceTime > 0)
 	{
@@ -160,7 +160,7 @@ void GameOverScene::Update(double dt)
 
 			playerdetails.coinCounter--;
 			playerdetails.currency += 10;
-
+			playerdetails.Update(playerdetails.currency);
 		}
 		if (playerdetails.coinCounter <= 0)
 		{
@@ -173,6 +173,7 @@ void GameOverScene::Update(double dt)
 			}
 		}
 	}
+
 }
 
 void GameOverScene::Render()
