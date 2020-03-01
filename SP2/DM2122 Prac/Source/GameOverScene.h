@@ -79,7 +79,7 @@ private:
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 	void RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey, float rotateX, float rotateY, float rotateZ);
 	float bounceTime;
-	int countTimer, tickTimer;
+
 	float rotationSpeed;
 public:
 	GameOverScene();

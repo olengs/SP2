@@ -132,8 +132,6 @@ void GameOverScene::Init() {
 	meshList[GEO_COIN]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_COIN]->material.kShininess = 1.f;
 
-	countTimer = 100;
-	tickTimer = 100;
 	rotationSpeed = 0;
 
 	if (playerdetails.IsInit())
