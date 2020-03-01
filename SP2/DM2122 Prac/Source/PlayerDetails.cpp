@@ -20,42 +20,22 @@
 //	return car_number;
 //}
 
-void PlayerDetails::Update(CarSelection updatedcar, int updatedcurrency) //update in skybox scene
+void PlayerDetails::Update(CarSelection updatedcar, int updatedcurrency) //update file for both selected car and curency
 {
-	std::ofstream data;
-	data.open("PlayerDetails.txt");
-	if (data.is_open())
-	{
-		data.clear();
-		data << updatedcurrency << " - Currency " << std::endl;
-		data << updatedcar.cartype << " - Equipped Car Choice" << std::endl;
-		data << updatedcar.SelectedCar.current_upgrade << " - Equipped Car Upgrade Level" << std::endl;
-		data << updatedcar.SelectedCar.StatLevel[4] << " - Equipped Car Fuel Level" << std::endl;
-		data.close();
-	}
 
 	car_number = updatedcar;
 	
 	currency = updatedcurrency;
 
-	allcardetails.UpdateFile();
+	UpdateFile();
 
 }
 
-void PlayerDetails::Update(int currency) //update file
+void PlayerDetails::Update(int currency) //update file just for currency
 {
-	std::ofstream data;
-	data.open("PlayerDetails.txt");
-	if (data.is_open())
-	{
-		data << currency << " - Currency " << std::endl;
-		data << car_number.cartype << " - Equipped Car Choice" << std::endl;
-		data << car_number.SelectedCar.current_upgrade << " - Equipped Car Upgrade Level" << std::endl;
-		data << car_number.SelectedCar.StatLevel[4] << " - equipped car fuel level" << std::endl;
-		data.close();
-	}
+	this->currency = currency;
 
-	allcardetails.UpdateCarStat(car_number);
+	UpdateFile();
 
 }
 
