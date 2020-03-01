@@ -107,7 +107,7 @@ void Application::Init()
 void Application::Run()
 {
 	
-	SceneManager* thisScene = SceneManager::getInstance();
+	thisScene = SceneManager::getInstance();
 	
 	thisScene->Scenes[SceneManager::S_MAINMENUSCENE] = new SceneMainMenu;
 	thisScene->Scenes[SceneManager::S_SHOWROOMSCENE] = new SceneSkybox;
@@ -139,11 +139,13 @@ void Application::Run()
 	} //Check if the ESC key had been pressed or if the window had been closed
 	
 	//thisScene->Exit();
-	delete thisScene;
 }
 
 void Application::Exit()
 {
+	for (int i = SceneManager::S_MAINMENUSCENE; i < SceneManager::S_TOTAL; ++i) {
+		delete thisScene->Scenes[i];
+	}
 	//Close OpenGL window and terminate GLFW
 	glfwDestroyWindow(m_window);
 	//Finalize and clean up GLFW

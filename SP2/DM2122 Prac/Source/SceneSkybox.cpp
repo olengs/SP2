@@ -23,6 +23,9 @@ SceneSkybox::SceneSkybox()
 
 SceneSkybox::~SceneSkybox()
 {
+	for (int i = GEO_AXES; i < NUM_GEOMETRY; ++i) {
+		delete meshList[i];
+	}
 }
 
 void SceneSkybox::Init()

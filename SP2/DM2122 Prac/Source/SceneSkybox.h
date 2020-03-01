@@ -1,4 +1,4 @@
-#ifndef SCENESKYBOX_H
+ #ifndef SCENESKYBOX_H
 #define SCENESKYBOX_H
 
 #include "Scene.h"
