@@ -182,6 +182,7 @@ private:
 	const float playerTurningSpeed = 135.f;
 	//petrol station
 	TRS PetrolStation;
+	cornercoord CPetrolstation;
 	HologramUI PetrolStationUI;
 	TRS PetrolStationCar[4];
 
@@ -210,6 +211,7 @@ private:
 	float PlatformR;
 	TRS Cars[4];
 	TRS CarWheel[4][4];
+	cornercoord CCars[4];
 
 	//door 
 	TRS Door;

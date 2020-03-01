@@ -238,6 +238,7 @@ void SceneSkybox::Init()
 	meshList[GEO_CAR1BODY]->material.kShininess = 1.f;
 	Cars[0].translate = Vector3(0, 2.05, 0);
 	Cars[0].Scale = Vector3(1.55, 1.55, 1.55);
+	Loadcoord("OBJ//GuangThengCarBody.obj", CCars[0]);
 
 	meshList[GEO_CAR1WHEEL] = MeshBuilder::GenerateOBJ("Car1Wheel", "OBJ//GuangThengCarWheel.obj");
 	meshList[GEO_CAR1WHEEL]->textureID = LoadTGA("Image//GuangThengCarTex.tga");
@@ -261,6 +262,7 @@ void SceneSkybox::Init()
 	meshList[GEO_CAR2BODY]->material.kShininess = 1.f;
 	Cars[1].translate = Vector3(0, 3.2, 0);
 	Cars[1].Scale = Vector3(2, 2, 2);
+	Loadcoord("OBJ//RyanCarBody.obj", CCars[1]);
 
 	meshList[GEO_CAR2WHEEL] = MeshBuilder::GenerateOBJ("Car2Wheel", "OBJ//RyanCarWheel.obj");
 	meshList[GEO_CAR2WHEEL]->textureID = LoadTGA("Image//RyanCarWheelTex.tga");
@@ -282,6 +284,7 @@ void SceneSkybox::Init()
 	meshList[GEO_CAR3BODY]->material.kShininess = 1.f;
 	Cars[2].translate = Vector3(0, 3, 0);
 	Cars[2].Scale = Vector3(2, 2, 2);
+	Loadcoord("OBJ//JCCarBody.obj", CCars[2]);
 
 	meshList[GEO_CAR3WHEEL] = MeshBuilder::GenerateOBJ("Car3Wheel", "OBJ//JCCarWheel.obj");
 	meshList[GEO_CAR3WHEEL]->textureID = LoadTGA("Image//JCCarTex.tga");
@@ -303,6 +306,7 @@ void SceneSkybox::Init()
 	meshList[GEO_CAR4BODY]->material.kShininess = 1.f;
 	Cars[3].translate = Vector3(0, 4.7, 0);
 	Cars[3].Scale = Vector3(1.7, 1.7, 1.7);
+	Loadcoord("OBJ//JianFengCarBody.obj", CCars[3]);
 
 	meshList[GEO_CAR4WHEEL] = MeshBuilder::GenerateOBJ("Car4Wheel", "OBJ//JianFengCarWheel.obj");
 	meshList[GEO_CAR4WHEEL]->textureID = LoadTGA("Image//JianFengCarTex.tga");
@@ -417,6 +421,7 @@ void SceneSkybox::Init()
 	meshList[GEO_PETROLSTATION] = MeshBuilder::GenerateOBJ("petrol station", "OBJ//petrolstation.obj");
 	meshList[GEO_PETROLSTATION]->textureID = LoadTGA("image//petrolstation.tga");
 	PetrolStation.translate = Vector3(-20.f, 0.f, -45.f);
+	Loadcoord("OBJ//petrolstation.obj", CPetrolstation);
 
 	PetrolStationUI = HologramUI(3.f, 3.f);
 	PetrolStationUI.UI.translate = Vector3(-20.f, 0.f, -43.f);
@@ -1405,7 +1410,14 @@ void SceneSkybox::PlayerMoveUp(double dt)
 		Aplayer.translate.z -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
-	
+	if (collision_detection::collision_detector(Aplayer, Cplayer, PetrolStation, CPetrolstation)) {
+		Aplayer.translate.z -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+		Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+	}
+	if (collision_detection::collision_detector(Aplayer, Cplayer, PetrolStationCar[EquippedCar_Scroll], CCars[EquippedCar_Scroll])) {
+		Aplayer.translate.z -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+		Aplayer.translate.x -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+	}
 }
 
 void SceneSkybox::PlayerMoveDown(double dt)
@@ -1445,7 +1457,14 @@ void SceneSkybox::PlayerMoveDown(double dt)
 		Aplayer.translate.z += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
-
+	if (collision_detection::collision_detector(Aplayer, Cplayer, PetrolStation, CPetrolstation)) {
+		Aplayer.translate.z += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+		Aplayer.translate.x += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+	}
+	if (collision_detection::collision_detector(Aplayer, Cplayer, PetrolStationCar[EquippedCar_Scroll], CCars[EquippedCar_Scroll])) {
+		Aplayer.translate.z += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+		Aplayer.translate.x += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+	}
 
 }
 
@@ -1483,6 +1502,14 @@ void SceneSkybox::PlayerMoveRight(double dt)
 		Aplayer.translate.x += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
 	if (collision_detection::collision_detector(Aplayer, Cplayer, Door, CDoor, true)) {
+		Aplayer.translate.z -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+		Aplayer.translate.x += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+	}
+	if (collision_detection::collision_detector(Aplayer, Cplayer, PetrolStation, CPetrolstation)) {
+		Aplayer.translate.z -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+		Aplayer.translate.x += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+	}
+	if (collision_detection::collision_detector(Aplayer, Cplayer, PetrolStationCar[EquippedCar_Scroll], CCars[EquippedCar_Scroll])) {
 		Aplayer.translate.z -= sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x += cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
@@ -1525,6 +1552,15 @@ void SceneSkybox::PlayerMoveLeft(double dt)
 		Aplayer.translate.z += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 		Aplayer.translate.x -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
 	}
+	if (collision_detection::collision_detector(Aplayer, Cplayer, PetrolStation, CPetrolstation)) {
+		Aplayer.translate.z += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+		Aplayer.translate.x -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+	}
+	if (collision_detection::collision_detector(Aplayer, Cplayer, PetrolStationCar[EquippedCar_Scroll], CCars[EquippedCar_Scroll])) {
+		Aplayer.translate.z += sin(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+		Aplayer.translate.x -= cos(Math::DegreeToRadian(Aplayer.RotateY.degree)) * (float)(playerMovementSpeed * dt);
+	}
+
 }
 
 void SceneSkybox::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
