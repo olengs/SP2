@@ -109,16 +109,6 @@ void GameOverScene::Init() {
 	glEnable(GL_DEPTH_TEST);
 
 
-
-	meshList[GEO_WHEEL1] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_WHEEL1]->textureID = LoadTGA("image//wheel1.tga");
-
-	meshList[GEO_WHEEL2] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_WHEEL2]->textureID = LoadTGA("image//wheel2.tga");
-
-	meshList[GEO_WHEEL3] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_WHEEL3]->textureID = LoadTGA("image//wheel3.tga");
-
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//calibri.tga");
 
