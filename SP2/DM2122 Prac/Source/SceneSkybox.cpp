@@ -1198,19 +1198,23 @@ void SceneSkybox::UpdateHologram(HologramUI& UI, CarStats& car_Stats, TRS* Objec
 				if (ObjectDisplay != &Shop) BuyText = "Bought";
 				
 			}
-			else if (car_Stats.current_upgrade < 5 && ObjectDisplay == &Shop && playerdetails.currency >= car_Stats.cost_upgrade)
-			{ //buying upgrades in shop
-				car_Stats.UpgradeOnce();
-				playerdetails.currency -= car_Stats.cost_upgrade;
-				BuyText = "Car:Bought, CarUpgrade:250";
-				++car_Stats.current_upgrade;
-				if (playerdetails.car_number.SelectedCar.current_upgrade == 4) BuyText = "Car:Bought, CarUpgrade:0";
-				car_Stats.UpdateUpgradeCost();
-			}
-			else if (ObjectDisplay == &PetrolStation && !car_Stats.isRecharged())
+			else if (!car_Stats.lock)
 			{
-				car_Stats.RechargeCarFuel();
+				if (car_Stats.current_upgrade < 5 && ObjectDisplay == &Shop && playerdetails.currency >= car_Stats.cost_upgrade)
+				{ //buying upgrades in shop
+					car_Stats.UpgradeOnce();
+					playerdetails.currency -= car_Stats.cost_upgrade;
+					BuyText = "Car:Bought, CarUpgrade:250";
+					++car_Stats.current_upgrade;
+					if (playerdetails.car_number.SelectedCar.current_upgrade == 4) BuyText = "Car:Bought, CarUpgrade:0";
+					car_Stats.UpdateUpgradeCost();
+				}
+				else if (ObjectDisplay == &PetrolStation && !car_Stats.isRecharged())
+				{
+					car_Stats.RechargeCarFuel();
+				}
 			}
+			
 			BounceTime = GetTickCount() + 500.f;
 		}
 
